@@ -11,7 +11,7 @@
 <meta property="og:site_name" content="My Dubai Arts">
 <meta property="og:title" content="My Dubai Arts | Luxury Wall Art in the UAE">
 <meta property="og:description" content="Framed wall art that brings a cozy, feminine feel and powerful energy to your home. Delivered across the UAE within 3 days.">
-<meta property="og:image" content="images/og-image.jpg">
+<meta property="og:image" content="https://mydubaiarts.online/images/og-image.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1545,6 +1545,7 @@ h3 {
    You only ever need to edit this first part.
    ===================================================== */
 
+const SITE_URL = 'https://mydubaiarts.online';  // your website address, used in WhatsApp order links
 const WHATSAPP_NUMBER = '971524001671';      // country code + number, no + or spaces
 const WHATSAPP_DISPLAY = '+971 52 400 1671';
 const IMAGE_FOLDER = 'images/';              // your photos live in a folder called "images"
@@ -1959,7 +1960,12 @@ const icon = (n, s = 20) => `<svg class="icon" width="${s}" height="${s}" viewBo
 /* ----- WhatsApp ----- */
 const waLink = (text = 'Hello My Dubai Arts! I would like to know more about your wall art.') =>
   `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
-const productUrl = (p) => `${location.origin}${location.pathname}#product/${p.id}`;
+const productUrl = (p, f, s) => {
+  const q = new URLSearchParams();
+  if (f) q.set('frame', f);
+  if (s) q.set('size', s);
+  return `${SITE_URL}/p/${p.id}/${q.size ? '?' + q : ''}`;
+};
 const orderLink = (p, f, s) => {
   const pr = priceOf(f, p, s);
   const msg = [
@@ -1967,7 +1973,7 @@ const orderLink = (p, f, s) => {
     f ? `Frame: ${f}.` : 'Frame: please advise.',
     s ? `Size: ${s} (${sizeOf(s).cm}).` : `Size: please advise (${SIZES.map((x) => `${x.name} ${x.cm}`).join(' or ')}).`,
     pr ? (s ? `Price: AED ${pr}.` : `Price: from AED ${pr}.`) : '',
-    `Link: ${productUrl(p)}`,
+    `Link: ${productUrl(p, f, s)}`,
     'Please confirm availability and delivery.',
   ].filter(Boolean).join(' ');
   return waLink(msg);
@@ -2239,13 +2245,13 @@ function renderModal() {
     </div>
   </div>`;
 }
-function openProduct(id, frame) {
+function openProduct(id, frame, size) {
   const p = PRODUCTS.find((x) => x.id === id);
   if (!p) return;
   const f = frame && p.frames.includes(frame) ? frame : p.frames[0];
   const i = p.photos.findIndex((x) => x[1] === f);
   if (!M) lastFocus = document.activeElement;
-  M = { p, frame: f, size: SIZES[0].name, active: Math.max(0, i) };
+  M = { p, frame: f, size: sizeOf(size).name, active: Math.max(0, i) };
   history.replaceState(null, '', '#product/' + id);
   document.body.classList.add('no-scroll');
   renderModal();
@@ -2325,14 +2331,22 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-/* ----- Shared product links (#product/id) ----- */
+/* ----- Shared product links (#product/id, or ?product=id&frame=Gold&size=Large from WhatsApp orders) ----- */
 const fromHash = () => {
   const m = location.hash.match(/^#product\/([\w-]+)/);
   if (m) openProduct(m[1]);
 };
+const fromQuery = () => {
+  const q = new URLSearchParams(location.search);
+  const id = q.get('product');
+  if (!id) return false;
+  history.replaceState(null, '', location.pathname);
+  openProduct(id, q.get('frame'), q.get('size'));
+  return true;
+};
 addEventListener('hashchange', fromHash);
 renderShop();
-fromHash();
+fromQuery() || fromHash();
 
 </script>
 </body>
