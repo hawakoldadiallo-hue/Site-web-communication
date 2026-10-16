@@ -662,6 +662,19 @@ h3 {
   aspect-ratio: 16 / 9;
 }
 
+/* Ultra Exotic Art: full-width banner closing the grid */
+.collections__grid > li:nth-child(8) {
+  grid-column: 1 / -1;
+}
+
+.collections__grid > li:nth-child(8) .collection-tile__media {
+  aspect-ratio: 5 / 2;
+}
+
+.collections__grid > li:nth-child(8) .collection-tile__media img {
+  object-position: center 30%;
+}
+
 .collection-tile__media img {
   width: 100%;
   height: 100%;
@@ -726,6 +739,10 @@ h3 {
   .collections__grid > li:first-child .collection-tile__media {
     aspect-ratio: 16 / 10;
     min-height: 0;
+  }
+
+  .collections__grid > li:nth-child(8) .collection-tile__media {
+    aspect-ratio: 16 / 10;
   }
 }
 
@@ -1469,7 +1486,7 @@ const WHATSAPP_NUMBER = '971524001671';      // country code + number, no + or s
 const WHATSAPP_DISPLAY = '+971 52 400 1671';
 const IMAGE_FOLDER = 'images/';              // your photos live in a folder called "images"
 
-// Price comes from the frame. To give one product its own price, add "price: 350" to that product.
+// Price comes from the frame. A collection with its own "price" (like Ultra Exotic Art) sets the price of all its pieces.
 const FRAME_PRICES = { 'White': 150, 'Gold': 200, 'Black & Gold': 200 };
 
 /* Each product:
@@ -1484,7 +1501,8 @@ const COLLECTIONS = [
   { id: "positive-energy", name: "Positive Energy & Affirmations", blurb: "Peace, gratitude and love, written large for the walls you see every day.", cover: "amor-gold.jpg" },
   { id: "minimalist-abstract", name: "Minimalist & Abstract Art", blurb: "Quiet line drawings and sculptural petals for calm, modern rooms.", cover: "velvet-petals-white.jpg" },
   { id: "dubai-statement", name: "Dubai & Statement Art", blurb: "The skyline we love, reimagined, and pieces made to be the first thing guests notice.", cover: "leopard-burj-khalifa-gold.jpg" },
-  { id: "home-lifestyle", name: "Home & Lifestyle", blurb: "Easy, joyful prints for living rooms, kitchens, hallways and guest rooms.", cover: "amalfi-sunset-terrace-gold.jpg" }
+  { id: "home-lifestyle", name: "Home & Lifestyle", blurb: "Easy, joyful prints for living rooms, kitchens, hallways and guest rooms.", cover: "amalfi-sunset-terrace-gold.jpg" },
+  { id: "ultra-exotic", name: "Ultra Exotic Art", blurb: "Our boldest statement pieces, bigger in attitude and made to stop every guest. Every piece AED 350.", cover: "gloss-lips-duo-white-1.jpg", price: 350 }
 ];
 
 const PRODUCTS = [
@@ -1571,9 +1589,8 @@ const PRODUCTS = [
   {
     id: "gloss-lips-duo",
     name: "Gloss Lips Duo",
-    category: "luxury-fashion",
+    category: "ultra-exotic",
     frames: ["White"],
-    price: 350,
     description: "Two glossy pop-art lips in smoky grey and olive green against a grey brick wall. Bold, playful and fashion-forward, made to be the statement piece of a living room or dressing room.",
     photos: [
       ["gloss-lips-duo-white-1.jpg", "White", "Gloss Lips Duo print in a white frame in a living room with a city view"],
@@ -1803,7 +1820,8 @@ const PRODUCTS = [
 /* ===== Site logic (no need to edit below) ===== */
 const $ = (s, el = document) => el.querySelector(s);
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const priceOf = (f, p) => p?.price ?? FRAME_PRICES[f] ?? null;
+const colPrice = (p) => p && (COLLECTIONS.find((c) => c.id === p.category) || {}).price;
+const priceOf = (f, p) => colPrice(p) ?? FRAME_PRICES[f] ?? null;
 const colName = (id) => (COLLECTIONS.find((c) => c.id === id) || {}).name || 'Uncategorized (to review)';
 const full = (file) => IMAGE_FOLDER + file;
 const thumb = (file) => IMAGE_FOLDER + 'thumbs/' + file;
@@ -1959,7 +1977,7 @@ document.getElementById('app').innerHTML = `
 
 <section id="collections" class="section collections" aria-labelledby="collections-title">
   <div class="container">
-    <div class="section-head"><h2 id="collections-title" class="section-title">Shop by collection</h2><p class="section-sub">Seven moods for every room. Choose one to see its pieces.</p></div>
+    <div class="section-head"><h2 id="collections-title" class="section-title">Shop by collection</h2><p class="section-sub">Eight moods for every room. Choose one to see its pieces.</p></div>
     <ul class="collections__grid">${COLLECTIONS.map(
       (c) => `<li><button type="button" class="collection-tile" data-collection="${c.id}">
         <span class="collection-tile__media">${img(c.cover, '', true)}</span>
