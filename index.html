@@ -769,7 +769,7 @@ h3 {
 
 .pricing__inner {
   display: grid;
-  grid-template-columns: 1fr 1fr auto;
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem 2.5rem;
   align-items: center;
 }
@@ -794,6 +794,10 @@ h3 {
 .price-tile__swatch--gold {
   border-color: var(--gold);
 }
+.price-tile__swatch--exotic {
+  border-color: var(--gold);
+  box-shadow: inset 0 0 0 3px #f7f4ee;
+}
 
 .price-tile__name {
   font-family: var(--serif);
@@ -813,6 +817,7 @@ h3 {
 }
 
 .pricing__note {
+  grid-column: 1 / -1;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -1991,13 +1996,14 @@ document.getElementById('app').innerHTML = `
   <div class="container pricing__inner">
     <div class="price-tile"><span class="price-tile__swatch price-tile__swatch--white" aria-hidden="true"></span><div><p class="price-tile__name">White frame</p><p class="price-tile__note">Fresh, light and modern</p></div><p class="price-tile__price">AED 150</p></div>
     <div class="price-tile"><span class="price-tile__swatch price-tile__swatch--gold" aria-hidden="true"></span><div><p class="price-tile__name">Gold &amp; premium frames</p><p class="price-tile__note">Warm, rich and sophisticated</p></div><p class="price-tile__price">AED 200</p></div>
+    <div class="price-tile"><span class="price-tile__swatch price-tile__swatch--exotic" aria-hidden="true"></span><div><p class="price-tile__name">Ultra Exotic Art</p><p class="price-tile__note">Bold statement pieces</p></div><p class="price-tile__price">AED 350</p></div>
     <p class="pricing__note">${icon('frame', 18)} Prices are per framed artwork.</p>
   </div>
 </section>
 
 <section id="shop" class="section shop" aria-labelledby="shop-title">
   <div class="container">
-    <div class="section-head"><h2 id="shop-title" class="section-title">All artworks</h2><p class="section-sub">Every artwork comes framed. White frames are AED 150 and gold or premium frames are AED 200.</p></div>
+    <div class="section-head"><h2 id="shop-title" class="section-title">All artworks</h2><p class="section-sub" id="shop-sub">Every artwork comes framed. White frames are AED 150, gold or premium frames are AED 200 and Ultra Exotic Art pieces are AED 350.</p></div>
     <div class="toolbar" role="search">
       <label class="field field--search"><span class="sr-only">Search artworks by name</span>${icon('search', 18)}<input id="q" type="search" placeholder="Search by name"></label>
       <label class="field"><span class="field__label">Collection</span><select id="col"><option value="all">View all</option>${COLLECTIONS.map((c) => `<option value="${c.id}">${esc(c.name)}</option>`).join('')}${PRODUCTS.some((p) => !COLLECTIONS.find((c) => c.id === p.category)) ? '<option value="uncategorized">Uncategorized (to review)</option>' : ''}</select></label>
@@ -2083,6 +2089,10 @@ function renderShop() {
   if (S.sort === 'featured') list.sort((a, b) => Number(!!b.featured) - Number(!!a.featured));
 
   $('#shop-title').textContent = S.col === 'all' ? 'All artworks' : colName(S.col);
+  const cp = (COLLECTIONS.find((c) => c.id === S.col) || {}).price;
+  $('#shop-sub').textContent = cp
+    ? `Every artwork comes framed. Every piece in this collection is AED ${cp}.`
+    : 'Every artwork comes framed. White frames are AED 150, gold or premium frames are AED 200 and Ultra Exotic Art pieces are AED 350.';
   $('#count').textContent = `${list.length} ${list.length === 1 ? 'artwork' : 'artworks'}`;
   $('#clear').hidden = !(S.q || S.col !== 'all' || S.fg !== 'all' || S.sort !== 'featured');
   $('#grid').innerHTML = list.length
