@@ -1469,7 +1469,7 @@ const WHATSAPP_NUMBER = '971524001671';      // country code + number, no + or s
 const WHATSAPP_DISPLAY = '+971 52 400 1671';
 const IMAGE_FOLDER = 'images/';              // your photos live in a folder called "images"
 
-// Price comes from the frame. Never type a price on a product.
+// Price comes from the frame. To give one product its own price, add "price: 350" to that product.
 const FRAME_PRICES = { 'White': 150, 'Gold': 200, 'Black & Gold': 200 };
 
 /* Each product:
@@ -1566,6 +1566,18 @@ const PRODUCTS = [
     description: "Velvet red lips holding an ornate golden arrow against deep black. Romantic, daring and finished in a premium black and gold frame.",
     photos: [
       ["cupids-kiss-black-gold.jpg", "Black & Gold", "Red lips with a golden arrow in a black and gold frame"]
+    ]
+  },
+  {
+    id: "gloss-lips-duo",
+    name: "Gloss Lips Duo",
+    category: "luxury-fashion",
+    frames: ["White"],
+    price: 350,
+    description: "Two glossy pop-art lips in smoky grey and olive green against a grey brick wall. Bold, playful and fashion-forward, made to be the statement piece of a living room or dressing room.",
+    photos: [
+      ["gloss-lips-duo-white-1.jpg", "White", "Gloss Lips Duo print in a white frame in a living room with a city view"],
+      ["gloss-lips-duo-white-2.jpg", "White", "Close-up of the Gloss Lips Duo artwork with grey and olive green lips"]
     ]
   },
   {
@@ -1791,7 +1803,7 @@ const PRODUCTS = [
 /* ===== Site logic (no need to edit below) ===== */
 const $ = (s, el = document) => el.querySelector(s);
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const priceOf = (f) => FRAME_PRICES[f] ?? null;
+const priceOf = (f, p) => p?.price ?? FRAME_PRICES[f] ?? null;
 const colName = (id) => (COLLECTIONS.find((c) => c.id === id) || {}).name || 'Uncategorized (to review)';
 const full = (file) => IMAGE_FOLDER + file;
 const thumb = (file) => IMAGE_FOLDER + 'thumbs/' + file;
@@ -1833,7 +1845,7 @@ const waLink = (text = 'Hello My Dubai Arts! I would like to know more about you
   `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
 const productUrl = (p) => `${location.origin}${location.pathname}#product/${p.id}`;
 const orderLink = (p, f) => {
-  const pr = priceOf(f);
+  const pr = priceOf(f, p);
   const msg = [
     `Hello My Dubai Arts! I would like to order the '${p.name}' framed artwork.`,
     f ? `Frame: ${f}.` : 'Frame: please advise.',
@@ -1851,7 +1863,7 @@ const chips = (p, sel, big = false) =>
   p.frames.length
     ? `<div class="frame-picker ${big ? 'frame-picker--lg' : ''}" role="radiogroup" aria-label="Frame style for ${esc(p.name)}">${p.frames
         .map(
-          (f) => `<button type="button" role="radio" aria-checked="${f === sel}" class="frame-chip ${f === sel ? 'is-selected' : ''}" data-frame="${esc(f)}"><span class="frame-chip__swatch frame-chip__swatch--${f.replace(/\W+/g, '').toLowerCase()}" aria-hidden="true"></span>${esc(f)}${big && priceOf(f) ? `<span class="frame-chip__price">AED ${priceOf(f)}</span>` : ''}</button>`
+          (f) => `<button type="button" role="radio" aria-checked="${f === sel}" class="frame-chip ${f === sel ? 'is-selected' : ''}" data-frame="${esc(f)}"><span class="frame-chip__swatch frame-chip__swatch--${f.replace(/\W+/g, '').toLowerCase()}" aria-hidden="true"></span>${esc(f)}${big && priceOf(f, p) ? `<span class="frame-chip__price">AED ${priceOf(f, p)}</span>` : ''}</button>`
         )
         .join('')}</div>`
     : '<p class="frame-picker__review">Frame to be confirmed</p>';
@@ -1859,7 +1871,7 @@ const chips = (p, sel, big = false) =>
 const card = (p, frame) => {
   const f = frame && p.frames.includes(frame) ? frame : p.frames[0];
   const ph = photoFor(p, f);
-  const pr = priceOf(f);
+  const pr = priceOf(f, p);
   return `<article class="card" data-id="${p.id}" data-current="${esc(f || '')}">
     <button type="button" class="card__media" data-open="${p.id}" aria-label="View details of ${esc(p.name)}">
       ${img(ph[0], ph[2], true, 'width="720" height="900"')}
@@ -2034,7 +2046,7 @@ const GROUPS = { white: ['White'], premium: ['Gold', 'Black & Gold'] };
 
 const preferred = (p) => {
   if (GROUPS[S.fg]) return p.frames.find((f) => GROUPS[S.fg].includes(f));
-  if (S.sort === 'price-desc') return [...p.frames].sort((a, b) => (priceOf(b) || 0) - (priceOf(a) || 0))[0];
+  if (S.sort === 'price-desc') return [...p.frames].sort((a, b) => (priceOf(b, p) || 0) - (priceOf(a, p) || 0))[0];
   return p.frames[0];
 };
 
@@ -2046,7 +2058,7 @@ function renderShop() {
     if (GROUPS[S.fg] && !p.frames.some((f) => GROUPS[S.fg].includes(f))) return false;
     return !q || p.name.toLowerCase().includes(q);
   });
-  const pr = (p) => priceOf(preferred(p)) ?? Infinity;
+  const pr = (p) => priceOf(preferred(p), p) ?? Infinity;
   if (S.sort === 'price-asc') list.sort((a, b) => pr(a) - pr(b) || a.name.localeCompare(b.name));
   if (S.sort === 'price-desc') list.sort((a, b) => pr(b) - pr(a) || a.name.localeCompare(b.name));
   if (S.sort === 'name') list.sort((a, b) => a.name.localeCompare(b.name));
@@ -2076,7 +2088,7 @@ function renderModal() {
   if (!M) { root.innerHTML = ''; return; }
   const { p, frame, active } = M;
   const ph = p.photos[active] || p.photos[0];
-  const pr = priceOf(frame);
+  const pr = priceOf(frame, p);
   const many = p.photos.length > 1;
   root.innerHTML = `<div class="modal" id="modalBg">
     <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title">
