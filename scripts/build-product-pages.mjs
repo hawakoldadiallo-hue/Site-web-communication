@@ -31,7 +31,7 @@ for (const p of PRODUCTS) {
   const title = `${p.name} | My Dubai Arts`;
   const pr = fromPrice(p);
   const desc = `${p.description}${Number.isFinite(pr) ? ` From AED ${pr}.` : ''}`;
-  const image = `${SITE_URL}/images/${p.photos[0][0]}`;
+  const image = p.photos.length ? `${SITE_URL}/images/${p.photos[0][0]}` : `${SITE_URL}/images/art/${p.id}.jpg`;
   const target = `/?product=${encodeURIComponent(p.id)}`;
   const page = `<!doctype html>
 <html lang="en">

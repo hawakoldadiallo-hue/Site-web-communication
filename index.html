@@ -1720,6 +1720,7 @@ const SIZES = [
 /* Each product:
    photos: [ ["file-name.jpg", "Frame shown in that photo", "Short description of the photo"], ... ]
    Several photos of the SAME artwork go in the same product.
+   An artwork with no room photos uses photos: [] and is shown in its frame using images/art/<id>.jpg.
    frames: the frames a customer can choose. "featured: true" also shows it in "Most loved pieces". */
 
 const COLLECTIONS = [
@@ -1848,6 +1849,30 @@ const PRODUCTS = [
       ["crimson-wave-gold-2.jpg", "Gold", "Crimson Wave print in a gold frame above a marble console in an entryway"],
       ["crimson-wave-gold-3.jpg", "Gold", "Crimson Wave print in a gold frame shown in three different rooms"]
     ]
+  },
+  {
+    id: "do-it",
+    name: "Do It.",
+    category: "ultra-exotic",
+    frames: ["Gold"],
+    description: "A satin-gloved hand with diamond jewels holding a cream card that simply says “Do it.” in gold script. Elegant, confident and timeless, made for a dressing room, office or entryway.",
+    photos: []
+  },
+  {
+    id: "golden-mist",
+    name: "Golden Mist",
+    category: "ultra-exotic",
+    frames: ["Gold"],
+    description: "A satin-gloved hand spraying perfume in a cloud of golden sparkle, against deep black and marble. Glamorous and sensual, made for a dressing room, bedroom or boudoir.",
+    photos: []
+  },
+  {
+    id: "rose-on-heels",
+    name: "Rosé on Heels",
+    category: "ultra-exotic",
+    frames: ["Gold"],
+    description: "A blush pink stiletto balancing a rosé perfume bottle against pure black. Feminine, daring and fashion-forward, made for a dressing room or walk-in closet.",
+    photos: []
   },
   {
     id: "cocoa-monogram-bow",
