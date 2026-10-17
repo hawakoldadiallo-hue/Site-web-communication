@@ -1716,7 +1716,7 @@ const FRAME_GUIDE = {
 const SIZES = [
   { name: 'Medium', cm: '50 × 70 cm', extra: 0, fits: 'Above a console, desk or bedside table' },
   { name: 'Large', cm: '70 × 100 cm', extra: 100, fits: 'Above a sofa or bed, or as a statement wall' },
-  { name: 'Extra Large', cm: '100 × 100 cm', extra: 200, fits: 'A square statement piece for a large wall, high ceiling or open living space' }
+  { name: 'Extra Large', cm: '100 × 100 cm', extra: 200, square: true, fits: 'A square statement piece for a large wall, high ceiling or open living space' }
 ];
 
 /* Each product:
@@ -2195,12 +2195,12 @@ const orderLink = (p, f, s) => {
 /* ----- Pieces ----- */
 
 const frameSlug = (f) => f.replace(/\W+/g, '').toLowerCase();
-const artSrc = (p, small) => `images/art/${small ? 'thumbs/' : ''}${p.id}.jpg`;
-const framed = (p, f, small = true) => `<span class="framed framed--${frameSlug(f)}"><img class="framed__art" src="${artSrc(p, small)}" alt="${esc(p.name)} in a ${esc(f.toLowerCase())} frame" ${small ? 'loading="lazy" ' : ''}decoding="async" onerror="this.closest('.frame-stage, .frame-swatch')?.classList.add('is-missing')"></span>`;
-const stage = (p, f, small = true) => `<span class="frame-stage">${framed(p, f, small)}</span>`;
+const artSrc = (p, small, size) => `images/art/${size && sizeOf(size).square ? 'square/' : ''}${small ? 'thumbs/' : ''}${p.id}.jpg`;
+const framed = (p, f, small = true, size) => `<span class="framed framed--${frameSlug(f)}"><img class="framed__art" src="${artSrc(p, small, size)}" alt="${esc(p.name)} in a ${esc(f.toLowerCase())} frame" ${small ? 'loading="lazy" ' : ''}decoding="async" onerror="this.closest('.frame-stage, .frame-swatch')?.classList.add('is-missing')"></span>`;
+const stage = (p, f, small = true, size) => `<span class="frame-stage">${framed(p, f, small, size)}</span>`;
 
 const frameColours = (p, sel, size) => `<div class="frame-swatches" role="radiogroup" aria-label="Frame colour for ${esc(p.name)}">${p.frames.map(
-  (f) => `<button type="button" role="radio" aria-checked="${f === sel}" class="frame-swatch ${f === sel ? 'is-selected' : ''}" data-frame="${esc(f)}">${stage(p, f)}<span class="frame-swatch__name">${esc(f)}</span>${priceOf(f, p, size) ? `<span class="frame-swatch__price">AED ${priceOf(f, p, size)}</span>` : ''}</button>`
+  (f) => `<button type="button" role="radio" aria-checked="${f === sel}" class="frame-swatch ${f === sel ? 'is-selected' : ''}" data-frame="${esc(f)}">${stage(p, f, true, size)}<span class="frame-swatch__name">${esc(f)}</span>${priceOf(f, p, size) ? `<span class="frame-swatch__price">AED ${priceOf(f, p, size)}</span>` : ''}</button>`
 ).join('')}</div>
 <dl class="frame-guide">${p.frames.map((f) => `<div><dt>${esc(f)} frame</dt><dd>${esc(FRAME_GUIDE[f] || '')}</dd></div>`).join('')}</dl>
 <p class="frame-note">Every frame is made to order. We confirm your frame colour on WhatsApp before your order is finalised.</p>`;
@@ -2451,7 +2451,7 @@ function renderModal() {
     <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title">
       <button type="button" class="modal__close" id="modalClose" aria-label="Close details">${icon('close', 22)}</button>
       <div class="modal__gallery">
-        <div class="modal__main">${preview ? stage(p, frame, false) : img(ph[0], ph[2], false)}
+        <div class="modal__main">${preview ? stage(p, frame, false, size) : img(ph[0], ph[2], false)}
           ${many ? `<button type="button" class="modal__nav modal__nav--prev" data-step="-1" aria-label="Previous photo">${icon('left', 22)}</button><button type="button" class="modal__nav modal__nav--next" data-step="1" aria-label="Next photo">${icon('right', 22)}</button>` : ''}
         </div>
         ${many ? `<div class="modal__thumbs">${p.photos.map((x, i) => `<button type="button" class="modal__thumb ${i === active && !preview ? 'is-active' : ''}" data-photo="${i}" aria-label="Show photo ${i + 1}: ${esc(x[1])} frame">${img(x[0], '', true)}</button>`).join('')}</div>` : ''}
@@ -2475,7 +2475,7 @@ function openProduct(id, frame, size) {
   const f = frame && p.frames.includes(frame) ? frame : p.firstFrame;
   const i = p.photos.findIndex((x) => x[1] === f);
   if (!M) lastFocus = document.activeElement;
-  M = { p, frame: f, size: sizeOf(size).name, active: Math.max(0, i), preview: i < 0 };
+  M = { p, frame: f, size: sizeOf(size).name, active: Math.max(0, i), preview: i < 0 || !!sizeOf(size).square };
   history.replaceState(null, '', '#product/' + id);
   document.body.classList.add('no-scroll');
   renderModal();
@@ -2497,6 +2497,7 @@ const showPhoto = (i) => {
 };
 const chooseSize = (s) => {
   M.size = s;
+  if (sizeOf(s).square) M.preview = true;
   renderModal();
 };
 const chooseFrame = (f) => {
