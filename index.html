@@ -1079,7 +1079,7 @@ h3 {
 
 .size-picker {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 0.5rem;
   margin-top: 0.6rem;
 }
@@ -1089,10 +1089,11 @@ h3 {
   flex-direction: column;
   align-items: flex-start;
   gap: 0.1rem;
-  padding: 0.65rem 0.9rem;
+  padding: 0.6rem 0.65rem;
   border: 1px solid var(--line);
   background: #fffdf9;
   text-align: left;
+  min-width: 0;
   transition: border-color 0.2s ease;
 }
 
@@ -1714,7 +1715,8 @@ const FRAME_GUIDE = {
 // Sizes a customer can choose. Prices above are for the first size; "extra" is added for bigger sizes.
 const SIZES = [
   { name: 'Medium', cm: '50 × 70 cm', extra: 0, fits: 'Above a console, desk or bedside table' },
-  { name: 'Large', cm: '70 × 100 cm', extra: 100, fits: 'Above a sofa or bed, or as a statement wall' }
+  { name: 'Large', cm: '70 × 100 cm', extra: 100, fits: 'Above a sofa or bed, or as a statement wall' },
+  { name: 'Extra Large', cm: '100 × 100 cm', extra: 200, fits: 'A square statement piece for a large wall, high ceiling or open living space' }
 ];
 
 /* Each product:
@@ -2215,7 +2217,7 @@ const chips = (p, sel, big = false, size) =>
 const sizePicker = (p, frame, sel) => `<div class="size-picker" role="radiogroup" aria-label="Size for ${esc(p.name)}">${SIZES.map(
   (s) => `<button type="button" role="radio" aria-checked="${s.name === sel}" class="size-chip ${s.name === sel ? 'is-selected' : ''}" data-size="${esc(s.name)}"><span class="size-chip__name">${esc(s.name)}</span><span class="size-chip__cm">${esc(s.cm)}</span>${priceOf(frame, p, s.name) ? `<span class="size-chip__price">AED ${priceOf(frame, p, s.name)}</span>` : ''}</button>`
 ).join('')}</div>
-<details class="size-guide"><summary>Size guide</summary><ul>${SIZES.map((s) => `<li><strong>${esc(s.name)}, ${esc(s.cm)}:</strong> ${esc(s.fits)}.</li>`).join('')}</ul><p>Sizes include the frame. Need another size? Ask us on WhatsApp.</p></details>`;
+<details class="size-guide"><summary>Size guide</summary><ul>${SIZES.map((s) => `<li><strong>${esc(s.name)}, ${esc(s.cm)}:</strong> ${esc(s.fits)}.</li>`).join('')}</ul><p>Sizes include the frame. Extra Large is square, so portrait artworks get extra space around them; we confirm the layout with you on WhatsApp. Need another size? Ask us on WhatsApp.</p></details>`;
 
 const card = (p, frame) => {
   const f = frame && p.frames.includes(frame) ? frame : p.firstFrame;
@@ -2324,13 +2326,13 @@ document.getElementById('app').innerHTML = `
     <div class="price-tile"><span class="price-tile__swatch price-tile__swatch--white" aria-hidden="true"></span><div><p class="price-tile__name">White frame</p><p class="price-tile__note">Fresh, light and modern</p></div><p class="price-tile__price">AED 150</p></div>
     <div class="price-tile"><span class="price-tile__swatch price-tile__swatch--gold" aria-hidden="true"></span><div><p class="price-tile__name">Black &amp; gold frames</p><p class="price-tile__note">Bold black or luxurious gold</p></div><p class="price-tile__price">AED 200</p></div>
     <div class="price-tile"><span class="price-tile__swatch price-tile__swatch--exotic" aria-hidden="true"></span><div><p class="price-tile__name">Ultra Exotic Art</p><p class="price-tile__note">Bold statement pieces</p></div><p class="price-tile__price">AED 350</p></div>
-    <p class="pricing__note">${icon('frame', 18)} Prices are per framed artwork in Medium, 50 × 70 cm. Large, 70 × 100 cm, is AED 100 more.</p>
+    <p class="pricing__note">${icon('frame', 18)} Prices are per framed artwork in Medium, 50 × 70 cm. Large, 70 × 100 cm, is AED 100 more and Extra Large, 100 × 100 cm, is AED 200 more.</p>
   </div>
 </section>
 
 <section id="shop" class="section shop" aria-labelledby="shop-title">
   <div class="container">
-    <div class="section-head"><h2 id="shop-title" class="section-title">All artworks</h2><p class="section-sub" id="shop-sub">Every artwork comes framed, in Medium or Large. In Medium, white frames are AED 150, black, gold or premium frames are AED 200 and Ultra Exotic Art pieces are AED 350.</p></div>
+    <div class="section-head"><h2 id="shop-title" class="section-title">All artworks</h2><p class="section-sub" id="shop-sub">Every artwork comes framed, in Medium, Large or Extra Large. In Medium, white frames are AED 150, black, gold or premium frames are AED 200 and Ultra Exotic Art pieces are AED 350.</p></div>
     <div class="toolbar" role="search">
       <label class="field field--search"><span class="sr-only">Search artworks by name</span>${icon('search', 18)}<input id="q" type="search" placeholder="Search by name"></label>
       <label class="field"><span class="field__label">Collection</span><select id="col"><option value="all">View all</option>${COLLECTIONS.map((c) => `<option value="${c.id}">${esc(c.name)}</option>`).join('')}${PRODUCTS.some((p) => !COLLECTIONS.find((c) => c.id === p.category)) ? '<option value="uncategorized">Uncategorized (to review)</option>' : ''}</select></label>
@@ -2418,8 +2420,8 @@ function renderShop() {
   $('#shop-title').textContent = S.col === 'all' ? 'All artworks' : colName(S.col);
   const cp = (COLLECTIONS.find((c) => c.id === S.col) || {}).price;
   $('#shop-sub').textContent = cp
-    ? `Every artwork comes framed. Every piece in this collection is AED ${cp} in Medium and AED ${cp + SIZES[1].extra} in Large.`
-    : 'Every artwork comes framed, in Medium or Large. In Medium, white frames are AED 150, black, gold or premium frames are AED 200 and Ultra Exotic Art pieces are AED 350.';
+    ? `Every artwork comes framed. Every piece in this collection is AED ${cp} in Medium, AED ${cp + SIZES[1].extra} in Large and AED ${cp + SIZES[2].extra} in Extra Large.`
+    : 'Every artwork comes framed, in Medium, Large or Extra Large. In Medium, white frames are AED 150, black, gold or premium frames are AED 200 and Ultra Exotic Art pieces are AED 350.';
   $('#count').textContent = `${list.length} ${list.length === 1 ? 'artwork' : 'artworks'}`;
   $('#clear').hidden = !(S.q || S.col !== 'all' || S.fg !== 'all' || S.sort !== 'featured');
   $('#grid').innerHTML = list.length
