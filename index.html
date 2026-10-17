@@ -1515,6 +1515,154 @@ h3 {
 
 .intro__qualities > div { min-width: 0; }
 
+/* ===== Frame colour previews ===== */
+.frame-stage {
+  container-type: size;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(120% 70% at 50% 0%, rgba(255, 255, 255, 0.55), transparent 60%),
+    linear-gradient(180deg, #f3eee7, #e6ded3);
+}
+
+.framed {
+  display: block;
+  padding: 3.4cqmin;
+  border-radius: 1px;
+  box-shadow:
+    0 2.4cqmin 4cqmin -1.6cqmin rgba(40, 28, 15, 0.45),
+    0 0.6cqmin 1.2cqmin rgba(40, 28, 15, 0.18);
+}
+
+.frame-stage .framed__art {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 74cqw;
+  max-height: 80cqh;
+  object-fit: contain;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.14), inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+.framed--black {
+  background: linear-gradient(145deg, #3b3b3b 0%, #151515 16%, #070707 50%, #1a1a1a 84%, #2e2e2e 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.09),
+    inset 0 0 0.8cqmin rgba(0, 0, 0, 0.7),
+    0 2.4cqmin 4cqmin -1.6cqmin rgba(20, 14, 8, 0.55),
+    0 0.6cqmin 1.2cqmin rgba(20, 14, 8, 0.2);
+}
+
+.framed--gold {
+  background: linear-gradient(135deg, #7c5b22 0%, #d6b25f 16%, #f7e6a6 30%, #b48c3c 48%, #ebd088 64%, #8c692a 82%, #c7a253 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 244, 205, 0.45),
+    inset 0 0 0.8cqmin rgba(90, 62, 18, 0.55),
+    0 2.4cqmin 4cqmin -1.6cqmin rgba(60, 40, 12, 0.45),
+    0 0.6cqmin 1.2cqmin rgba(60, 40, 12, 0.18);
+}
+
+.framed--white {
+  background: linear-gradient(145deg, #ffffff 0%, #f6f3ee 40%, #ebe6de 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.07),
+    inset 0 0 0.8cqmin rgba(120, 104, 84, 0.25),
+    0 2.4cqmin 4cqmin -1.6cqmin rgba(60, 45, 30, 0.35),
+    0 0.6cqmin 1.2cqmin rgba(60, 45, 30, 0.14);
+}
+
+.framed--blackgold {
+  background: linear-gradient(145deg, #3b3b3b 0%, #151515 16%, #070707 50%, #1a1a1a 84%, #2e2e2e 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.09),
+    0 2.4cqmin 4cqmin -1.6cqmin rgba(20, 14, 8, 0.55);
+}
+
+.framed--blackgold .framed__art {
+  outline: 0.7cqmin solid #c9a557;
+}
+
+.frame-stage.is-missing .framed {
+  display: none;
+}
+
+.frame-swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(84px, 1fr));
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+}
+
+.frame-swatch {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.15rem;
+  padding: 0.4rem 0.4rem 0.55rem;
+  border: 1px solid var(--line);
+  background: #fffdf9;
+  text-align: left;
+  transition: border-color 0.2s ease;
+}
+
+.frame-swatch .frame-stage {
+  aspect-ratio: 4 / 5;
+  height: auto;
+  margin-bottom: 0.35rem;
+}
+
+.frame-swatch.is-selected {
+  border-color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--ink);
+}
+
+.frame-swatch__name {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  line-height: 1.2;
+}
+
+.frame-swatch__price {
+  font-size: 0.85rem;
+  color: var(--taupe-dark);
+}
+
+.frame-guide {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.6rem 1rem;
+  margin: 0.9rem 0 0;
+  padding: 0.8rem 0 0;
+  border-top: 1px solid var(--line);
+}
+
+.frame-guide dt {
+  font-family: var(--serif);
+  font-size: 0.82rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.frame-guide dd {
+  margin: 0.15rem 0 0;
+  font-size: 0.82rem;
+  color: var(--taupe-dark);
+}
+
+.frame-note {
+  margin-top: 0.6rem;
+  font-size: 0.85rem;
+  color: var(--bronze);
+}
+
+.frame-chip__swatch--black {
+  border-color: #111;
+}
+
 /* Show every artwork in full: never crop the photo, frame always fully visible. */
 .card__media img,
 .collection-tile__media img,
@@ -1551,7 +1699,17 @@ const WHATSAPP_DISPLAY = '+971 52 400 1671';
 const IMAGE_FOLDER = 'images/';              // your photos live in a folder called "images"
 
 // Price comes from the frame. A collection with its own "price" (like Ultra Exotic Art) sets the price of all its pieces.
-const FRAME_PRICES = { 'White': 150, 'Gold': 200, 'Black & Gold': 200 };
+const FRAME_PRICES = { 'Black': 200, 'Gold': 200, 'White': 150, 'Black & Gold': 200 };
+
+// Every artwork can be ordered in these frame colours. A product's own "frames" list adds special finishes (like Black & Gold)
+// and its first frame is the one shown first. Flat artwork images for the frame previews live in images/art/<product id>.jpg.
+const FRAME_COLOURS = ['Black', 'Gold', 'White'];
+const FRAME_GUIDE = {
+  'Black': 'Modern • Bold • Contemporary',
+  'Gold': 'Luxury • Glamour • Sophistication',
+  'White': 'Minimal • Bright • Timeless',
+  'Black & Gold': 'Dramatic • Elegant • Statement'
+};
 
 // Sizes a customer can choose. Prices above are for the first size; "extra" is added for bigger sizes.
 const SIZES = [
@@ -1914,6 +2072,10 @@ const PRODUCTS = [
 
 /* ===== Site logic (no need to edit below) ===== */
 const $ = (s, el = document) => el.querySelector(s);
+PRODUCTS.forEach((p) => {
+  p.firstFrame = p.frames[0];
+  p.frames = [...new Set([...FRAME_COLOURS, ...p.frames])];
+});
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const colPrice = (p) => p && (COLLECTIONS.find((c) => c.id === p.category) || {}).price;
 const sizeOf = (s) => SIZES.find((x) => x.name === s) || SIZES[0];
@@ -1980,7 +2142,17 @@ const orderLink = (p, f, s) => {
 };
 
 /* ----- Pieces ----- */
-const photoFor = (p, f) => p.photos.find((ph) => ph[1] === f) || p.photos[0];
+
+const frameSlug = (f) => f.replace(/\W+/g, '').toLowerCase();
+const artSrc = (p, small) => `images/art/${small ? 'thumbs/' : ''}${p.id}.jpg`;
+const framed = (p, f, small = true) => `<span class="framed framed--${frameSlug(f)}"><img class="framed__art" src="${artSrc(p, small)}" alt="${esc(p.name)} in a ${esc(f.toLowerCase())} frame" ${small ? 'loading="lazy" ' : ''}decoding="async" onerror="this.closest('.frame-stage, .frame-swatch')?.classList.add('is-missing')"></span>`;
+const stage = (p, f, small = true) => `<span class="frame-stage">${framed(p, f, small)}</span>`;
+
+const frameColours = (p, sel, size) => `<div class="frame-swatches" role="radiogroup" aria-label="Frame colour for ${esc(p.name)}">${p.frames.map(
+  (f) => `<button type="button" role="radio" aria-checked="${f === sel}" class="frame-swatch ${f === sel ? 'is-selected' : ''}" data-frame="${esc(f)}">${stage(p, f)}<span class="frame-swatch__name">${esc(f)}</span>${priceOf(f, p, size) ? `<span class="frame-swatch__price">AED ${priceOf(f, p, size)}</span>` : ''}</button>`
+).join('')}</div>
+<dl class="frame-guide">${p.frames.map((f) => `<div><dt>${esc(f)} frame</dt><dd>${esc(FRAME_GUIDE[f] || '')}</dd></div>`).join('')}</dl>
+<p class="frame-note">Every frame is made to order. We confirm your frame colour on WhatsApp before your order is finalised.</p>`;
 
 const chips = (p, sel, big = false, size) =>
   p.frames.length
@@ -1997,12 +2169,13 @@ const sizePicker = (p, frame, sel) => `<div class="size-picker" role="radiogroup
 <details class="size-guide"><summary>Size guide</summary><ul>${SIZES.map((s) => `<li><strong>${esc(s.name)}, ${esc(s.cm)}:</strong> ${esc(s.fits)}.</li>`).join('')}</ul><p>Sizes include the frame. Need another size? Ask us on WhatsApp.</p></details>`;
 
 const card = (p, frame) => {
-  const f = frame && p.frames.includes(frame) ? frame : p.frames[0];
-  const ph = photoFor(p, f);
+  const f = frame && p.frames.includes(frame) ? frame : p.firstFrame;
+  const shot = p.photos.find((x) => x[1] === f);
+  const ph = shot || p.photos[0];
   const pr = priceOf(f, p);
   return `<article class="card" data-id="${p.id}" data-current="${esc(f || '')}">
     <button type="button" class="card__media" data-open="${p.id}" aria-label="View details of ${esc(p.name)}">
-      ${img(ph[0], ph[2], true, 'width="720" height="900"')}
+      ${shot ? img(ph[0], ph[2], true, 'width="720" height="900"') : stage(p, f)}
       ${p.photos.length > 1 ? `<span class="card__badge">${p.photos.length} photos</span>` : ''}
     </button>
     <div class="card__body">
@@ -2100,7 +2273,7 @@ document.getElementById('app').innerHTML = `
 <section class="pricing" aria-label="Frame prices">
   <div class="container pricing__inner">
     <div class="price-tile"><span class="price-tile__swatch price-tile__swatch--white" aria-hidden="true"></span><div><p class="price-tile__name">White frame</p><p class="price-tile__note">Fresh, light and modern</p></div><p class="price-tile__price">AED 150</p></div>
-    <div class="price-tile"><span class="price-tile__swatch price-tile__swatch--gold" aria-hidden="true"></span><div><p class="price-tile__name">Gold &amp; premium frames</p><p class="price-tile__note">Warm, rich and sophisticated</p></div><p class="price-tile__price">AED 200</p></div>
+    <div class="price-tile"><span class="price-tile__swatch price-tile__swatch--gold" aria-hidden="true"></span><div><p class="price-tile__name">Black &amp; gold frames</p><p class="price-tile__note">Bold black or luxurious gold</p></div><p class="price-tile__price">AED 200</p></div>
     <div class="price-tile"><span class="price-tile__swatch price-tile__swatch--exotic" aria-hidden="true"></span><div><p class="price-tile__name">Ultra Exotic Art</p><p class="price-tile__note">Bold statement pieces</p></div><p class="price-tile__price">AED 350</p></div>
     <p class="pricing__note">${icon('frame', 18)} Prices are per framed artwork in Medium, 50 × 70 cm. Large, 70 × 100 cm, is AED 100 more.</p>
   </div>
@@ -2108,11 +2281,11 @@ document.getElementById('app').innerHTML = `
 
 <section id="shop" class="section shop" aria-labelledby="shop-title">
   <div class="container">
-    <div class="section-head"><h2 id="shop-title" class="section-title">All artworks</h2><p class="section-sub" id="shop-sub">Every artwork comes framed, in Medium or Large. In Medium, white frames are AED 150, gold or premium frames are AED 200 and Ultra Exotic Art pieces are AED 350.</p></div>
+    <div class="section-head"><h2 id="shop-title" class="section-title">All artworks</h2><p class="section-sub" id="shop-sub">Every artwork comes framed, in Medium or Large. In Medium, white frames are AED 150, black, gold or premium frames are AED 200 and Ultra Exotic Art pieces are AED 350.</p></div>
     <div class="toolbar" role="search">
       <label class="field field--search"><span class="sr-only">Search artworks by name</span>${icon('search', 18)}<input id="q" type="search" placeholder="Search by name"></label>
       <label class="field"><span class="field__label">Collection</span><select id="col"><option value="all">View all</option>${COLLECTIONS.map((c) => `<option value="${c.id}">${esc(c.name)}</option>`).join('')}${PRODUCTS.some((p) => !COLLECTIONS.find((c) => c.id === p.category)) ? '<option value="uncategorized">Uncategorized (to review)</option>' : ''}</select></label>
-      <label class="field"><span class="field__label">Frame and price</span><select id="fg"><option value="all">All frames</option><option value="white">White frame, AED 150</option><option value="premium">Gold &amp; premium, AED 200</option></select></label>
+      <label class="field"><span class="field__label">Frame and price</span><select id="fg"><option value="all">All frames</option><option value="white">White frame, AED 150</option><option value="premium">Black, gold &amp; premium, AED 200</option></select></label>
       <label class="field"><span class="field__label">Sort</span><select id="sort"><option value="featured">Featured first</option><option value="price-asc">Price: low to high</option><option value="price-desc">Price: high to low</option><option value="name">Name: A to Z</option></select></label>
     </div>
     <div class="shop__meta"><p id="count" aria-live="polite"></p><button type="button" class="link-btn" id="clear" hidden>Clear filters</button></div>
@@ -2171,12 +2344,12 @@ addEventListener('scroll', () => $('#header').classList.toggle('is-scrolled', sc
 
 /* ----- Shop ----- */
 const S = { q: '', col: 'all', fg: 'all', sort: 'featured' };
-const GROUPS = { white: ['White'], premium: ['Gold', 'Black & Gold'] };
+const GROUPS = { white: ['White'], premium: ['Black', 'Gold', 'Black & Gold'] };
 
 const preferred = (p) => {
   if (GROUPS[S.fg]) return p.frames.find((f) => GROUPS[S.fg].includes(f));
   if (S.sort === 'price-desc') return [...p.frames].sort((a, b) => (priceOf(b, p) || 0) - (priceOf(a, p) || 0))[0];
-  return p.frames[0];
+  return p.firstFrame;
 };
 
 function renderShop() {
@@ -2197,7 +2370,7 @@ function renderShop() {
   const cp = (COLLECTIONS.find((c) => c.id === S.col) || {}).price;
   $('#shop-sub').textContent = cp
     ? `Every artwork comes framed. Every piece in this collection is AED ${cp} in Medium and AED ${cp + SIZES[1].extra} in Large.`
-    : 'Every artwork comes framed, in Medium or Large. In Medium, white frames are AED 150, gold or premium frames are AED 200 and Ultra Exotic Art pieces are AED 350.';
+    : 'Every artwork comes framed, in Medium or Large. In Medium, white frames are AED 150, black, gold or premium frames are AED 200 and Ultra Exotic Art pieces are AED 350.';
   $('#count').textContent = `${list.length} ${list.length === 1 ? 'artwork' : 'artworks'}`;
   $('#clear').hidden = !(S.q || S.col !== 'all' || S.fg !== 'all' || S.sort !== 'featured');
   $('#grid').innerHTML = list.length
@@ -2213,13 +2386,13 @@ $('#q').addEventListener('input', (e) => { S.q = e.target.value; renderShop(); }
 $('#clear').addEventListener('click', resetShop);
 
 /* ----- Product details ----- */
-let M = null; // { p, frame, size, active }
+let M = null; // { p, frame, size, active, preview } preview: show the framed artwork instead of a photo
 let lastFocus = null;
 
 function renderModal() {
   const root = $('#modalRoot');
   if (!M) { root.innerHTML = ''; return; }
-  const { p, frame, size, active } = M;
+  const { p, frame, size, active, preview } = M;
   const ph = p.photos[active] || p.photos[0];
   const pr = priceOf(frame, p, size);
   const many = p.photos.length > 1;
@@ -2227,17 +2400,17 @@ function renderModal() {
     <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title">
       <button type="button" class="modal__close" id="modalClose" aria-label="Close details">${icon('close', 22)}</button>
       <div class="modal__gallery">
-        <div class="modal__main">${img(ph[0], ph[2], false)}
+        <div class="modal__main">${preview ? stage(p, frame, false) : img(ph[0], ph[2], false)}
           ${many ? `<button type="button" class="modal__nav modal__nav--prev" data-step="-1" aria-label="Previous photo">${icon('left', 22)}</button><button type="button" class="modal__nav modal__nav--next" data-step="1" aria-label="Next photo">${icon('right', 22)}</button>` : ''}
         </div>
-        ${many ? `<div class="modal__thumbs">${p.photos.map((x, i) => `<button type="button" class="modal__thumb ${i === active ? 'is-active' : ''}" data-photo="${i}" aria-label="Show photo ${i + 1}: ${esc(x[1])} frame">${img(x[0], '', true)}</button>`).join('')}</div>` : ''}
+        ${many ? `<div class="modal__thumbs">${p.photos.map((x, i) => `<button type="button" class="modal__thumb ${i === active && !preview ? 'is-active' : ''}" data-photo="${i}" aria-label="Show photo ${i + 1}: ${esc(x[1])} frame">${img(x[0], '', true)}</button>`).join('')}</div>` : ''}
       </div>
       <div class="modal__info">
         <p class="modal__collection">${esc(colName(p.category))}</p>
         <h2 id="modal-title" class="modal__title">${esc(p.name)}</h2>
         <p class="modal__price">${pr ? 'AED ' + pr : 'Price on request'}</p>
         <p class="modal__desc">${esc(p.description)}</p>
-        <div><p class="modal__label">${p.frames.length > 1 ? 'Choose your frame' : 'Frame'}</p>${chips(p, frame, true, size)}</div>
+        <div><p class="modal__label">Choose your frame colour</p>${frameColours(p, frame, size)}</div>
         <div><p class="modal__label">Choose your size</p>${sizePicker(p, frame, size)}</div>
         <a class="btn btn--wa btn--lg btn--block" href="${orderLink(p, frame, size)}" target="_blank" rel="noopener noreferrer">${icon('chat', 20)} Order on WhatsApp${pr ? ', AED ' + pr : ''}</a>
         <div class="modal__delivery">${icon('truck', 22)}<p>Delivered framed to your doorstep in any of the seven emirates, expected within 3 days.</p></div>
@@ -2248,10 +2421,10 @@ function renderModal() {
 function openProduct(id, frame, size) {
   const p = PRODUCTS.find((x) => x.id === id);
   if (!p) return;
-  const f = frame && p.frames.includes(frame) ? frame : p.frames[0];
+  const f = frame && p.frames.includes(frame) ? frame : p.firstFrame;
   const i = p.photos.findIndex((x) => x[1] === f);
   if (!M) lastFocus = document.activeElement;
-  M = { p, frame: f, size: sizeOf(size).name, active: Math.max(0, i) };
+  M = { p, frame: f, size: sizeOf(size).name, active: Math.max(0, i), preview: i < 0 };
   history.replaceState(null, '', '#product/' + id);
   document.body.classList.add('no-scroll');
   renderModal();
@@ -2266,6 +2439,7 @@ function closeProduct() {
 }
 const showPhoto = (i) => {
   M.active = (i + M.p.photos.length) % M.p.photos.length;
+  M.preview = false;
   const f = M.p.photos[M.active][1];
   if (M.p.frames.includes(f)) M.frame = f;
   renderModal();
@@ -2276,8 +2450,7 @@ const chooseSize = (s) => {
 };
 const chooseFrame = (f) => {
   M.frame = f;
-  const i = M.p.photos.findIndex((x) => x[1] === f);
-  if (i >= 0) M.active = i;
+  M.preview = true;
   renderModal();
 };
 

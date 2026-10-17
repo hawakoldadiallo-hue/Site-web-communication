@@ -13,13 +13,13 @@ const html = readFileSync(join(root, 'index.html'), 'utf8');
 const start = html.indexOf('/* =====================================================\n   MY DUBAI ARTS — SETTINGS AND PRODUCTS');
 const end = html.indexOf('/* ===== Site logic (no need to edit below) ===== */');
 if (start < 0 || end < 0) throw new Error('Could not find the settings block in index.html');
-const { SITE_URL, PRODUCTS, COLLECTIONS, FRAME_PRICES } = new Function(
-  `${html.slice(start, end)}\nreturn { SITE_URL, PRODUCTS, COLLECTIONS, FRAME_PRICES };`
+const { SITE_URL, PRODUCTS, COLLECTIONS, FRAME_PRICES, FRAME_COLOURS } = new Function(
+  `${html.slice(start, end)}\nreturn { SITE_URL, PRODUCTS, COLLECTIONS, FRAME_PRICES, FRAME_COLOURS };`
 )();
 
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const fromPrice = (p) => (COLLECTIONS.find((c) => c.id === p.category) || {}).price
-  ?? Math.min(...p.frames.map((f) => FRAME_PRICES[f] ?? Infinity));
+  ?? Math.min(...[...FRAME_COLOURS, ...p.frames].map((f) => FRAME_PRICES[f] ?? Infinity));
 
 const outDir = join(root, 'p');
 const ids = new Set(PRODUCTS.map((p) => p.id));
