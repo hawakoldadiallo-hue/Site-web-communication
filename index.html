@@ -777,6 +777,11 @@ h3 {
 }
 
 html .collection-tile__media--world img { object-fit: cover !important; }
+html .collections__duo { max-width: 760px; margin-inline: auto; }
+html .collections__duo .collection-tile__name { font-size: clamp(1.05rem, 2.2vw, 1.4rem); }
+html .collections__duo .collection-tile__blurb { display: none; }
+html .collections__duo .collection-tile__count { font-size: 0.8rem; margin-top: 0.3rem; }
+html .collections__duo .collection-tile__body { padding-top: 0.55rem; }
 .collections__duo .collection-tile__media {
   aspect-ratio: 4 / 3;
 }
@@ -787,11 +792,8 @@ html .collection-tile__media--world img { object-fit: cover !important; }
 
 @media (max-width: 640px) {
   .collections__duo {
-    grid-template-columns: 1fr;
-  }
-
-  .collections__duo .collection-tile__blurb {
-    display: block;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
   }
 }
 
