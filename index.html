@@ -60,7 +60,23 @@ html .pricing { background: #ffb3d4; color: #1a1714; }
 html .pricing .price-tile__note, html .pricing .pricing__note { color: #1a1714; }
 html .pricing .price-tile__swatch--white { box-shadow: 0 0 0 1px rgba(26, 23, 20, 0.25); }
 html .btn--outline:hover { background: var(--bronze); border-color: var(--bronze); }
-html .hero__frame { border: 7px solid #ffb3d4; }
+html .hero__frame { border: 7px solid #ffb3d4; box-shadow: 0 30px 60px -28px rgba(214, 51, 127, 0.45); }
+/* Homepage decoration */
+.hero--deco { position: relative; overflow: hidden; background: radial-gradient(60% 45% at 50% 18%, #fff7fb 0%, rgba(255, 247, 251, 0) 70%), linear-gradient(180deg, #ffe9f2 0%, #ffd9e8 100%); }
+.hero--deco > .container { position: relative; z-index: 1; }
+.hero__waves { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.hero__spark { position: absolute; z-index: 0; color: #ff86ba; opacity: .55; pointer-events: none; }
+.hero__spark--1 { top: 9%; left: 12%; font-size: 1.6rem; }
+.hero__spark--2 { top: 16%; right: 14%; font-size: 1.1rem; }
+.hero__spark--3 { top: 46%; left: 6%; font-size: 0.9rem; }
+.hero--deco .hero__slogan { text-shadow: 0 0 12px #ffeef5, 0 0 4px #ffeef5; }
+.hero__logo { filter: drop-shadow(0 14px 30px rgba(214, 51, 127, 0.25)); background: rgba(255, 255, 255, 0.55); }
+.hero__art { padding: 1.6rem 1.2rem 2.2rem; }
+.hero__mini { position: absolute; z-index: 2; width: 26%; aspect-ratio: 5 / 7; display: flex; align-items: center; justify-content: center; container-type: size; filter: drop-shadow(0 16px 22px rgba(74, 21, 48, 0.3)); }
+.hero__mini .framed__art { max-width: 74cqw; max-height: 80cqh; display: block; }
+.hero__mini--a { left: -2%; bottom: 0; transform: rotate(-6deg); }
+.hero__mini--b { right: -2%; top: 0; transform: rotate(5deg); }
+@media (max-width: 900px) { .hero__mini { width: 30%; } .hero__mini--a { left: 0; } .hero__mini--b { right: 0; } }
 /* Lighter, less crowded layout */
 :root { --section: clamp(3rem, 6vw, 5rem); }
 html .section-title { font-size: clamp(1.7rem, 3.4vw, 2.5rem); }
@@ -3048,7 +3064,15 @@ document.getElementById('app').innerHTML = `
 </header>
 
 <main>
-<section id="home" class="hero" aria-labelledby="hero-title">
+<section id="home" class="hero hero--deco" aria-labelledby="hero-title">
+  <svg class="hero__waves" viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true">
+    <defs><linearGradient id="hw" x1="0" x2="1"><stop offset="0" stop-color="#ffb3d4"/><stop offset=".5" stop-color="#ff86ba"/><stop offset="1" stop-color="#ffb3d4"/></linearGradient></defs>
+    <path d="M-60 130 C 260 20, 520 230, 820 120 S 1300 10, 1520 140" fill="none" stroke="url(#hw)" stroke-width="46" stroke-linecap="round" opacity=".35"/>
+    <path d="M-60 130 C 260 20, 520 230, 820 120 S 1300 10, 1520 140" fill="none" stroke="#fff" stroke-width="6" opacity=".7"/>
+    <path d="M-60 760 C 300 640, 600 880, 900 760 S 1320 640, 1520 780" fill="none" stroke="url(#hw)" stroke-width="60" stroke-linecap="round" opacity=".3"/>
+    <path d="M-60 760 C 300 640, 600 880, 900 760 S 1320 640, 1520 780" fill="none" stroke="#fff" stroke-width="7" opacity=".6"/>
+  </svg>
+  <span class="hero__spark hero__spark--1" aria-hidden="true">✦</span><span class="hero__spark hero__spark--2" aria-hidden="true">✦</span><span class="hero__spark hero__spark--3" aria-hidden="true">✦</span>
   <div class="hero__brand container">
     <img class="hero__logo" src="images/logo-mark-pink.png" alt="${T('My Dubai Arts logo', 'Logo My Dubai Arts')}" width="179" height="220">
     <p class="hero__slogan">${T('Digitally created, professionally printed &amp; framed.', 'Créé numériquement, imprimé et encadré par des professionnels.')}</p>
@@ -3063,6 +3087,8 @@ document.getElementById('app').innerHTML = `
       </div>
     </div>
     <figure class="hero__art">
+      <span class="hero__mini hero__mini--a" aria-hidden="true">${(() => { const p = PRODUCTS.find((x) => x.id === 'candy-ribbon'); return p ? framed(p, 'White') : ''; })()}</span>
+      <span class="hero__mini hero__mini--b" aria-hidden="true">${(() => { const p = PRODUCTS.find((x) => x.id === 'do-it-pink'); return p ? framed(p, 'Gold') : ''; })()}</span>
       <div class="hero__frame">${img('peace-gratitude-gold.jpg', T('Peace and Gratitude prints in gold frames above a brown velvet sofa', 'Tableaux Peace et Gratitude en cadres dorés au-dessus d’un canapé en velours marron'), false, 'width="1312" height="1199" fetchpriority="high"')}</div>
     </figure>
   </div>
