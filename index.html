@@ -1590,6 +1590,61 @@ h3 {
   color: var(--taupe-dark);
 }
 
+/* ===== Showcase ===== */
+.showcase {
+  background: var(--cream);
+}
+
+.showcase__head {
+  text-align: center;
+  margin-inline: auto;
+}
+
+.showcase__grid {
+  columns: 3 280px;
+  column-gap: 1.25rem;
+}
+
+.showcase__item {
+  break-inside: avoid;
+  margin: 0 0 1.25rem;
+}
+
+.showcase__btn {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+}
+
+.showcase__item img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 0.7s ease;
+}
+
+.showcase__btn:hover img {
+  transform: scale(1.03);
+}
+
+.showcase__item figcaption {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding-top: 0.6rem;
+  font-size: 0.9rem;
+}
+
+.showcase__item figcaption strong {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 1.05rem;
+}
+
+.showcase__item figcaption span {
+  color: var(--bronze);
+}
+
 /* ===== Reviews ===== */
 .reviews__head {
   text-align: center;
@@ -2077,6 +2132,19 @@ const WEB3FORMS_KEY = '150b8801-3880-4c93-b18b-01bef6a94fb6';                   
 /* Customer reviews. Only add real reviews you received, with the customer's permission.
    Example: { name: "Sara", city: "Dubai", rating: 5, artwork: "velvet-petals", text: "Beautiful frame, delivered in 2 days!" }
    "artwork" is optional (a product id). The text shows exactly as written. */
+/* Our Frames Showcase: photos of our artworks styled in real spaces (not customer reviews).
+   img: a photo in the images folder. artwork: product id it shows (tapping the photo opens it). title: optional caption (default: the artwork name). room: living, bedroom, hallway, entryway, office, dining or dressing. */
+const SHOWCASE = [
+  { img: "peace-gratitude-gold.jpg", artwork: "peace", title: "Peace & Gratitude", room: "living" },
+  { img: "crimson-wave-gold-2.jpg", artwork: "crimson-wave", room: "entryway" },
+  { img: "olive-cocoa-gold-2.jpg", artwork: "olive-cocoa", room: "hallway" },
+  { img: "sage-peach-drip-white-1.jpg", artwork: "sage-peach-drip", room: "living" },
+  { img: "boss-lady-mood-white-2.jpg", artwork: "boss-lady-mood", room: "office" },
+  { img: "gloss-lips-duo-white-1.jpg", artwork: "gloss-lips-duo", room: "living" },
+  { img: "success-is-a-decision-gold-1.jpg", artwork: "success-is-a-decision", room: "living" },
+  { img: "pink-coffee-moment-gold-2.jpg", artwork: "pink-coffee-moment", room: "living" }
+];
+
 const REVIEWS = [
 ];
 const IMAGE_FOLDER = 'images/';              // your photos live in a folder called "images"
@@ -2791,9 +2859,10 @@ const card = (p, frame) => {
 };
 
 /* ----- Page ----- */
-const NAV = [['home', T('Home', 'Accueil')], ['shop', T('Shop All', 'Boutique')], ['collections', T('Collections', 'Collections')], ['delivery', T('Delivery', 'Livraison')], ['contact', T('Contact', 'Contact')]];
+const NAV = [['home', T('Home', 'Accueil')], ['shop', T('Shop All', 'Boutique')], ['collections', T('Collections', 'Collections')], ['showcase', T('Our Frames Showcase', 'Nos tableaux en situation')], ['delivery', T('Delivery', 'Livraison')], ['contact', T('Contact', 'Contact')]];
 const langSwitch = (cls = '') => `<button type="button" class="lang-switch ${cls}" data-lang="${T('fr', 'en')}" aria-label="${T('Voir le site en français', 'View the site in English')}"><span class="${LANG === 'en' ? 'is-on' : ''}">EN</span><span aria-hidden="true">/</span><span class="${LANG === 'fr' ? 'is-on' : ''}">FR</span></button>`;
 const count = (id) => PRODUCTS.filter((p) => p.category === id).length;
+const ROOMS = { living: ['Living room', 'Salon'], bedroom: ['Bedroom', 'Chambre'], hallway: ['Hallway', 'Couloir'], entryway: ['Entryway', 'Entrée'], office: ['Home office', 'Bureau'], dining: ['Dining room', 'Salle à manger'], dressing: ['Dressing room', 'Dressing'] };
 const EXOTIC = 'ultra-exotic';
 const LINES = [
   { id: 'standard', cover: 'leopard-burj-khalifa-gold.jpg', from: 150,
@@ -2887,6 +2956,17 @@ document.getElementById('app').innerHTML = `
         <span class="collection-tile__body"><span class="collection-tile__name">${esc(colName(l.id))}</span><span class="collection-tile__blurb">${esc(T(l.blurb, l.blurbFr))}</span><span class="collection-tile__count">${lineCount(l.id)} ${T('artworks', 'tableaux')} · ${T('from', 'dès')} AED ${l.from}</span></span>
       </button></li>`
     ).join('')}</ul>
+  </div>
+</section>
+
+<section id="showcase" class="section showcase" aria-labelledby="showcase-title">
+  <div class="container">
+    <div class="section-head showcase__head"><h2 id="showcase-title" class="section-title">${T('Our Frames Showcase', 'Nos tableaux en situation')}</h2><p class="section-sub">${T('Our artworks styled in living rooms, bedrooms and hallways, so you can picture them at home. Tap a photo to see the artwork.', 'Nos tableaux mis en scène dans des salons, chambres et couloirs, pour vous aider à les imaginer chez vous. Touchez une photo pour voir le tableau.')}</p></div>
+    <div class="showcase__grid">${SHOWCASE.map((x) => {
+      const p = PRODUCTS.find((q) => q.id === x.artwork);
+      const room = ROOMS[x.room] ? T(ROOMS[x.room][0], ROOMS[x.room][1]) : '';
+      return `<figure class="showcase__item">${p ? `<button type="button" class="showcase__btn" data-open="${p.id}" aria-label="${T('View', 'Voir')} ${esc(p.name)}">` : ''}${img(x.img, `${p ? p.name : ''}${room ? ', ' + room : ''}`, true)}${p ? '</button>' : ''}<figcaption>${p || x.title ? `<strong>${esc(x.title || p.name)}</strong>` : ''}${room ? `<span>${esc(room)}</span>` : ''}</figcaption></figure>`;
+    }).join('')}</div>
   </div>
 </section>
 
