@@ -638,6 +638,33 @@ h3 {
 }
 
 /* ===== Collections ===== */
+.collections__duo {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem 1.25rem;
+}
+
+.collections__duo .collection-tile__media {
+  aspect-ratio: 4 / 3;
+}
+
+.collections__duo .collection-tile__name {
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+}
+
+@media (max-width: 640px) {
+  .collections__duo {
+    grid-template-columns: 1fr;
+  }
+
+  .collections__duo .collection-tile__blurb {
+    display: block;
+  }
+}
+
 .collections__grid {
   list-style: none;
   margin: 0;
@@ -2531,6 +2558,7 @@ const priceOf = (f, p, s) => {
   return base === null ? null : base + sizeOf(s).extra;
 };
 const colName = (id) => {
+  if (id === 'standard') return T('Standard Collection', 'Collection Standard');
   const c = COLLECTIONS.find((x) => x.id === id);
   if (!c) return T('Uncategorized (to review)', 'Non classé (à revoir)');
   return T(c.name, (FR.collections[c.id] || [])[0] || c.name);
@@ -2662,6 +2690,16 @@ const card = (p, frame) => {
 const NAV = [['home', T('Home', 'Accueil')], ['shop', T('Shop All', 'Boutique')], ['collections', T('Collections', 'Collections')], ['delivery', T('Delivery', 'Livraison')], ['contact', T('Contact', 'Contact')]];
 const langSwitch = (cls = '') => `<button type="button" class="lang-switch ${cls}" data-lang="${T('fr', 'en')}" aria-label="${T('Voir le site en français', 'View the site in English')}"><span class="${LANG === 'en' ? 'is-on' : ''}">EN</span><span aria-hidden="true">/</span><span class="${LANG === 'fr' ? 'is-on' : ''}">FR</span></button>`;
 const count = (id) => PRODUCTS.filter((p) => p.category === id).length;
+const EXOTIC = 'ultra-exotic';
+const LINES = [
+  { id: 'standard', cover: 'leopard-burj-khalifa-gold.jpg', from: 150,
+    blurb: 'Motivation, fashion, flowers, Dubai and lifestyle prints, framed in black, gold or white.',
+    blurbFr: 'Motivation, mode, fleurs, Dubaï et art de vivre, encadrés en noir, doré ou blanc.' },
+  { id: EXOTIC, cover: 'gloss-lips-duo-white-1.jpg', from: 350,
+    blurb: 'Our boldest statement pieces, bigger in attitude and made to stop every guest.',
+    blurbFr: 'Nos pièces les plus audacieuses, faites pour captiver chaque invité.' }
+];
+const lineCount = (id) => PRODUCTS.filter((p) => (id === EXOTIC) === (p.category === EXOTIC)).length;
 
 document.getElementById('app').innerHTML = `
 <a class="skip-link" href="#shop">${T('Skip to artworks', 'Aller aux tableaux')}</a>
@@ -2733,13 +2771,27 @@ document.getElementById('app').innerHTML = `
 
 <section id="collections" class="section collections" aria-labelledby="collections-title">
   <div class="container">
-    <div class="section-head"><h2 id="collections-title" class="section-title">${T('Shop by collection', 'Nos collections')}</h2><p class="section-sub">${T('Eight moods for every room. Choose one to see its pieces.', 'Huit ambiances pour chaque pièce. Choisissez-en une pour voir ses tableaux.')}</p></div>
-    <ul class="collections__grid">${COLLECTIONS.map(
-      (c) => `<li><button type="button" class="collection-tile" data-collection="${c.id}">
-        <span class="collection-tile__media">${img(c.cover, '', true)}</span>
-        <span class="collection-tile__body"><span class="collection-tile__name">${esc(colName(c.id))}</span><span class="collection-tile__blurb">${esc(colBlurb(c))}</span><span class="collection-tile__count">${count(c.id)} ${count(c.id) === 1 ? T('artwork', 'tableau') : T('artworks', 'tableaux')}</span></span>
+    <div class="section-head"><h2 id="collections-title" class="section-title">${T('Shop by collection', 'Nos collections')}</h2><p class="section-sub">${T('Two collections. Choose one to see its pieces.', 'Deux collections. Choisissez-en une pour voir ses tableaux.')}</p></div>
+    <ul class="collections__duo">${LINES.map(
+      (l) => `<li><button type="button" class="collection-tile" data-collection="${l.id}">
+        <span class="collection-tile__media">${img(l.cover, '', true)}</span>
+        <span class="collection-tile__body"><span class="collection-tile__name">${esc(colName(l.id))}</span><span class="collection-tile__blurb">${esc(T(l.blurb, l.blurbFr))}</span><span class="collection-tile__count">${lineCount(l.id)} ${T('artworks', 'tableaux')} · ${T('from', 'dès')} AED ${l.from}</span></span>
       </button></li>`
     ).join('')}</ul>
+  </div>
+</section>
+
+<section id="shop" class="section shop" aria-labelledby="shop-title">
+  <div class="container">
+    <div class="section-head"><h2 id="shop-title" class="section-title"></h2><p class="section-sub" id="shop-sub"></p></div>
+    <div class="toolbar" role="search">
+      <label class="field field--search"><span class="sr-only">${T('Search artworks by name', 'Rechercher un tableau par nom')}</span>${icon('search', 18)}<input id="q" type="search" placeholder="${T('Search by name', 'Rechercher par nom')}"></label>
+      <label class="field"><span class="field__label">${T('Collection', 'Collection')}</span><select id="col"><option value="all">${T('View all', 'Toutes')}</option><option value="standard">${colName('standard')}</option><option value="ultra-exotic">${colName('ultra-exotic')}</option><optgroup label="${T('Standard themes', 'Thèmes Standard')}">${COLLECTIONS.filter((c) => c.id !== 'ultra-exotic').map((c) => `<option value="${c.id}">${esc(colName(c.id))}</option>`).join('')}</optgroup>${PRODUCTS.some((p) => !COLLECTIONS.find((c) => c.id === p.category)) ? `<option value="uncategorized">${colName('')}</option>` : ''}</select></label>
+      <label class="field"><span class="field__label">${T('Frame and price', 'Cadre et prix')}</span><select id="fg"><option value="all">${T('All frames', 'Tous les cadres')}</option><option value="white">${T('White frame, AED 150', 'Cadre blanc, AED 150')}</option><option value="premium">${T('Black, gold &amp; premium, AED 200', 'Noir, doré &amp; premium, AED 200')}</option></select></label>
+      <label class="field"><span class="field__label">${T('Sort', 'Trier')}</span><select id="sort"><option value="featured">${T('Featured first', 'Coups de cœur d’abord')}</option><option value="price-asc">${T('Price: low to high', 'Prix croissant')}</option><option value="price-desc">${T('Price: high to low', 'Prix décroissant')}</option><option value="name">${T('Name: A to Z', 'Nom : A à Z')}</option></select></label>
+    </div>
+    <div class="shop__meta"><p id="count" aria-live="polite"></p><button type="button" class="link-btn" id="clear" hidden>${T('Clear filters', 'Effacer les filtres')}</button></div>
+    <div id="grid" class="grid"></div>
   </div>
 </section>
 
@@ -2749,20 +2801,6 @@ document.getElementById('app').innerHTML = `
     <div class="price-tile"><span class="price-tile__swatch price-tile__swatch--gold" aria-hidden="true"></span><div><p class="price-tile__name">${T('Black &amp; gold frames', 'Cadres noirs &amp; dorés')}</p><p class="price-tile__note">${T('Bold black or luxurious gold', 'Noir audacieux ou or luxueux')}</p></div><p class="price-tile__price">AED 200</p></div>
     <div class="price-tile"><span class="price-tile__swatch price-tile__swatch--exotic" aria-hidden="true"></span><div><p class="price-tile__name">Ultra Exotic Art</p><p class="price-tile__note">${T('Bold statement pieces', 'Pièces audacieuses et spectaculaires')}</p></div><p class="price-tile__price">AED 350</p></div>
     <p class="pricing__note">${icon('frame', 18)} ${T('Prices are per framed artwork in Medium, 50 × 70 cm. Large, 70 × 100 cm, is AED 100 more and Extra Large, 100 × 100 cm, is AED 200 more.', 'Prix par tableau encadré en taille Moyen, 50 × 70 cm. Le Grand, 70 × 100 cm, coûte AED 100 de plus et le Très grand, 100 × 100 cm, AED 200 de plus.')}</p>
-  </div>
-</section>
-
-<section id="shop" class="section shop" aria-labelledby="shop-title">
-  <div class="container">
-    <div class="section-head"><h2 id="shop-title" class="section-title"></h2><p class="section-sub" id="shop-sub"></p></div>
-    <div class="toolbar" role="search">
-      <label class="field field--search"><span class="sr-only">${T('Search artworks by name', 'Rechercher un tableau par nom')}</span>${icon('search', 18)}<input id="q" type="search" placeholder="${T('Search by name', 'Rechercher par nom')}"></label>
-      <label class="field"><span class="field__label">${T('Collection', 'Collection')}</span><select id="col"><option value="all">${T('View all', 'Toutes')}</option>${COLLECTIONS.map((c) => `<option value="${c.id}">${esc(colName(c.id))}</option>`).join('')}${PRODUCTS.some((p) => !COLLECTIONS.find((c) => c.id === p.category)) ? `<option value="uncategorized">${colName('')}</option>` : ''}</select></label>
-      <label class="field"><span class="field__label">${T('Frame and price', 'Cadre et prix')}</span><select id="fg"><option value="all">${T('All frames', 'Tous les cadres')}</option><option value="white">${T('White frame, AED 150', 'Cadre blanc, AED 150')}</option><option value="premium">${T('Black, gold &amp; premium, AED 200', 'Noir, doré &amp; premium, AED 200')}</option></select></label>
-      <label class="field"><span class="field__label">${T('Sort', 'Trier')}</span><select id="sort"><option value="featured">${T('Featured first', 'Coups de cœur d’abord')}</option><option value="price-asc">${T('Price: low to high', 'Prix croissant')}</option><option value="price-desc">${T('Price: high to low', 'Prix décroissant')}</option><option value="name">${T('Name: A to Z', 'Nom : A à Z')}</option></select></label>
-    </div>
-    <div class="shop__meta"><p id="count" aria-live="polite"></p><button type="button" class="link-btn" id="clear" hidden>${T('Clear filters', 'Effacer les filtres')}</button></div>
-    <div id="grid" class="grid"></div>
   </div>
 </section>
 
@@ -2798,7 +2836,7 @@ document.getElementById('app').innerHTML = `
   </div>
 </section>
 
-<section id="contact" class="section contact\" aria-labelledby="contact-title">
+<section id="contact" class="section contact" aria-labelledby="contact-title">
   <div class="container contact__inner">
     <div class="contact__copy">
       <h2 id="contact-title" class="section-title">${T('Order or ask us anything on WhatsApp', 'Commandez ou posez-nous vos questions sur WhatsApp')}</h2>
@@ -2867,7 +2905,8 @@ function renderShop() {
   const q = S.q.trim().toLowerCase();
   let list = PRODUCTS.filter((p) => {
     const known = COLLECTIONS.some((c) => c.id === p.category);
-    if (S.col === 'uncategorized' ? known : S.col !== 'all' && p.category !== S.col) return false;
+    if (S.col === 'standard') { if (p.category === 'ultra-exotic') return false; }
+    else if (S.col === 'uncategorized' ? known : S.col !== 'all' && p.category !== S.col) return false;
     if (GROUPS[S.fg] && !p.frames.some((f) => GROUPS[S.fg].includes(f))) return false;
     return !q || p.name.toLowerCase().includes(q);
   });
@@ -2879,7 +2918,9 @@ function renderShop() {
 
   $('#shop-title').textContent = S.col === 'all' ? T('All artworks', 'Tous les tableaux') : colName(S.col);
   const cp = (COLLECTIONS.find((c) => c.id === S.col) || {}).price;
-  $('#shop-sub').textContent = cp
+  $('#shop-sub').textContent = S.col === 'standard'
+    ? T('Every artwork comes framed. In Medium, white frames are AED 150 and black or gold frames are AED 200. Large is AED 100 more and Extra Large AED 200 more.', 'Chaque tableau est livré encadré. En taille Moyen, le cadre blanc est à AED 150 et les cadres noir ou doré à AED 200. Le Grand coûte AED 100 de plus et le Très grand AED 200 de plus.')
+    : cp
     ? T(`Every artwork comes framed. Every piece in this collection is AED ${cp} in Medium, AED ${cp + SIZES[1].extra} in Large and AED ${cp + SIZES[2].extra} in Extra Large.`,
         `Chaque tableau est livré encadré. Chaque pièce de cette collection coûte AED ${cp} en Moyen, AED ${cp + SIZES[1].extra} en Grand et AED ${cp + SIZES[2].extra} en Très grand.`)
     : T('Every artwork comes framed, in Medium, Large or Extra Large. In Medium, white frames are AED 150, black, gold or premium frames are AED 200 and Ultra Exotic Art pieces are AED 350.',
