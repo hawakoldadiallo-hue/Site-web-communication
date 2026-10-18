@@ -73,6 +73,7 @@ html .hero__frame { border: 7px solid #ffb3d4; box-shadow: 0 30px 60px -28px rgb
 .hero__logo { filter: drop-shadow(0 14px 30px rgba(214, 51, 127, 0.25)); background: rgba(255, 255, 255, 0.55); }
 .hero__art { padding: 1.6rem 1.2rem 2.2rem; }
 .hero__mini { position: absolute; z-index: 2; width: 26%; aspect-ratio: 5 / 7; display: flex; align-items: center; justify-content: center; container-type: size; filter: drop-shadow(0 16px 22px rgba(74, 21, 48, 0.3)); }
+.hero__mini .framed--pink { padding: 6.5cqmin; background: linear-gradient(145deg, #ffd0e4 0%, #ff8fc1 45%, #ffb3d4 100%); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.7), inset 0 0 0 4px #ffb3d4; }
 .hero__mini .framed__art { max-width: 74cqw; max-height: 80cqh; display: block; }
 .hero__mini--a { left: -2%; bottom: 0; transform: rotate(-6deg); }
 .hero__mini--b { right: -2%; top: 0; transform: rotate(5deg); }
@@ -3087,8 +3088,8 @@ document.getElementById('app').innerHTML = `
       </div>
     </div>
     <figure class="hero__art">
-      <span class="hero__mini hero__mini--a" aria-hidden="true"><span class="framed framed--white"><img class="framed__art" src="images/hero/hero-lollipops.jpg" alt="" decoding="async"></span></span>
-      <span class="hero__mini hero__mini--b" aria-hidden="true"><span class="framed framed--gold"><img class="framed__art" src="images/hero/hero-lips.jpg" alt="" decoding="async"></span></span>
+      <span class="hero__mini hero__mini--a" aria-hidden="true"><span class="framed framed--pink"><img class="framed__art" src="images/hero/hero-lollipops.jpg" alt="" decoding="async"></span></span>
+      <span class="hero__mini hero__mini--b" aria-hidden="true"><span class="framed framed--pink"><img class="framed__art" src="images/hero/hero-lips.jpg" alt="" decoding="async"></span></span>
       <div class="hero__frame">${img('peace-gratitude-gold.jpg', T('Peace and Gratitude prints in gold frames above a brown velvet sofa', 'Tableaux Peace et Gratitude en cadres dorés au-dessus d’un canapé en velours marron'), false, 'width="1312" height="1199" fetchpriority="high"')}</div>
     </figure>
   </div>
