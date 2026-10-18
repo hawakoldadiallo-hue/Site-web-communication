@@ -777,6 +777,21 @@ h3 {
 }
 
 html .collection-tile__media--world img { object-fit: cover !important; }
+/* Compact shop toolbar */
+html .shop .section-head { margin-bottom: 1rem; }
+html .shop .section-sub { margin-top: 0.4rem; }
+html .toolbar { gap: 0.5rem; }
+html .toolbar .field__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+html .toolbar .field select, html .toolbar .field input { min-height: 40px; font-size: 0.85rem; padding: 0.4rem 0.7rem; }
+html .toolbar .field select { padding-right: 1.8rem; background-position: calc(100% - 15px) 50%, calc(100% - 10px) 50%; }
+html .toolbar .field--search input { padding-left: 2.2rem; }
+html .toolbar .field--search .icon { left: 0.7rem; }
+html .shop__meta { margin: 0.7rem 0 1rem; font-size: 0.85rem; }
+@media (max-width: 900px) {
+  html .toolbar { grid-template-columns: 1fr 1fr 1fr; }
+  html .toolbar .field--search { grid-column: 1 / -1; }
+  html .toolbar .field select { font-size: 0.74rem; padding: 0.35rem 1.4rem 0.35rem 0.5rem; background-position: calc(100% - 11px) 50%, calc(100% - 6px) 50%; }
+}
 html .collections__duo { max-width: 760px; margin-inline: auto; }
 html .collections__duo .collection-tile__name { font-size: clamp(1.05rem, 2.2vw, 1.4rem); }
 html .collections__duo .collection-tile__blurb { display: none; }
