@@ -1537,6 +1537,33 @@ h3 {
 
 .intro__qualities > div { min-width: 0; }
 
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  min-height: 40px;
+  padding: 0 0.6rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  color: var(--taupe-dark);
+}
+
+.lang-switch .is-on {
+  color: var(--ink);
+  font-weight: 500;
+  border-bottom: 1px solid var(--gold);
+}
+
+.lang-switch--footer {
+  margin-top: 0.4rem;
+  padding: 0;
+  color: inherit;
+}
+
+.lang-switch--footer .is-on {
+  color: inherit;
+}
+
 /* ===== Frame colour previews ===== */
 .frame-stage {
   container-type: size;
@@ -2142,6 +2169,73 @@ const PRODUCTS = [
   }
 ];
 
+/* ----- French version -----
+   The site shows French when the visitor's phone is in French, or when the link has ?lang=fr (mydubaiarts.online/?lang=fr).
+   Add a French description here for each new artwork (artwork titles stay the same in both languages). */
+const FR = {
+  collections: {
+    'boss-lady-motivation': ['Boss Lady & Motivation', 'Des mots qui vous accompagnent. Pour le bureau, l’espace de travail et chaque nouveau chapitre.'],
+    'luxury-fashion': ['Luxe & Mode', 'Lèvres rouges, nœuds, léopard et moments couture pour un dressing ou un boudoir.'],
+    'flowers-botanical': ['Fleurs & Botanique', 'Tulipes, orchidées et roses pour une pièce douce toute l’année.'],
+    'positive-energy': ['Énergie positive & Affirmations', 'Paix, gratitude et amour, écrits en grand pour les murs que vous voyez chaque jour.'],
+    'minimalist-abstract': ['Minimaliste & Abstrait', 'Dessins au trait épurés et pétales sculpturaux pour des pièces calmes et modernes.'],
+    'dubai-statement': ['Dubaï & Pièces maîtresses', 'La skyline que nous aimons, réinventée, et des pièces que vos invités remarqueront en premier.'],
+    'home-lifestyle': ['Maison & Art de vivre', 'Des tableaux joyeux pour le salon, la cuisine, l’entrée et la chambre d’amis.'],
+    'ultra-exotic': ['Ultra Exotic Art', 'Nos pièces les plus audacieuses, faites pour captiver chaque invité. Chaque pièce à AED 350.']
+  },
+  descriptions: {
+    'never-stop-pushing': 'Une calligraphie dorée sur un intérieur noir intense. Un rappel quotidien pour toujours viser plus haut, idéal pour un bureau, une entrée ou un dressing.',
+    'new-era-of-me': 'Des lettres noires affirmées sur un ivoire chaleureux. Pour la femme qui recommence, qui passe au niveau supérieur, ou qui choisit simplement d’être elle-même.',
+    'are-you-ready': 'Un téléphone vintage bordeaux suspendu à côté d’une simple question. Joueur, confiant et parfait au-dessus d’un bureau.',
+    'manifest-your-dreams': 'Un bureau à Dubaï à l’heure dorée, avec les objectifs qui comptent : un esprit clair, un cœur apaisé, la liberté financière et une vie que l’on aime.',
+    'boss-lady-mood': 'Un bureau rose et doré face au Burj Khalifa, avec une liste : discipline, régularité, liberté et bonheur. À placer là où vous organisez vos journées.',
+    'success-is-a-decision': 'Des lettres lumineuses sur un marbre noir veiné d’or. Un rappel puissant que le succès commence par un choix, pour un bureau, un salon, une entrée ou une chambre.',
+    'cupids-kiss': 'Des lèvres rouge velours qui tiennent une flèche dorée ornée, sur un fond noir profond. Romantique, audacieux, dans un cadre premium noir et or.',
+    'glossy-pout': 'Des lèvres pulpeuses rosées au gloss brillant sur un fond rose poudré. Féminin, coquet et frais, pour un dressing, une chambre ou un coin beauté.',
+    'gloss-lips-duo': 'Deux lèvres pop art brillantes, gris fumé et vert olive, sur un mur de briques grises. Audacieux, ludique et mode, la pièce maîtresse d’un salon ou d’un dressing.',
+    'sage-peach-drip': 'Une peinture vert sauge et pêche brillante qui coule sur un fond crème chaleureux. Fluide, sculptural et apaisant, pour un salon lumineux ou une chambre.',
+    'crimson-wave': 'Une vague rouge sculptée entre un cramoisi profond et un rose poudré. Ludique, audacieuse et pleine d’énergie, la pièce maîtresse d’un salon, d’une entrée ou d’un couloir.',
+    'do-it': 'Une main gantée de satin et parée de diamants tient une carte crème où est écrit « Do it. » en lettres dorées. Élégant, confiant et intemporel, pour un dressing, un bureau ou une entrée.',
+    'golden-mist': 'Une main gantée de satin vaporise un parfum dans un nuage de paillettes dorées, sur un noir profond et du marbre. Glamour et sensuel, pour un dressing, une chambre ou un boudoir.',
+    'rose-on-heels': 'Un escarpin rose poudré qui porte un flacon de parfum rosé sur un noir pur. Féminin, audacieux et mode, pour un dressing.',
+    'cocoa-monogram-bow': 'Un nœud monogramme sculpté, cacao et or, sur un ivoire doux. Une pièce signature pour un dressing ou une coiffeuse.',
+    'three-bows-monogram': 'Trois nœuds en satin chocolat à côté d’un panneau monogramme. Structuré et féminin, parfait dans une entrée ou un dressing.',
+    'blush-monogram-bow': 'Un nœud monogramme rose tendre sur fond poudré. Doux sans être enfantin, superbe au-dessus d’une coiffeuse ou dans une chambre de girl boss.',
+    'red-flame': 'Une main gantée de satin tient un rouge à lèvres qui brûle comme une bougie. Cinématographique, mystérieux et plein de feu.',
+    'leopard-kiss': 'Des lèvres bordeaux avec une langue imprimé léopard sur un blanc pur. Du pop art audacieux avec une touche mode.',
+    'pink-night-drive': 'Un 4x4 de luxe rose, vu de face et de dos sous les lumières de la ville. Du pur glamour pour un salon ou une chambre de rêve.',
+    'jet-set-glamour': 'Une illustration colorée d’un moment en jet privé : champagne, talons, lunettes de soleil et sac menthe. Des rêves de voyage sur votre mur.',
+    'love-in-bloom': 'Le mot LOVE découpé dans un lit de roses et de coquelicots rouges et roses. Romantique et frais pour une chambre ou un salon.',
+    'tulips-golden-hour': 'Un champ de tulipes roses et crème sous un ciel lumineux au coucher du soleil. Apporte lumière et printemps dans n’importe quelle pièce.',
+    'its-you-vs-you': 'De douces orchidées roses à côté d’un rappel discret : votre seule concurrente, c’est vous. Doux et apaisant pour une chambre ou un bureau.',
+    'peace': 'Une calligraphie dorée sur une bande de papier déchiré bordeaux. Superbe en duo avec Gratitude.',
+    'gratitude': 'Une calligraphie dorée sur une bande de papier déchiré bordeaux. Superbe en duo avec Peace.',
+    'amor': 'De grandes lettres rouges avec une rose rouge et quelques pétales. Une énergie chaleureuse et romantique pour un salon.',
+    'velvet-petals': 'Deux pétales bordeaux en gros plan qui s’enroulent sur un espace blanc épuré. Sculptural, minimaliste et subtilement sensuel.',
+    'zebra-flow': 'Des rayures zébrées noires et blanches sculptées en léger relief 3D. Audacieux, graphique et moderne, pour un salon, une entrée ou un bureau.',
+    'olive-cocoa': 'D’épais coups de pinceau texturés vert olive et brun cacao, comme de la terre et de l’écorce. Chaleureux, organique et moderne, pour une entrée, un couloir ou un salon.',
+    'golden-stiletto': 'Un fin dessin doré d’une main aux ongles rouges et d’un escarpin pointu. Élégant et discret pour un dressing.',
+    'love-shot': 'Une main aux ongles rouges qui tire trois cœurs rouges sur fond noir. Minimaliste, plein d’esprit, parfait en format paysage.',
+    'leopard-burj-khalifa': 'L’icône de Dubaï habillée d’imprimé léopard, au-dessus d’une skyline dorée et de ses reflets dans l’eau. Superbe seul ou en duo.',
+    'heart-of-the-sea': 'Une femme en robe fluide rose et turquoise devant un cœur lumineux sur le rivage. Une pièce maîtresse rêveuse et pleine de couleurs.',
+    'amalfi-sunset-terrace': 'Une terrasse fleurie de bougainvilliers face à la mer au coucher du soleil. La chaleur des vacances pour un salon, une chambre ou une entrée.',
+    'pink-coffee-moment': 'Du café versé dans une tasse en cristal sur un téléphone rose scintillant. Doux et amusant pour un coin café ou une cuisine.',
+    'pink-lollipops': 'Deux sucettes en verre rose brillant avec des feuilles vertes sur un bleu nuit profond. Douces, ludiques et élégantes, pour une cuisine, un coin café ou une chambre de fille.'
+  },
+  frames: { 'Black': 'Noir', 'Gold': 'Doré', 'White': 'Blanc', 'Black & Gold': 'Noir & Or' },
+  frameGuide: {
+    'Black': 'Moderne • Audacieux • Contemporain',
+    'Gold': 'Luxe • Glamour • Sophistication',
+    'White': 'Minimaliste • Lumineux • Intemporel',
+    'Black & Gold': 'Spectaculaire • Élégant • Affirmé'
+  },
+  sizes: {
+    'Medium': ['Moyen', 'Au-dessus d’une console, d’un bureau ou d’une table de chevet'],
+    'Large': ['Grand', 'Au-dessus d’un canapé ou d’un lit, ou comme mur signature'],
+    'Extra Large': ['Très grand', 'Une pièce carrée spectaculaire pour un grand mur, un haut plafond ou un espace ouvert']
+  }
+};
+
 /* ===== Site logic (no need to edit below) ===== */
 const $ = (s, el = document) => el.querySelector(s);
 PRODUCTS.forEach((p) => {
@@ -2149,16 +2243,34 @@ PRODUCTS.forEach((p) => {
   p.frames = [...new Set([...FRAME_COLOURS, ...p.frames])];
 });
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const LANG = (() => {
+  const q = new URLSearchParams(location.search).get('lang');
+  if (q === 'fr' || q === 'en') { try { localStorage.setItem('mda-lang', q); } catch (e) {} return q; }
+  try { const saved = localStorage.getItem('mda-lang'); if (saved === 'fr' || saved === 'en') return saved; } catch (e) {}
+  return (navigator.language || '').toLowerCase().startsWith('fr') ? 'fr' : 'en';
+})();
+const T = (en, fr) => (LANG === 'fr' ? fr : en);
+document.documentElement.lang = LANG;
+const frameName = (f) => T(f, FR.frames[f] || f);
+const sizeName = (s) => T(s, (FR.sizes[s] || [s])[0]);
+const sizeFits = (x) => T(x.fits, (FR.sizes[x.name] || [])[1] || x.fits);
+const descOf = (p) => T(p.description, FR.descriptions[p.id] || p.description);
+const colBlurb = (c) => T(c.blurb, (FR.collections[c.id] || [])[1] || c.blurb);
+const aed = (n) => `AED ${n}`;
 const colPrice = (p) => p && (COLLECTIONS.find((c) => c.id === p.category) || {}).price;
 const sizeOf = (s) => SIZES.find((x) => x.name === s) || SIZES[0];
 const priceOf = (f, p, s) => {
   const base = colPrice(p) ?? FRAME_PRICES[f] ?? null;
   return base === null ? null : base + sizeOf(s).extra;
 };
-const colName = (id) => (COLLECTIONS.find((c) => c.id === id) || {}).name || 'Uncategorized (to review)';
+const colName = (id) => {
+  const c = COLLECTIONS.find((x) => x.id === id);
+  if (!c) return T('Uncategorized (to review)', 'Non classé (à revoir)');
+  return T(c.name, (FR.collections[c.id] || [])[0] || c.name);
+};
 const full = (file) => IMAGE_FOLDER + file;
 const thumb = (file) => IMAGE_FOLDER + 'thumbs/' + file;
-const PLACEHOLDER = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500"><rect width="400" height="500" fill="#EFE6D8"/><rect x="40" y="40" width="320" height="420" fill="none" stroke="#C9B48F" stroke-width="2"/><text x="200" y="255" text-anchor="middle" font-family="Georgia,serif" font-size="20" fill="#8C7B6B">Image coming soon</text></svg>');
+const PLACEHOLDER = 'data:image/svg+xml;utf8,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500"><rect width="400" height="500" fill="#EFE6D8"/><rect x="40" y="40" width="320" height="420" fill="none" stroke="#C9B48F" stroke-width="2"/><text x="200" y="255" text-anchor="middle" font-family="Georgia,serif" font-size="20" fill="#8C7B6B">${LANG === 'fr' ? 'Image bientôt disponible' : 'Image coming soon'}</text></svg>`);
 
 // Looks for each photo in several places, so it still works if the "images"
 // folder was uploaded differently (inside another folder, or photos loose at the top).
@@ -2192,24 +2304,32 @@ const ICONS = {
 const icon = (n, s = 20) => `<svg class="icon" width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[n]}</svg>`;
 
 /* ----- WhatsApp ----- */
-const waLink = (text = 'Hello My Dubai Arts! I would like to know more about your wall art.') =>
+const waLink = (text = T('Hello My Dubai Arts! I would like to know more about your wall art.', 'Bonjour My Dubai Arts ! J’aimerais en savoir plus sur vos tableaux.')) =>
   `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
 const productUrl = (p, f, s) => {
   const q = new URLSearchParams();
   if (f) q.set('frame', f);
   if (s) q.set('size', s);
+  if (LANG === 'fr') q.set('lang', 'fr');
   return `${SITE_URL}/p/${p.id}/${q.size ? '?' + q : ''}`;
 };
 const orderLink = (p, f, s) => {
   const pr = priceOf(f, p, s);
-  const msg = [
+  const msg = (LANG === 'fr' ? [
+    `Bonjour My Dubai Arts ! Je souhaite commander le tableau encadré « ${p.name} ».`,
+    f ? `Cadre : ${frameName(f)}.` : 'Cadre : à confirmer.',
+    s ? `Taille : ${sizeName(s)} (${sizeOf(s).cm}).` : `Taille : à confirmer (${SIZES.map((x) => `${sizeName(x.name)} ${x.cm}`).join(' ou ')}).`,
+    pr ? (s ? `Prix : AED ${pr}.` : `Prix : à partir de AED ${pr}.`) : '',
+    `Lien : ${productUrl(p, f, s)}`,
+    'Merci de me confirmer la disponibilité et la livraison.',
+  ] : [
     `Hello My Dubai Arts! I would like to order the '${p.name}' framed artwork.`,
     f ? `Frame: ${f}.` : 'Frame: please advise.',
     s ? `Size: ${s} (${sizeOf(s).cm}).` : `Size: please advise (${SIZES.map((x) => `${x.name} ${x.cm}`).join(' or ')}).`,
     pr ? (s ? `Price: AED ${pr}.` : `Price: from AED ${pr}.`) : '',
     `Link: ${productUrl(p, f, s)}`,
     'Please confirm availability and delivery.',
-  ].filter(Boolean).join(' ');
+  ]).filter(Boolean).join(' ');
   return waLink(msg);
 };
 
@@ -2217,28 +2337,28 @@ const orderLink = (p, f, s) => {
 
 const frameSlug = (f) => f.replace(/\W+/g, '').toLowerCase();
 const artSrc = (p, small, size) => `images/art/${size && sizeOf(size).square ? 'square/' : ''}${small ? 'thumbs/' : ''}${p.id}.jpg`;
-const framed = (p, f, small = true, size) => `<span class="framed framed--${frameSlug(f)}"><img class="framed__art" src="${artSrc(p, small, size)}" alt="${esc(p.name)} in a ${esc(f.toLowerCase())} frame" ${small ? 'loading="lazy" ' : ''}decoding="async" onerror="this.closest('.frame-stage, .frame-swatch')?.classList.add('is-missing')"></span>`;
+const framed = (p, f, small = true, size) => `<span class="framed framed--${frameSlug(f)}"><img class="framed__art" src="${artSrc(p, small, size)}" alt="${esc(T(`${p.name} in a ${f.toLowerCase()} frame`, `${p.name}, cadre ${frameName(f).toLowerCase()}`))}" ${small ? 'loading="lazy" ' : ''}decoding="async" onerror="this.closest('.frame-stage, .frame-swatch')?.classList.add('is-missing')"></span>`;
 const stage = (p, f, small = true, size) => `<span class="frame-stage">${framed(p, f, small, size)}</span>`;
 
-const frameColours = (p, sel, size) => `<div class="frame-swatches" role="radiogroup" aria-label="Frame colour for ${esc(p.name)}">${p.frames.map(
-  (f) => `<button type="button" role="radio" aria-checked="${f === sel}" class="frame-swatch ${f === sel ? 'is-selected' : ''}" data-frame="${esc(f)}">${stage(p, f, true, size)}<span class="frame-swatch__name">${esc(f)}</span>${priceOf(f, p, size) ? `<span class="frame-swatch__price">AED ${priceOf(f, p, size)}</span>` : ''}</button>`
+const frameColours = (p, sel, size) => `<div class="frame-swatches" role="radiogroup" aria-label="${T('Frame colour for', 'Couleur du cadre pour')} ${esc(p.name)}">${p.frames.map(
+  (f) => `<button type="button" role="radio" aria-checked="${f === sel}" class="frame-swatch ${f === sel ? 'is-selected' : ''}" data-frame="${esc(f)}">${stage(p, f, true, size)}<span class="frame-swatch__name">${esc(frameName(f))}</span>${priceOf(f, p, size) ? `<span class="frame-swatch__price">AED ${priceOf(f, p, size)}</span>` : ''}</button>`
 ).join('')}</div>
-<dl class="frame-guide">${p.frames.map((f) => `<div><dt>${esc(f)} frame</dt><dd>${esc(FRAME_GUIDE[f] || '')}</dd></div>`).join('')}</dl>
-<p class="frame-note">Every frame is made to order. We confirm your frame colour on WhatsApp before your order is finalised.</p>`;
+<dl class="frame-guide">${p.frames.map((f) => `<div><dt>${esc(T(`${f} frame`, `Cadre ${frameName(f).toLowerCase()}`))}</dt><dd>${esc(T(FRAME_GUIDE[f] || '', FR.frameGuide[f] || ''))}</dd></div>`).join('')}</dl>
+<p class="frame-note">${T('Every frame is made to order. We confirm your frame colour on WhatsApp before your order is finalised.', 'Chaque cadre est fabriqué sur commande. Nous confirmons la couleur de votre cadre sur WhatsApp avant de finaliser la commande.')}</p>`;
 
 const chips = (p, sel, big = false, size) =>
   p.frames.length
-    ? `<div class="frame-picker ${big ? 'frame-picker--lg' : ''}" role="radiogroup" aria-label="Frame style for ${esc(p.name)}">${p.frames
+    ? `<div class="frame-picker ${big ? 'frame-picker--lg' : ''}" role="radiogroup" aria-label="${T('Frame style for', 'Cadre pour')} ${esc(p.name)}">${p.frames
         .map(
-          (f) => `<button type="button" role="radio" aria-checked="${f === sel}" class="frame-chip ${f === sel ? 'is-selected' : ''}" data-frame="${esc(f)}"><span class="frame-chip__swatch frame-chip__swatch--${f.replace(/\W+/g, '').toLowerCase()}" aria-hidden="true"></span>${esc(f)}${big && priceOf(f, p, size) ? `<span class="frame-chip__price">AED ${priceOf(f, p, size)}</span>` : ''}</button>`
+          (f) => `<button type="button" role="radio" aria-checked="${f === sel}" class="frame-chip ${f === sel ? 'is-selected' : ''}" data-frame="${esc(f)}"><span class="frame-chip__swatch frame-chip__swatch--${f.replace(/\W+/g, '').toLowerCase()}" aria-hidden="true"></span>${esc(frameName(f))}${big && priceOf(f, p, size) ? `<span class="frame-chip__price">AED ${priceOf(f, p, size)}</span>` : ''}</button>`
         )
         .join('')}</div>`
-    : '<p class="frame-picker__review">Frame to be confirmed</p>';
+    : `<p class="frame-picker__review">${T('Frame to be confirmed', 'Cadre à confirmer')}</p>`;
 
-const sizePicker = (p, frame, sel) => `<div class="size-picker" role="radiogroup" aria-label="Size for ${esc(p.name)}">${SIZES.map(
-  (s) => `<button type="button" role="radio" aria-checked="${s.name === sel}" class="size-chip ${s.name === sel ? 'is-selected' : ''}" data-size="${esc(s.name)}"><span class="size-chip__name">${esc(s.name)}</span><span class="size-chip__cm">${esc(s.cm)}</span>${priceOf(frame, p, s.name) ? `<span class="size-chip__price">AED ${priceOf(frame, p, s.name)}</span>` : ''}</button>`
+const sizePicker = (p, frame, sel) => `<div class="size-picker" role="radiogroup" aria-label="${T('Size for', 'Taille pour')} ${esc(p.name)}">${SIZES.map(
+  (s) => `<button type="button" role="radio" aria-checked="${s.name === sel}" class="size-chip ${s.name === sel ? 'is-selected' : ''}" data-size="${esc(s.name)}"><span class="size-chip__name">${esc(sizeName(s.name))}</span><span class="size-chip__cm">${esc(s.cm)}</span>${priceOf(frame, p, s.name) ? `<span class="size-chip__price">AED ${priceOf(frame, p, s.name)}</span>` : ''}</button>`
 ).join('')}</div>
-<details class="size-guide"><summary>Size guide</summary><ul>${SIZES.map((s) => `<li><strong>${esc(s.name)}, ${esc(s.cm)}:</strong> ${esc(s.fits)}.</li>`).join('')}</ul><p>Sizes include the frame. Extra Large is square, so portrait artworks get extra space around them; we confirm the layout with you on WhatsApp. Need another size? Ask us on WhatsApp.</p></details>`;
+<details class="size-guide"><summary>${T('Size guide', 'Guide des tailles')}</summary><ul>${SIZES.map((s) => `<li><strong>${esc(sizeName(s.name))}, ${esc(s.cm)}${T(':', ' :')}</strong> ${esc(sizeFits(s))}.</li>`).join('')}</ul><p>${T('Sizes include the frame. Extra Large is square, so portrait artworks get extra space around them; we confirm the layout with you on WhatsApp. Need another size? Ask us on WhatsApp.', 'Les dimensions incluent le cadre. Le format Très grand est carré : les œuvres en hauteur ont donc un peu d’espace autour, et nous validons la mise en page avec vous sur WhatsApp. Besoin d’une autre taille ? Demandez-nous sur WhatsApp.')}</p></details>`;
 
 const card = (p, frame) => {
   const f = frame && p.frames.includes(frame) ? frame : p.firstFrame;
@@ -2246,62 +2366,64 @@ const card = (p, frame) => {
   const ph = shot || p.photos[0];
   const pr = priceOf(f, p);
   return `<article class="card" data-id="${p.id}" data-current="${esc(f || '')}">
-    <button type="button" class="card__media" data-open="${p.id}" aria-label="View details of ${esc(p.name)}">
+    <button type="button" class="card__media" data-open="${p.id}" aria-label="${T('View details of', 'Voir les détails de')} ${esc(p.name)}">
       ${shot ? img(ph[0], ph[2], true, 'width="720" height="900"') : stage(p, f)}
-      ${p.photos.length > 1 ? `<span class="card__badge">${p.photos.length} photos</span>` : ''}
+      ${p.photos.length > 1 ? `<span class="card__badge">${p.photos.length} ${T('photos', 'photos')}</span>` : ''}
     </button>
     <div class="card__body">
       <p class="card__collection">${esc(colName(p.category))}</p>
       <h3 class="card__title">${esc(p.name)}</h3>
-      <p class="card__price">${pr ? 'From AED ' + pr : 'Price on request'}</p>
+      <p class="card__price">${pr ? T('From AED ', 'Dès AED ') + pr : T('Price on request', 'Prix sur demande')}</p>
       ${chips(p, f)}
       <div class="card__actions">
-        <button type="button" class="btn btn--outline btn--sm" data-open="${p.id}">View Details</button>
-        <a class="btn btn--wa btn--sm" href="${orderLink(p, f)}" target="_blank" rel="noopener noreferrer">${icon('chat', 16)} Order on WhatsApp</a>
+        <button type="button" class="btn btn--outline btn--sm" data-open="${p.id}">${T('View Details', 'Voir les détails')}</button>
+        <a class="btn btn--wa btn--sm" href="${orderLink(p, f)}" target="_blank" rel="noopener noreferrer">${icon('chat', 16)} ${T('Order on WhatsApp', 'Commander sur WhatsApp')}</a>
       </div>
     </div>
   </article>`;
 };
 
 /* ----- Page ----- */
-const NAV = [['home', 'Home'], ['shop', 'Shop All'], ['collections', 'Collections'], ['delivery', 'Delivery'], ['contact', 'Contact']];
+const NAV = [['home', T('Home', 'Accueil')], ['shop', T('Shop All', 'Boutique')], ['collections', T('Collections', 'Collections')], ['delivery', T('Delivery', 'Livraison')], ['contact', T('Contact', 'Contact')]];
+const langSwitch = (cls = '') => `<button type="button" class="lang-switch ${cls}" data-lang="${T('fr', 'en')}" aria-label="${T('Voir le site en français', 'View the site in English')}"><span class="${LANG === 'en' ? 'is-on' : ''}">EN</span><span aria-hidden="true">/</span><span class="${LANG === 'fr' ? 'is-on' : ''}">FR</span></button>`;
 const count = (id) => PRODUCTS.filter((p) => p.category === id).length;
 
 document.getElementById('app').innerHTML = `
-<a class="skip-link" href="#shop">Skip to artworks</a>
+<a class="skip-link" href="#shop">${T('Skip to artworks', 'Aller aux tableaux')}</a>
 <header class="header" id="header">
   <div class="header__inner container">
     <a href="#home" class="wordmark" data-go="home"><span class="wordmark__my">My</span> Dubai Arts</a>
-    <nav class="nav" aria-label="Main">${NAV.map(([id, l]) => `<button type="button" class="nav__link" data-go="${id}">${l}</button>`).join('')}</nav>
-    <button type="button" class="btn btn--dark header__cta" data-go="shop">Shop Now</button>
-    <button type="button" class="header__toggle" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">${icon('menu', 26)}</button>
+    <nav class="nav" aria-label="${T('Main', 'Principal')}">${NAV.map(([id, l]) => `<button type="button" class="nav__link" data-go="${id}">${l}</button>`).join('')}</nav>
+    ${langSwitch()}
+    <button type="button" class="btn btn--dark header__cta" data-go="shop">${T('Shop Now', 'Boutique')}</button>
+    <button type="button" class="header__toggle" id="menuBtn" aria-label="${T('Open menu', 'Ouvrir le menu')}" aria-expanded="false" aria-controls="mobile-menu">${icon('menu', 26)}</button>
   </div>
   <div id="mobile-menu" class="mobile-menu">
     ${NAV.map(([id, l]) => `<button type="button" class="mobile-menu__link" data-go="${id}">${l}</button>`).join('')}
-    <button type="button" class="btn btn--dark btn--block" data-go="shop">Shop Now</button>
+    <button type="button" class="btn btn--dark btn--block" data-go="shop">${T('Shop Now', 'Découvrir la boutique')}</button>
   </div>
 </header>
 
 <main>
 <section id="home" class="hero" aria-labelledby="hero-title">
   <div class="hero__brand container">
-    <img class="hero__logo" src="images/logo-mark.png" alt="My Dubai Arts logo" width="179" height="220">
-    <p class="hero__slogan">Digitally created, professionally printed &amp; framed.</p>
+    <img class="hero__logo" src="images/logo-mark.png" alt="${T('My Dubai Arts logo', 'Logo My Dubai Arts')}" width="179" height="220">
+    <p class="hero__slogan">${T('Digitally created, professionally printed &amp; framed.', 'Créé numériquement, imprimé et encadré par des professionnels.')}</p>
   </div>
   <div class="hero__inner container">
     <div class="hero__copy">
-      <p class="hero__kicker">Framed wall art, delivered across the UAE</p>
-      <h1 id="hero-title" class="hero__title">Art That Makes Your Space Feel Like Home</h1>
-      <p class="hero__text">Discover elegant wall art designed to inspire your everyday life and elevate your interiors.</p>
+      <p class="hero__kicker">${T('Framed wall art, delivered across the UAE', 'Tableaux encadrés, livrés partout aux Émirats')}</p>
+      <h1 id="hero-title" class="hero__title">${T('Art That Makes Your Space Feel Like Home', 'L’art qui sublime votre intérieur')}</h1>
+      <p class="hero__text">${T('Discover elegant wall art designed to inspire your everyday life and elevate your interiors.', 'Découvrez des tableaux élégants pensés pour inspirer votre quotidien et sublimer votre intérieur.')}</p>
       <div class="hero__actions">
-        <button type="button" class="btn btn--dark" data-go="collections">Explore the Collection</button>
-        <a class="btn btn--outline" href="${waLink()}" target="_blank" rel="noopener noreferrer">${icon('chat', 18)} Order on WhatsApp</a>
+        <button type="button" class="btn btn--dark" data-go="collections">${T('Explore the Collection', 'Découvrir la collection')}</button>
+        <a class="btn btn--outline" href="${waLink()}" target="_blank" rel="noopener noreferrer">${icon('chat', 18)} ${T('Order on WhatsApp', 'Commander sur WhatsApp')}</a>
       </div>
-      <p class="hero__prices"><span>White frame <strong>AED 150</strong></span><span class="hero__prices-sep" aria-hidden="true"></span><span>Gold frame <strong>AED 200</strong></span></p>
+      <p class="hero__prices"><span>${T('White frame', 'Cadre blanc')} <strong>AED 150</strong></span><span class="hero__prices-sep" aria-hidden="true"></span><span>${T('Black or gold frame', 'Cadre noir ou doré')} <strong>AED 200</strong></span></p>
     </div>
     <figure class="hero__art">
-      <div class="hero__frame">${img('peace-gratitude-gold.jpg', 'Peace and Gratitude prints in gold frames above a brown velvet sofa', false, 'width="1312" height="1199" fetchpriority="high"')}</div>
-      <figcaption class="hero__caption">Peace &amp; Gratitude, gold frames</figcaption>
+      <div class="hero__frame">${img('peace-gratitude-gold.jpg', T('Peace and Gratitude prints in gold frames above a brown velvet sofa', 'Tableaux Peace et Gratitude en cadres dorés au-dessus d’un canapé en velours marron'), false, 'width="1312" height="1199" fetchpriority="high"')}</div>
+      <figcaption class="hero__caption">${T('Peace &amp; Gratitude, gold frames', 'Peace &amp; Gratitude, cadres dorés')}</figcaption>
     </figure>
   </div>
 </section>
@@ -2313,12 +2435,12 @@ document.getElementById('app').innerHTML = `
       ${img('new-era-of-me-gold.jpg', '', true, 'class="intro__img intro__img--b"')}
     </div>
     <div class="intro__copy">
-      <h2 id="intro-title" class="section-title">A home should hold you softly and push you forward</h2>
-      <p class="intro__lead">My Dubai Arts creates wall art for women who want their home to feel cozy, elegant and quietly powerful. A print above your sofa sets the mood of the whole room. A few words by your desk can change how you start your day. We design pieces that do both: they make your space feel warm and feminine, and they fill it with confidence, love and ambition.</p>
+      <h2 id="intro-title" class="section-title">${T('A home should hold you softly and push you forward', 'Un intérieur doit vous envelopper de douceur et vous pousser à avancer')}</h2>
+      <p class="intro__lead">${T('My Dubai Arts creates wall art for women who want their home to feel cozy, elegant and quietly powerful. A print above your sofa sets the mood of the whole room. A few words by your desk can change how you start your day. We design pieces that do both: they make your space feel warm and feminine, and they fill it with confidence, love and ambition.', 'My Dubai Arts crée des tableaux pour les femmes qui veulent un intérieur cosy, élégant et discrètement puissant. Un tableau au-dessus du canapé donne le ton de toute la pièce. Quelques mots près de votre bureau peuvent changer votre façon de commencer la journée. Nos pièces font les deux : elles rendent votre espace chaleureux et féminin, et le remplissent de confiance, d’amour et d’ambition.')}</p>
       <div class="intro__qualities">
-        <div><h3 class="quality__title">A soft, feminine warmth</h3><p class="quality__text">Ivory, blush, burgundy and gold. Our colours are chosen to make a room feel gentle and lived-in, like a space that was made for you.</p></div>
-        <div><h3 class="quality__title">Energy you can feel</h3><p class="quality__text">Affirmations, bold women, red lips and the Dubai skyline. Every piece is there to lift your mood each time you walk past it.</p></div>
-        <div><h3 class="quality__title">Framed and ready to hang</h3><p class="quality__text">Each artwork arrives in a white or gold frame, so the moment it is delivered, your wall is done.</p></div>
+        <div><h3 class="quality__title">${T('A soft, feminine warmth', 'Une douceur féminine')}</h3><p class="quality__text">${T('Ivory, blush, burgundy and gold. Our colours are chosen to make a room feel gentle and lived-in, like a space that was made for you.', 'Ivoire, rose poudré, bordeaux et or. Nos couleurs rendent une pièce douce et accueillante, comme un espace pensé pour vous.')}</p></div>
+        <div><h3 class="quality__title">${T('Energy you can feel', 'Une énergie qui se ressent')}</h3><p class="quality__text">${T('Affirmations, bold women, red lips and the Dubai skyline. Every piece is there to lift your mood each time you walk past it.', 'Affirmations, femmes audacieuses, lèvres rouges et skyline de Dubaï. Chaque pièce est là pour vous redonner le sourire à chaque passage.')}</p></div>
+        <div><h3 class="quality__title">${T('Framed and ready to hang', 'Encadré et prêt à accrocher')}</h3><p class="quality__text">${T('Each artwork arrives in a black, gold or white frame, so the moment it is delivered, your wall is done.', 'Chaque tableau arrive dans un cadre noir, doré ou blanc : dès la livraison, votre mur est prêt.')}</p></div>
       </div>
     </div>
   </div>
@@ -2327,8 +2449,8 @@ document.getElementById('app').innerHTML = `
 <section class="section featured" aria-labelledby="featured-title">
   <div class="container">
     <div class="section-head section-head--row">
-      <div><h2 id="featured-title" class="section-title">Most loved pieces</h2><p class="section-sub">A few favourites to start with.</p></div>
-      <button type="button" class="btn btn--outline" data-go="shop">View all artworks</button>
+      <div><h2 id="featured-title" class="section-title">${T('Most loved pieces', 'Nos coups de cœur')}</h2><p class="section-sub">${T('A few favourites to start with.', 'Quelques favoris pour commencer.')}</p></div>
+      <button type="button" class="btn btn--outline" data-go="shop">${T('View all artworks', 'Voir tous les tableaux')}</button>
     </div>
     <div class="featured__rail">${PRODUCTS.filter((p) => p.featured).map((p) => card(p)).join('')}</div>
   </div>
@@ -2336,35 +2458,35 @@ document.getElementById('app').innerHTML = `
 
 <section id="collections" class="section collections" aria-labelledby="collections-title">
   <div class="container">
-    <div class="section-head"><h2 id="collections-title" class="section-title">Shop by collection</h2><p class="section-sub">Eight moods for every room. Choose one to see its pieces.</p></div>
+    <div class="section-head"><h2 id="collections-title" class="section-title">${T('Shop by collection', 'Nos collections')}</h2><p class="section-sub">${T('Eight moods for every room. Choose one to see its pieces.', 'Huit ambiances pour chaque pièce. Choisissez-en une pour voir ses tableaux.')}</p></div>
     <ul class="collections__grid">${COLLECTIONS.map(
       (c) => `<li><button type="button" class="collection-tile" data-collection="${c.id}">
         <span class="collection-tile__media">${img(c.cover, '', true)}</span>
-        <span class="collection-tile__body"><span class="collection-tile__name">${esc(c.name)}</span><span class="collection-tile__blurb">${esc(c.blurb)}</span><span class="collection-tile__count">${count(c.id)} ${count(c.id) === 1 ? 'artwork' : 'artworks'}</span></span>
+        <span class="collection-tile__body"><span class="collection-tile__name">${esc(colName(c.id))}</span><span class="collection-tile__blurb">${esc(colBlurb(c))}</span><span class="collection-tile__count">${count(c.id)} ${count(c.id) === 1 ? T('artwork', 'tableau') : T('artworks', 'tableaux')}</span></span>
       </button></li>`
     ).join('')}</ul>
   </div>
 </section>
 
-<section class="pricing" aria-label="Frame prices">
+<section class="pricing" aria-label="${T('Frame prices', 'Prix des cadres')}">
   <div class="container pricing__inner">
-    <div class="price-tile"><span class="price-tile__swatch price-tile__swatch--white" aria-hidden="true"></span><div><p class="price-tile__name">White frame</p><p class="price-tile__note">Fresh, light and modern</p></div><p class="price-tile__price">AED 150</p></div>
-    <div class="price-tile"><span class="price-tile__swatch price-tile__swatch--gold" aria-hidden="true"></span><div><p class="price-tile__name">Black &amp; gold frames</p><p class="price-tile__note">Bold black or luxurious gold</p></div><p class="price-tile__price">AED 200</p></div>
-    <div class="price-tile"><span class="price-tile__swatch price-tile__swatch--exotic" aria-hidden="true"></span><div><p class="price-tile__name">Ultra Exotic Art</p><p class="price-tile__note">Bold statement pieces</p></div><p class="price-tile__price">AED 350</p></div>
-    <p class="pricing__note">${icon('frame', 18)} Prices are per framed artwork in Medium, 50 × 70 cm. Large, 70 × 100 cm, is AED 100 more and Extra Large, 100 × 100 cm, is AED 200 more.</p>
+    <div class="price-tile"><span class="price-tile__swatch price-tile__swatch--white" aria-hidden="true"></span><div><p class="price-tile__name">${T('White frame', 'Cadre blanc')}</p><p class="price-tile__note">${T('Fresh, light and modern', 'Frais, lumineux et moderne')}</p></div><p class="price-tile__price">AED 150</p></div>
+    <div class="price-tile"><span class="price-tile__swatch price-tile__swatch--gold" aria-hidden="true"></span><div><p class="price-tile__name">${T('Black &amp; gold frames', 'Cadres noirs &amp; dorés')}</p><p class="price-tile__note">${T('Bold black or luxurious gold', 'Noir audacieux ou or luxueux')}</p></div><p class="price-tile__price">AED 200</p></div>
+    <div class="price-tile"><span class="price-tile__swatch price-tile__swatch--exotic" aria-hidden="true"></span><div><p class="price-tile__name">Ultra Exotic Art</p><p class="price-tile__note">${T('Bold statement pieces', 'Pièces audacieuses et spectaculaires')}</p></div><p class="price-tile__price">AED 350</p></div>
+    <p class="pricing__note">${icon('frame', 18)} ${T('Prices are per framed artwork in Medium, 50 × 70 cm. Large, 70 × 100 cm, is AED 100 more and Extra Large, 100 × 100 cm, is AED 200 more.', 'Prix par tableau encadré en taille Moyen, 50 × 70 cm. Le Grand, 70 × 100 cm, coûte AED 100 de plus et le Très grand, 100 × 100 cm, AED 200 de plus.')}</p>
   </div>
 </section>
 
 <section id="shop" class="section shop" aria-labelledby="shop-title">
   <div class="container">
-    <div class="section-head"><h2 id="shop-title" class="section-title">All artworks</h2><p class="section-sub" id="shop-sub">Every artwork comes framed, in Medium, Large or Extra Large. In Medium, white frames are AED 150, black, gold or premium frames are AED 200 and Ultra Exotic Art pieces are AED 350.</p></div>
+    <div class="section-head"><h2 id="shop-title" class="section-title"></h2><p class="section-sub" id="shop-sub"></p></div>
     <div class="toolbar" role="search">
-      <label class="field field--search"><span class="sr-only">Search artworks by name</span>${icon('search', 18)}<input id="q" type="search" placeholder="Search by name"></label>
-      <label class="field"><span class="field__label">Collection</span><select id="col"><option value="all">View all</option>${COLLECTIONS.map((c) => `<option value="${c.id}">${esc(c.name)}</option>`).join('')}${PRODUCTS.some((p) => !COLLECTIONS.find((c) => c.id === p.category)) ? '<option value="uncategorized">Uncategorized (to review)</option>' : ''}</select></label>
-      <label class="field"><span class="field__label">Frame and price</span><select id="fg"><option value="all">All frames</option><option value="white">White frame, AED 150</option><option value="premium">Black, gold &amp; premium, AED 200</option></select></label>
-      <label class="field"><span class="field__label">Sort</span><select id="sort"><option value="featured">Featured first</option><option value="price-asc">Price: low to high</option><option value="price-desc">Price: high to low</option><option value="name">Name: A to Z</option></select></label>
+      <label class="field field--search"><span class="sr-only">${T('Search artworks by name', 'Rechercher un tableau par nom')}</span>${icon('search', 18)}<input id="q" type="search" placeholder="${T('Search by name', 'Rechercher par nom')}"></label>
+      <label class="field"><span class="field__label">${T('Collection', 'Collection')}</span><select id="col"><option value="all">${T('View all', 'Toutes')}</option>${COLLECTIONS.map((c) => `<option value="${c.id}">${esc(colName(c.id))}</option>`).join('')}${PRODUCTS.some((p) => !COLLECTIONS.find((c) => c.id === p.category)) ? `<option value="uncategorized">${colName('')}</option>` : ''}</select></label>
+      <label class="field"><span class="field__label">${T('Frame and price', 'Cadre et prix')}</span><select id="fg"><option value="all">${T('All frames', 'Tous les cadres')}</option><option value="white">${T('White frame, AED 150', 'Cadre blanc, AED 150')}</option><option value="premium">${T('Black, gold &amp; premium, AED 200', 'Noir, doré &amp; premium, AED 200')}</option></select></label>
+      <label class="field"><span class="field__label">${T('Sort', 'Trier')}</span><select id="sort"><option value="featured">${T('Featured first', 'Coups de cœur d’abord')}</option><option value="price-asc">${T('Price: low to high', 'Prix croissant')}</option><option value="price-desc">${T('Price: high to low', 'Prix décroissant')}</option><option value="name">${T('Name: A to Z', 'Nom : A à Z')}</option></select></label>
     </div>
-    <div class="shop__meta"><p id="count" aria-live="polite"></p><button type="button" class="link-btn" id="clear" hidden>Clear filters</button></div>
+    <div class="shop__meta"><p id="count" aria-live="polite"></p><button type="button" class="link-btn" id="clear" hidden>${T('Clear filters', 'Effacer les filtres')}</button></div>
     <div id="grid" class="grid"></div>
   </div>
 </section>
@@ -2372,35 +2494,35 @@ document.getElementById('app').innerHTML = `
 <section id="delivery" class="section delivery" aria-labelledby="delivery-title">
   <div class="container delivery__inner">
     <span class="delivery__icon">${icon('package', 34)}</span>
-    <h2 id="delivery-title" class="section-title">Delivery Across the UAE</h2>
-    <p class="delivery__text">Discover your favourite wall art and have it delivered to your doorstep. We offer delivery across all seven emirates of the United Arab Emirates, with delivery expected within 3 days.</p>
-    <ul class="delivery__emirates" aria-label="Emirates we deliver to">${['Abu Dhabi', 'Dubai', 'Sharjah', 'Ajman', 'Umm Al Quwain', 'Ras Al Khaimah', 'Fujairah'].map((e) => `<li>${e}</li>`).join('')}</ul>
+    <h2 id="delivery-title" class="section-title">${T('Delivery Across the UAE', 'Livraison partout aux Émirats')}</h2>
+    <p class="delivery__text">${T('Discover your favourite wall art and have it delivered to your doorstep. We offer delivery across all seven emirates of the United Arab Emirates, with delivery expected within 3 days.', 'Choisissez votre tableau préféré et recevez-le directement chez vous. Nous livrons dans les sept émirats des Émirats arabes unis, en 3 jours environ.')}</p>
+    <ul class="delivery__emirates" aria-label="${T('Emirates we deliver to', 'Émirats où nous livrons')}">${['Abu Dhabi', T('Dubai', 'Dubaï'), T('Sharjah', 'Charjah'), 'Ajman', 'Umm Al Quwain', 'Ras Al Khaimah', 'Fujairah'].map((e) => `<li>${e}</li>`).join('')}</ul>
   </div>
 </section>
 
 <section id="contact" class="section contact" aria-labelledby="contact-title">
   <div class="container contact__inner">
     <div class="contact__copy">
-      <h2 id="contact-title" class="section-title">Order or ask us anything on WhatsApp</h2>
-      <p>Tell us which artwork you love and the frame you would like. We will confirm availability and arrange delivery.</p>
-      <a class="btn btn--wa btn--lg" href="${waLink()}" target="_blank" rel="noopener noreferrer">${icon('chat', 20)} Chat on WhatsApp</a>
+      <h2 id="contact-title" class="section-title">${T('Order or ask us anything on WhatsApp', 'Commandez ou posez-nous vos questions sur WhatsApp')}</h2>
+      <p>${T('Tell us which artwork you love and the frame you would like. We will confirm availability and arrange delivery.', 'Dites-nous quel tableau vous plaît et le cadre que vous souhaitez. Nous confirmons la disponibilité et organisons la livraison.')}</p>
+      <a class="btn btn--wa btn--lg" href="${waLink()}" target="_blank" rel="noopener noreferrer">${icon('chat', 20)} ${T('Chat on WhatsApp', 'Discuter sur WhatsApp')}</a>
       <p class="contact__number">WhatsApp: <a href="${waLink()}" target="_blank" rel="noopener noreferrer">${WHATSAPP_DISPLAY}</a></p>
     </div>
-    <div class="contact__image">${img('manifest-your-dreams-gold.jpg', 'Manifest Your Dreams print in a gold frame in a bright Dubai apartment')}</div>
+    <div class="contact__image">${img('manifest-your-dreams-gold.jpg', T('Manifest Your Dreams print in a gold frame in a bright Dubai apartment', 'Tableau Manifest Your Dreams en cadre doré dans un appartement lumineux à Dubaï'))}</div>
   </div>
 </section>
 </main>
 
 <footer class="footer">
   <div class="container footer__grid">
-    <div><p class="footer__brand"><span class="wordmark__my">My</span> Dubai Arts</p><p class="footer__about">Digitally created art, professionally printed and framed, to make your home feel cozy, feminine and full of positive energy.</p></div>
-    <nav aria-label="Footer"><p class="footer__heading">Explore</p><ul class="footer__links">${NAV.map(([id, l]) => `<li><button type="button" data-go="${id}">${l}</button></li>`).join('')}</ul></nav>
-    <div><p class="footer__heading">Delivery</p><p>Across all seven emirates of the UAE, expected within 3 days.</p><p class="footer__heading footer__heading--gap">WhatsApp</p><a href="${waLink()}" target="_blank" rel="noopener noreferrer">${WHATSAPP_DISPLAY}</a></div>
+    <div><p class="footer__brand"><span class="wordmark__my">My</span> Dubai Arts</p><p class="footer__about">${T('Digitally created art, professionally printed and framed, to make your home feel cozy, feminine and full of positive energy.', 'Des œuvres créées numériquement, imprimées et encadrées par des professionnels, pour un intérieur cosy, féminin et plein d’énergie positive.')}</p></div>
+    <nav aria-label="Footer"><p class="footer__heading">${T('Explore', 'Explorer')}</p><ul class="footer__links">${NAV.map(([id, l]) => `<li><button type="button" data-go="${id}">${l}</button></li>`).join('')}</ul></nav>
+    <div><p class="footer__heading">${T('Delivery', 'Livraison')}</p><p>${T('Across all seven emirates of the UAE, expected within 3 days.', 'Dans les sept émirats, en 3 jours environ.')}</p><p class="footer__heading footer__heading--gap">WhatsApp</p><a href="${waLink()}" target="_blank" rel="noopener noreferrer">${WHATSAPP_DISPLAY}</a></div>
   </div>
-  <div class="container footer__base"><p>© ${new Date().getFullYear()} My Dubai Arts. All rights reserved.</p></div>
+  <div class="container footer__base"><p>© ${new Date().getFullYear()} My Dubai Arts. ${T('All rights reserved.', 'Tous droits réservés.')}</p>${langSwitch('lang-switch--footer')}</div>
 </footer>
 
-<a class="float-wa" href="${waLink()}" target="_blank" rel="noopener noreferrer" aria-label="Chat with My Dubai Arts on WhatsApp">${icon('chat', 26)}</a>
+<a class="float-wa" href="${waLink()}" target="_blank" rel="noopener noreferrer" aria-label="${T('Chat with My Dubai Arts on WhatsApp', 'Discuter avec My Dubai Arts sur WhatsApp')}">${icon('chat', 26)}</a>
 <div id="modalRoot"></div>`;
 
 /* ----- Navigation ----- */
@@ -2442,16 +2564,18 @@ function renderShop() {
   if (S.sort === 'name') list.sort((a, b) => a.name.localeCompare(b.name));
   if (S.sort === 'featured') list.sort((a, b) => Number(!!b.featured) - Number(!!a.featured));
 
-  $('#shop-title').textContent = S.col === 'all' ? 'All artworks' : colName(S.col);
+  $('#shop-title').textContent = S.col === 'all' ? T('All artworks', 'Tous les tableaux') : colName(S.col);
   const cp = (COLLECTIONS.find((c) => c.id === S.col) || {}).price;
   $('#shop-sub').textContent = cp
-    ? `Every artwork comes framed. Every piece in this collection is AED ${cp} in Medium, AED ${cp + SIZES[1].extra} in Large and AED ${cp + SIZES[2].extra} in Extra Large.`
-    : 'Every artwork comes framed, in Medium, Large or Extra Large. In Medium, white frames are AED 150, black, gold or premium frames are AED 200 and Ultra Exotic Art pieces are AED 350.';
-  $('#count').textContent = `${list.length} ${list.length === 1 ? 'artwork' : 'artworks'}`;
+    ? T(`Every artwork comes framed. Every piece in this collection is AED ${cp} in Medium, AED ${cp + SIZES[1].extra} in Large and AED ${cp + SIZES[2].extra} in Extra Large.`,
+        `Chaque tableau est livré encadré. Chaque pièce de cette collection coûte AED ${cp} en Moyen, AED ${cp + SIZES[1].extra} en Grand et AED ${cp + SIZES[2].extra} en Très grand.`)
+    : T('Every artwork comes framed, in Medium, Large or Extra Large. In Medium, white frames are AED 150, black, gold or premium frames are AED 200 and Ultra Exotic Art pieces are AED 350.',
+        'Chaque tableau est livré encadré, en Moyen, Grand ou Très grand. En taille Moyen, le cadre blanc est à AED 150, les cadres noir, doré ou premium à AED 200 et les pièces Ultra Exotic Art à AED 350.');
+  $('#count').textContent = `${list.length} ${list.length === 1 ? T('artwork', 'tableau') : T('artworks', 'tableaux')}`;
   $('#clear').hidden = !(S.q || S.col !== 'all' || S.fg !== 'all' || S.sort !== 'featured');
   $('#grid').innerHTML = list.length
     ? list.map((p) => card(p, preferred(p))).join('')
-    : `<div class="empty" style="grid-column:1/-1"><p>No artworks match these filters. Try another name or collection.</p><button type="button" class="btn btn--outline" id="showAll">Show all artworks</button></div>`;
+    : `<div class="empty" style="grid-column:1/-1"><p>${T('No artworks match these filters. Try another name or collection.', 'Aucun tableau ne correspond. Essayez un autre nom ou une autre collection.')}</p><button type="button" class="btn btn--outline" id="showAll">${T('Show all artworks', 'Voir tous les tableaux')}</button></div>`;
   ['q', 'col', 'fg', 'sort'].forEach((k) => { if ($('#' + k).value !== S[k]) $('#' + k).value = S[k]; });
 }
 const showShop = (col = 'all') => { S.col = col; renderShop(); requestAnimationFrame(() => scrollToId('shop')); };
@@ -2474,22 +2598,22 @@ function renderModal() {
   const many = p.photos.length > 1;
   root.innerHTML = `<div class="modal" id="modalBg">
     <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-      <button type="button" class="modal__close" id="modalClose" aria-label="Close details">${icon('close', 22)}</button>
+      <button type="button" class="modal__close" id="modalClose" aria-label="${T('Close details', 'Fermer')}">${icon('close', 22)}</button>
       <div class="modal__gallery">
         <div class="modal__main">${preview ? stage(p, frame, false, size) : img(ph[0], ph[2], false)}
-          ${many ? `<button type="button" class="modal__nav modal__nav--prev" data-step="-1" aria-label="Previous photo">${icon('left', 22)}</button><button type="button" class="modal__nav modal__nav--next" data-step="1" aria-label="Next photo">${icon('right', 22)}</button>` : ''}
+          ${many ? `<button type="button" class="modal__nav modal__nav--prev" data-step="-1" aria-label="${T('Previous photo', 'Photo précédente')}">${icon('left', 22)}</button><button type="button" class="modal__nav modal__nav--next" data-step="1" aria-label="${T('Next photo', 'Photo suivante')}">${icon('right', 22)}</button>` : ''}
         </div>
-        ${many ? `<div class="modal__thumbs">${p.photos.map((x, i) => `<button type="button" class="modal__thumb ${i === active && !preview ? 'is-active' : ''}" data-photo="${i}" aria-label="Show photo ${i + 1}: ${esc(x[1])} frame">${img(x[0], '', true)}</button>`).join('')}</div>` : ''}
+        ${many ? `<div class="modal__thumbs">${p.photos.map((x, i) => `<button type="button" class="modal__thumb ${i === active && !preview ? 'is-active' : ''}" data-photo="${i}" aria-label="${T('Show photo', 'Voir la photo')} ${i + 1}">${img(x[0], '', true)}</button>`).join('')}</div>` : ''}
       </div>
       <div class="modal__info">
         <p class="modal__collection">${esc(colName(p.category))}</p>
         <h2 id="modal-title" class="modal__title">${esc(p.name)}</h2>
-        <p class="modal__price">${pr ? 'AED ' + pr : 'Price on request'}</p>
-        <p class="modal__desc">${esc(p.description)}</p>
-        <div><p class="modal__label">Choose your frame colour</p>${frameColours(p, frame, size)}</div>
-        <div><p class="modal__label">Choose your size</p>${sizePicker(p, frame, size)}</div>
-        <a class="btn btn--wa btn--lg btn--block" href="${orderLink(p, frame, size)}" target="_blank" rel="noopener noreferrer">${icon('chat', 20)} Order on WhatsApp${pr ? ', AED ' + pr : ''}</a>
-        <div class="modal__delivery">${icon('truck', 22)}<p>Delivered framed to your doorstep in any of the seven emirates, expected within 3 days.</p></div>
+        <p class="modal__price">${pr ? 'AED ' + pr : T('Price on request', 'Prix sur demande')}</p>
+        <p class="modal__desc">${esc(descOf(p))}</p>
+        <div><p class="modal__label">${T('Choose your frame colour', 'Choisissez la couleur du cadre')}</p>${frameColours(p, frame, size)}</div>
+        <div><p class="modal__label">${T('Choose your size', 'Choisissez la taille')}</p>${sizePicker(p, frame, size)}</div>
+        <a class="btn btn--wa btn--lg btn--block" href="${orderLink(p, frame, size)}" target="_blank" rel="noopener noreferrer">${icon('chat', 20)} ${T('Order on WhatsApp', 'Commander sur WhatsApp')}${pr ? ', AED ' + pr : ''}</a>
+        <div class="modal__delivery">${icon('truck', 22)}<p>${T('Delivered framed to your doorstep in any of the seven emirates, expected within 3 days.', 'Livré encadré chez vous, dans les sept émirats, en 3 jours environ.')}</p></div>
       </div>
     </div>
   </div>`;
@@ -2534,6 +2658,14 @@ const chooseFrame = (f) => {
 /* ----- One click handler for the whole page ----- */
 document.addEventListener('click', (e) => {
   const t = e.target;
+  const ls = t.closest('[data-lang]');
+  if (ls) {
+    try { localStorage.setItem('mda-lang', ls.dataset.lang); } catch (err) {}
+    const u = new URL(location.href);
+    u.searchParams.set('lang', ls.dataset.lang);
+    location.href = u.toString();
+    return;
+  }
   const go = t.closest('[data-go]');
   if (go) {
     e.preventDefault();
@@ -2590,7 +2722,7 @@ const fromQuery = () => {
   const q = new URLSearchParams(location.search);
   const id = q.get('product');
   if (!id) return false;
-  history.replaceState(null, '', location.pathname);
+  history.replaceState(null, '', location.pathname + (q.get('lang') ? '?lang=' + q.get('lang') : ''));
   openProduct(id, q.get('frame'), q.get('size'));
   return true;
 };
