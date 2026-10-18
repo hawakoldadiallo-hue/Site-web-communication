@@ -4,10 +4,11 @@ import os, sys
 from PIL import Image, ImageDraw
 import numpy as np
 os.chdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'images', 'art'))
-PAD = {'boss-lady-mood','manifest-your-dreams','never-stop-pushing','new-era-of-me','golden-stiletto','gloss-lips-duo',
-       'crimson-wave','pink-night-drive','rose-on-heels','sage-peach-drip'}
-BLUR = {'watch-me', 'have-your-cake', 'where-is-my-bag', 'one-percent-better'}  # kept whole, sides filled with a soft blurred copy of the artwork
-ALIGN = {'burj-al-arab-shore': 0.0, 'paris-by-night': 0.05}  # crop position for centred crops: 0 = keep the top, 0.5 = centre, 1 = keep the bottom
+PAD = set()  # every square fills the frame completely (centred crop)
+BLUR = set()  # kept whole, sides filled with a soft blurred copy of the artwork
+ALIGN = {'burj-al-arab-shore': 0.0, 'paris-by-night': 0.05, 'boss-lady-mood': 0.0, 'manifest-your-dreams': 0.0, 'never-stop-pushing': 0.0, 'its-you-vs-you': 0.85}
+# Text that is taller (or wider) than a square crop: take a slightly larger square and fill the short sides with a mirrored copy of the artwork's own edge, so the frame is still completely filled
+MIRROR = {'new-era-of-me': 1.14, 'where-is-my-bag': 1.12, 'one-percent-better': 1.13}  # crop position for centred crops: 0 = keep the top, 0.5 = centre, 1 = keep the bottom
 ONE_COLOUR = {'golden-stiletto': 'l'}  # fill both sides with this edge's colour
 def edge(a, side, n):
     strip = {'l': a[:, :n], 'r': a[:, -n:], 't': a[:n], 'b': a[-n:]}[side]
@@ -15,7 +16,21 @@ def edge(a, side, n):
 fs = sorted(f for f in os.listdir('.') if f.endswith('.jpg'))
 for f in fs:
     im = Image.open(f).convert('RGB'); w, h = im.size; pid = f[:-4]
-    if pid in BLUR:
+    if pid in MIRROR:
+        import numpy as np
+        short, long_ = min(w, h), max(w, h)
+        s = min(long_, round(short * MIRROR[pid])); pad = s - short
+        a = np.asarray(im)
+        if h >= w:
+            y0 = (h - s) // 2; a = a[y0:y0 + s]
+            l, r = pad // 2, pad - pad // 2
+            a = np.concatenate([a[:, :l][:, ::-1], a, a[:, -r:][:, ::-1] if r else a[:, :0]], axis=1)
+        else:
+            x0 = (w - s) // 2; a = a[:, x0:x0 + s]
+            tp, bt = pad // 2, pad - pad // 2
+            a = np.concatenate([a[:tp][::-1], a, a[-bt:][::-1] if bt else a[:0]], axis=0)
+        sq = Image.fromarray(a)
+    elif pid in BLUR:
         from PIL import ImageFilter, ImageEnhance
         s = max(w, h); k = s / min(w, h)
         bg = im.resize((round(w * k), round(h * k)), Image.LANCZOS)
