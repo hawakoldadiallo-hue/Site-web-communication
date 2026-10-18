@@ -1559,6 +1559,30 @@ h3 {
   align-self: flex-start;
 }
 
+.mail-form__trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.mail-form__ok {
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--gold-soft);
+  background: #fffdf9;
+  color: var(--bronze);
+}
+
+.mail-form .btn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.mail-form__error a {
+  color: inherit;
+}
+
 .mail-form__error {
   color: #9b2c2c;
   font-size: 0.9rem;
@@ -1894,6 +1918,7 @@ const SITE_URL = 'https://mydubaiarts.online';  // your website address, used in
 const WHATSAPP_NUMBER = '971524001671';      // country code + number, no + or spaces
 const WHATSAPP_DISPLAY = '+971 52 400 1671';
 const CONTACT_EMAIL = 'mydubaiarts@outlook.com';    // questions from the contact form are sent here
+const WEB3FORMS_KEY = '';                           // access key from web3forms.com; empty = the form opens the visitor's email app instead
 
 /* Customer reviews. Only add real reviews you received, with the customer's permission.
    Example: { name: "Sara", city: "Dubai", rating: 5, artwork: "velvet-petals", text: "Beautiful frame, delivered in 2 days!" }
@@ -2687,9 +2712,13 @@ document.getElementById('app').innerHTML = `
           <label class="field"><span class="field__label">${T('Your email', 'Votre email')}</span><input name="email" type="email" autocomplete="email" required></label>
         </div>
         <label class="field"><span class="field__label">${T('Your question', 'Votre question')}</span><textarea name="message" rows="4" required></textarea></label>
+        <input type="checkbox" name="botcheck" class="mail-form__trap" tabindex="-1" autocomplete="off" aria-hidden="true">
         <p class="mail-form__error" id="mailError" role="alert" hidden></p>
-        <button type="submit" class="btn btn--dark">${icon('mail', 18)} ${T('Send by email', 'Envoyer par email')}</button>
-        <p class="mail-form__note">${T('This opens your email app with your message ready to send to', 'Votre application email s’ouvre avec votre message prêt à être envoyé à')} <a href="${mailLink(T('Question for My Dubai Arts', 'Question pour My Dubai Arts'))}">${CONTACT_EMAIL}</a>.</p>
+        <p class="mail-form__ok" id="mailOk" role="status" hidden></p>
+        <button type="submit" class="btn btn--dark" id="mailSend">${icon('mail', 18)} ${WEB3FORMS_KEY ? T('Send my question', 'Envoyer ma question') : T('Send by email', 'Envoyer par email')}</button>
+        <p class="mail-form__note">${WEB3FORMS_KEY
+          ? T('We will reply to the email address you gave us. You can also write to', 'Nous vous répondrons à l’adresse email indiquée. Vous pouvez aussi écrire à')
+          : T('This opens your email app with your message ready to send to', 'Votre application email s’ouvre avec votre message prêt à être envoyé à')} <a href="${mailLink(T('Question for My Dubai Arts', 'Question pour My Dubai Arts'))}">${CONTACT_EMAIL}</a>.</p>
       </form>
     </div>
     <div class="contact__image">${img('manifest-your-dreams-gold.jpg', T('Manifest Your Dreams print in a gold frame in a bright Dubai apartment', 'Tableau Manifest Your Dreams en cadre doré dans un appartement lumineux à Dubaï'))}</div>
@@ -2778,9 +2807,30 @@ $('#mailForm').addEventListener('submit', (e) => {
   const problem = !name || !message ? T('Please add your name and your question.', 'Merci d’indiquer votre prénom et votre question.')
     : !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? T('Please enter a valid email address so we can reply.', 'Merci d’indiquer une adresse email valide pour que nous puissions vous répondre.') : '';
   err.hidden = !problem; err.textContent = problem;
+  $('#mailOk').hidden = true;
   if (problem) return;
+  const subject = T(`Question from ${name}`, `Question de ${name}`);
   const body = `${message}\n\n${T('Name', 'Prénom')}: ${name}\n${T('Email', 'Email')}: ${email}`;
-  location.href = mailLink(T(`Question from ${name}`, `Question de ${name}`), body);
+  if (!WEB3FORMS_KEY) { location.href = mailLink(subject, body); return; }
+  const btn = $('#mailSend');
+  btn.disabled = true;
+  fetch('https://api.web3forms.com/submit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    body: JSON.stringify({ access_key: WEB3FORMS_KEY, subject: `My Dubai Arts: ${subject}`, from_name: 'My Dubai Arts website', name, email, replyto: email, message, language: LANG, botcheck: f.botcheck.checked })
+  })
+    .then((r) => r.json())
+    .then((res) => {
+      if (!res.success) throw new Error(res.message || 'failed');
+      f.reset();
+      $('#mailOk').textContent = T(`Thank you ${name}! Your question has been sent. We will reply to ${email}.`, `Merci ${name} ! Votre question a bien été envoyée. Nous vous répondrons à ${email}.`);
+      $('#mailOk').hidden = false;
+    })
+    .catch(() => {
+      err.innerHTML = `${T('Sorry, your message could not be sent. Please try again, or', 'Désolée, votre message n’a pas pu être envoyé. Réessayez, ou')} <a href="${mailLink(subject, body)}">${T('send it from your email app', 'envoyez-le depuis votre application email')}</a>.`;
+      err.hidden = false;
+    })
+    .finally(() => { btn.disabled = false; });
 });
 
 /* ----- Product details ----- */
