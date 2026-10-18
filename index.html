@@ -1436,6 +1436,154 @@ h3 {
   }
 }
 
+/* ===== Reviews ===== */
+.reviews__head {
+  text-align: center;
+  margin-inline: auto;
+}
+
+.reviews__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+
+.review {
+  margin: 0;
+  padding: 1.6rem;
+  background: #fffdf9;
+  border: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.stars {
+  color: var(--gold);
+  letter-spacing: 0.12em;
+  font-size: 1.05rem;
+}
+
+.stars__off {
+  color: var(--line);
+}
+
+.review__text {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  line-height: 1.45;
+}
+
+.review__by {
+  font-size: 0.9rem;
+  color: var(--taupe-dark);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.6rem;
+  align-items: baseline;
+}
+
+.review__by strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.review__art {
+  color: var(--bronze);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.reviews__empty {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  border: 1px solid var(--gold-soft);
+  background: #fffdf9;
+  color: var(--taupe-dark);
+}
+
+.reviews__empty-title {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+}
+
+.reviews__cta {
+  margin-top: 1.8rem;
+  text-align: center;
+}
+
+/* ===== Email form ===== */
+.mail-form {
+  margin-top: 2.4rem;
+  padding-top: 1.8rem;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.mail-form__title {
+  font-family: var(--serif);
+  font-size: 1.35rem;
+}
+
+.mail-form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.9rem;
+}
+
+.field textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  background: #fffdf9;
+  padding: 0.7rem 0.9rem;
+  border-radius: 0;
+  font: inherit;
+  resize: vertical;
+}
+
+.field textarea:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 0 1px var(--gold);
+}
+
+.mail-form .btn {
+  margin-top: 0.3rem;
+  align-self: flex-start;
+}
+
+.mail-form__error {
+  color: #9b2c2c;
+  font-size: 0.9rem;
+}
+
+.mail-form__note {
+  font-size: 0.85rem;
+  color: var(--taupe-dark);
+}
+
+.mail-form__note a {
+  color: var(--ink);
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 560px) {
+  .mail-form__row {
+    grid-template-columns: 1fr;
+  }
+
+  .mail-form .btn {
+    align-self: stretch;
+  }
+}
+
 /* ===== Footer ===== */
 .footer {
   background: var(--ink);
@@ -1745,6 +1893,13 @@ h3 {
 const SITE_URL = 'https://mydubaiarts.online';  // your website address, used in WhatsApp order links
 const WHATSAPP_NUMBER = '971524001671';      // country code + number, no + or spaces
 const WHATSAPP_DISPLAY = '+971 52 400 1671';
+const CONTACT_EMAIL = 'mydubaiarts@outlook.com';    // questions from the contact form are sent here
+
+/* Customer reviews. Only add real reviews you received, with the customer's permission.
+   Example: { name: "Sara", city: "Dubai", rating: 5, artwork: "velvet-petals", text: "Beautiful frame, delivered in 2 days!" }
+   "artwork" is optional (a product id). The text shows exactly as written. */
+const REVIEWS = [
+];
 const IMAGE_FOLDER = 'images/';              // your photos live in a folder called "images"
 
 // Price comes from the frame. A collection with its own "price" (like Ultra Exotic Art) sets the price of all its pieces.
@@ -2296,6 +2451,7 @@ const ICONS = {
   chat: '<path d="M20 11.5a8 8 0 0 1-11.7 7.1L4 20l1.4-4.1A8 8 0 1 1 20 11.5z"/>',
   search: '<circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/>',
   truck: '<path d="M3 6h11v10H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/>',
+  mail: '<rect x="3" y="5.5" width="18" height="13" rx="1"/><path d="M3.5 6.5l8.5 6.5 8.5-6.5"/>',
   package: '<path d="M12 3l8 4.5v9L12 21l-8-4.5v-9zM4 7.5l8 4.5 8-4.5M12 12v9"/>',
   left: '<path d="M15 5l-7 7 7 7"/>',
   right: '<path d="M9 5l7 7-7 7"/>',
@@ -2306,6 +2462,13 @@ const icon = (n, s = 20) => `<svg class="icon" width="${s}" height="${s}" viewBo
 /* ----- WhatsApp ----- */
 const waLink = (text = T('Hello My Dubai Arts! I would like to know more about your wall art.', 'Bonjour My Dubai Arts ! J’aimerais en savoir plus sur vos tableaux.')) =>
   `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+const mailLink = (subject, body = '') => `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}${body ? '&body=' + encodeURIComponent(body) : ''}`;
+const reviewLink = () => mailLink(T('My review for My Dubai Arts', 'Mon avis pour My Dubai Arts'), T('Artwork I bought:\nMy city:\nMy rating (1 to 5):\nMy review:\n\nI agree that My Dubai Arts may show this review and my first name on its website.', 'Tableau acheté :\nMa ville :\nMa note (1 à 5) :\nMon avis :\n\nJ’accepte que My Dubai Arts affiche cet avis et mon prénom sur son site.'));
+const stars = (n) => `<span class="stars" aria-label="${T(`${n} out of 5 stars`, `${n} étoiles sur 5`)}">${'★'.repeat(n)}<span class="stars__off">${'★'.repeat(5 - n)}</span></span>`;
+const reviewCard = (rv) => {
+  const art = PRODUCTS.find((p) => p.id === rv.artwork);
+  return `<figure class="review"><div>${stars(Math.max(1, Math.min(5, rv.rating || 5)))}</div><blockquote class="review__text">“${esc(rv.text)}”</blockquote><figcaption class="review__by"><span><strong>${esc(rv.name)}</strong>${rv.city ? `, ${esc(rv.city)}` : ''}</span>${art ? `<button type="button" class="review__art" data-open="${art.id}">${esc(art.name)}</button>` : ''}</figcaption></figure>`;
+};
 const productUrl = (p, f, s) => {
   const q = new URLSearchParams();
   if (f) q.set('frame', f);
@@ -2491,6 +2654,16 @@ document.getElementById('app').innerHTML = `
   </div>
 </section>
 
+<section id="reviews" class="section reviews" aria-labelledby="reviews-title">
+  <div class="container">
+    <div class="section-head reviews__head"><h2 id="reviews-title" class="section-title">${T('What our customers say', 'L’avis de nos clientes')}</h2><p class="section-sub">${T('Real words from the homes our art lives in.', 'Les mots de celles qui ont accroché nos tableaux chez elles.')}</p></div>
+    ${REVIEWS.length
+      ? `<div class="reviews__grid">${REVIEWS.map(reviewCard).join('')}</div>`
+      : `<div class="reviews__empty"><p class="reviews__empty-title">${T('Be the first to share your experience', 'Soyez la première à partager votre expérience')}</p><p>${T('Bought a frame from us? We would love to hear how it looks in your home.', 'Vous avez acheté un tableau chez nous ? Nous serions ravies de savoir comment il rend chez vous.')}</p></div>`}
+    <div class="reviews__cta"><a class="btn btn--outline" href="${reviewLink()}">${icon('mail', 18)} ${T('Leave a review', 'Laisser un avis')}</a></div>
+  </div>
+</section>
+
 <section id="delivery" class="section delivery" aria-labelledby="delivery-title">
   <div class="container delivery__inner">
     <span class="delivery__icon">${icon('package', 34)}</span>
@@ -2507,6 +2680,17 @@ document.getElementById('app').innerHTML = `
       <p>${T('Tell us which artwork you love and the frame you would like. We will confirm availability and arrange delivery.', 'Dites-nous quel tableau vous plaît et le cadre que vous souhaitez. Nous confirmons la disponibilité et organisons la livraison.')}</p>
       <a class="btn btn--wa btn--lg" href="${waLink()}" target="_blank" rel="noopener noreferrer">${icon('chat', 20)} ${T('Chat on WhatsApp', 'Discuter sur WhatsApp')}</a>
       <p class="contact__number">WhatsApp: <a href="${waLink()}" target="_blank" rel="noopener noreferrer">${WHATSAPP_DISPLAY}</a></p>
+      <form class="mail-form" id="mailForm" novalidate>
+        <p class="mail-form__title">${T('Prefer email? Send us your question', 'Vous préférez l’email ? Envoyez-nous votre question')}</p>
+        <div class="mail-form__row">
+          <label class="field"><span class="field__label">${T('Your name', 'Votre prénom')}</span><input name="name" type="text" autocomplete="name" required></label>
+          <label class="field"><span class="field__label">${T('Your email', 'Votre email')}</span><input name="email" type="email" autocomplete="email" required></label>
+        </div>
+        <label class="field"><span class="field__label">${T('Your question', 'Votre question')}</span><textarea name="message" rows="4" required></textarea></label>
+        <p class="mail-form__error" id="mailError" role="alert" hidden></p>
+        <button type="submit" class="btn btn--dark">${icon('mail', 18)} ${T('Send by email', 'Envoyer par email')}</button>
+        <p class="mail-form__note">${T('This opens your email app with your message ready to send to', 'Votre application email s’ouvre avec votre message prêt à être envoyé à')} <a href="${mailLink(T('Question for My Dubai Arts', 'Question pour My Dubai Arts'))}">${CONTACT_EMAIL}</a>.</p>
+      </form>
     </div>
     <div class="contact__image">${img('manifest-your-dreams-gold.jpg', T('Manifest Your Dreams print in a gold frame in a bright Dubai apartment', 'Tableau Manifest Your Dreams en cadre doré dans un appartement lumineux à Dubaï'))}</div>
   </div>
@@ -2517,7 +2701,7 @@ document.getElementById('app').innerHTML = `
   <div class="container footer__grid">
     <div><p class="footer__brand"><span class="wordmark__my">My</span> Dubai Arts</p><p class="footer__about">${T('Digitally created art, professionally printed and framed, to make your home feel cozy, feminine and full of positive energy.', 'Des œuvres créées numériquement, imprimées et encadrées par des professionnels, pour un intérieur cosy, féminin et plein d’énergie positive.')}</p></div>
     <nav aria-label="Footer"><p class="footer__heading">${T('Explore', 'Explorer')}</p><ul class="footer__links">${NAV.map(([id, l]) => `<li><button type="button" data-go="${id}">${l}</button></li>`).join('')}</ul></nav>
-    <div><p class="footer__heading">${T('Delivery', 'Livraison')}</p><p>${T('Across all seven emirates of the UAE, expected within 3 days.', 'Dans les sept émirats, en 3 jours environ.')}</p><p class="footer__heading footer__heading--gap">WhatsApp</p><a href="${waLink()}" target="_blank" rel="noopener noreferrer">${WHATSAPP_DISPLAY}</a></div>
+    <div><p class="footer__heading">${T('Delivery', 'Livraison')}</p><p>${T('Across all seven emirates of the UAE, expected within 3 days.', 'Dans les sept émirats, en 3 jours environ.')}</p><p class="footer__heading footer__heading--gap">WhatsApp</p><a href="${waLink()}" target="_blank" rel="noopener noreferrer">${WHATSAPP_DISPLAY}</a><p class="footer__heading footer__heading--gap">Email</p><a href="${mailLink(T('Question for My Dubai Arts', 'Question pour My Dubai Arts'))}">${CONTACT_EMAIL}</a></div>
   </div>
   <div class="container footer__base"><p>© ${new Date().getFullYear()} My Dubai Arts. ${T('All rights reserved.', 'Tous droits réservés.')}</p>${langSwitch('lang-switch--footer')}</div>
 </footer>
@@ -2584,6 +2768,20 @@ const resetShop = () => { Object.assign(S, { q: '', col: 'all', fg: 'all', sort:
 $('#q').addEventListener('input', (e) => { S.q = e.target.value; renderShop(); });
 ['col', 'fg', 'sort'].forEach((k) => $('#' + k).addEventListener('change', (e) => { S[k] = e.target.value; renderShop(); }));
 $('#clear').addEventListener('click', resetShop);
+
+/* ----- Email form ----- */
+$('#mailForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const f = e.target;
+  const name = f.name.value.trim(), email = f.email.value.trim(), message = f.message.value.trim();
+  const err = $('#mailError');
+  const problem = !name || !message ? T('Please add your name and your question.', 'Merci d’indiquer votre prénom et votre question.')
+    : !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? T('Please enter a valid email address so we can reply.', 'Merci d’indiquer une adresse email valide pour que nous puissions vous répondre.') : '';
+  err.hidden = !problem; err.textContent = problem;
+  if (problem) return;
+  const body = `${message}\n\n${T('Name', 'Prénom')}: ${name}\n${T('Email', 'Email')}: ${email}`;
+  location.href = mailLink(T(`Question from ${name}`, `Question de ${name}`), body);
+});
 
 /* ----- Product details ----- */
 let M = null; // { p, frame, size, active, preview } preview: show the framed artwork instead of a photo

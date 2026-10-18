@@ -11,3 +11,5 @@ Website for [mydubaiarts.online](https://mydubaiarts.online): framed wall art de
 Every push to `main` is published automatically by Vercel.
 
 The site is in English and French. French shows automatically for visitors whose phone is in French, or with `?lang=fr` (for example `https://mydubaiarts.online/?lang=fr`). French texts for collections, artwork descriptions, frames and sizes are in the `FR` block of the settings in `index.html`.
+
+Customer reviews are listed in `REVIEWS` in the settings of `index.html`; only real reviews, with the customer's permission. The email contact form opens the visitor's email app with a message to `CONTACT_EMAIL`.
