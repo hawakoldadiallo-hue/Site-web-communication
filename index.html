@@ -2250,7 +2250,13 @@ html .collections__duo .collection-tile__body { padding-top: 0.55rem; }
 .wheel__won { margin-top: 0.6rem; font: 500 0.78rem/1 var(--sans); letter-spacing: 0.2em; text-transform: uppercase; color: #a8823a; }
 .wheel__prize { margin-top: 0.3rem; font: 500 1.7rem/1.1 var(--serif); color: #c2185b; }
 .wheel__note { margin: 0.5rem 0 0.9rem; font-size: 0.92rem; color: #4a1530; }
-.wheel__terms { margin-top: 0.6rem; font-size: 0.76rem; color: #7d4462; }
+.wheel__terms { margin: 0.7rem 0 0; padding: 0; list-style: none; font-size: 0.74rem; line-height: 1.45; color: #7d4462; }
+.wheel__terms li + li { margin-top: 0.15rem; }
+.wheel__form { margin: 0 auto 0.4rem; max-width: 300px; text-align: left; }
+.wheel__label { display: block; margin-bottom: 0.3rem; font-size: 0.8rem; font-weight: 500; color: #4a1530; }
+.wheel__input { width: 100%; height: 46px; padding: 0 0.9rem; border: 1.5px solid #d9b65e; border-radius: 12px; background: #fff; font: 400 1rem var(--sans); color: #4a1530; }
+.wheel__input:focus { outline: 2px solid #ff5fa2; outline-offset: 1px; }
+.wheel__error { margin-top: 0.3rem; font-size: 0.8rem; color: #c2185b; }
 .wheel__result.is-won { animation: wheelPop 0.5s ease both; }
 @keyframes wheelPop { from { opacity: 0; transform: scale(0.92); } }
 @media (prefers-reduced-motion: no-preference) {
@@ -2303,7 +2309,10 @@ const SHOWCASE = [
 const REVIEWS = [
 ];
 
-/* Wheel of luck: each visitor can spin once and always wins one of these gifts.
+/* Wheel of luck: the visitor enters their WhatsApp number, spins and always wins one of these gifts.
+   The gift is worked out from the number, so the same number always lands on the same gift: spinning again,
+   on another phone or after clearing the browser, changes nothing. The gift is valid only for an order sent from that number.
+   To check a customer's gift, open mydubaiarts.online/?verifier and type their number.
    chance: how often the gift comes up (the numbers add up to 100). The code is added to the visitor's WhatsApp order message.
    label: the two lines written on the wheel, in English then French. */
 const WHEEL_PRIZES = [
@@ -3083,9 +3092,30 @@ const productUrl = (p, f, s) => {
   return `${SITE_URL}/p/${p.id}/${q.size ? '?' + q : ''}`;
 };
 /* ----- Wheel of luck ----- */
-const wheelPrize = () => {
-  try { return WHEEL_PRIZES.find((x) => x.code === localStorage.getItem('mda-wheel')) || null; } catch (e) { return null; }
+// UAE numbers typed locally (050 123 4567) become 971501234567; other numbers keep their country code.
+const wheelNumber = (v) => {
+  let d = String(v || '').replace(/\D/g, '').replace(/^00/, '');
+  if (/^05\d{8}$/.test(d)) d = '971' + d.slice(1);
+  else if (/^5\d{8}$/.test(d)) d = '971' + d;
+  return d.length >= 9 && d.length <= 15 ? d : '';
 };
+// Same number, same gift: a fixed hash of the number picks the gift by its chance.
+const wheelFor = (num) => {
+  let h = 2166136261;
+  for (const c of 'mda-wheel|' + num) h = Math.imul(h ^ c.charCodeAt(0), 16777619) >>> 0;
+  let roll = (h % 10000) / 10000 * WHEEL_PRIZES.reduce((t, x) => t + x.chance, 0);
+  const w = WHEEL_PRIZES.find((x) => (roll -= x.chance) < 0) || WHEEL_PRIZES[0];
+  return { ...w, num, code: `${w.code}-${num.slice(-4)}` };
+};
+const wheelPrize = () => {
+  try { const n = wheelNumber(localStorage.getItem('mda-wheel-number')); return n ? wheelFor(n) : null; } catch (e) { return null; }
+};
+const wheelTerms = () => `<ul class="wheel__terms">${[
+  T('One spin per WhatsApp number: the same number always gets the same gift.', 'Un seul tour par numéro WhatsApp : le même numéro obtient toujours le même cadeau.'),
+  T('Valid once, for an order sent from this number.', 'Valable une seule fois, pour une commande envoyée depuis ce numéro.'),
+  T('Gifts cannot be combined with each other or with other offers.', 'Les cadeaux ne se cumulent pas entre eux ni avec d’autres offres.'),
+  T('Buy 2, get 1 free: the free artwork is the lowest priced of the three.', '2 achetés, 1 offert : le tableau offert est le moins cher des trois.'),
+].map((x) => `<li>${x}</li>`).join('')}</ul>`;
 const WHEEL_SLICES = [0, 1, 2, 0, 1, 2];  // prize shown on each slice, clockwise from the top
 const WHEEL_FILLS = [['#ff5fa2', '#fff'], ['#ffe3ef', '#9c2160'], ['#c2185b', '#fff']];
 let wheelTurn = 0;
@@ -3106,10 +3136,14 @@ ${slices}${dividers}<circle cx="150" cy="150" r="144" fill="none" stroke="url(#w
 };
 const wheelResult = (w) => w ? `<p class="wheel__won">${T('You won', 'Vous avez gagné')}</p>
 <p class="wheel__prize">${esc(T(w.name[0], w.name[1]))}</p>
-<p class="wheel__note">${T(`Code <strong>${w.code}</strong>, added automatically to your WhatsApp order message.`, `Code <strong>${w.code}</strong>, ajouté automatiquement à votre message de commande WhatsApp.`)}</p>
+<p class="wheel__note">${T(`Code <strong>${w.code}</strong> for +${w.num}, added automatically to your WhatsApp order message.`, `Code <strong>${w.code}</strong> pour le +${w.num}, ajouté automatiquement à votre message de commande WhatsApp.`)}</p>
 <button type="button" class="btn btn--gold btn--block" data-wheel-shop>${T('Shop now', 'Voir la boutique')}</button>
-<p class="wheel__terms">${T('One gift per customer, confirmed with you on WhatsApp.', 'Un cadeau par client, confirmé avec vous sur WhatsApp.')}</p>`
-  : `<p class="wheel__note">${T('One free spin. Every slice is a gift.', 'Un tour offert. Chaque case est un cadeau.')}</p>`;
+${wheelTerms()}`
+  : `<p class="wheel__note">${T('Enter your WhatsApp number, then spin. One spin per number, every slice is a gift.', 'Entrez votre numéro WhatsApp, puis tournez. Un tour par numéro, chaque case est un cadeau.')}</p>
+<form class="wheel__form" id="wheelForm" novalidate><label class="wheel__label" for="wheelNum">${T('Your WhatsApp number', 'Votre numéro WhatsApp')}</label>
+<input class="wheel__input" id="wheelNum" type="tel" inputmode="tel" autocomplete="tel" placeholder="+971 50 123 4567" required>
+<p class="wheel__error" id="wheelError" hidden>${T('Please enter a valid WhatsApp number.', 'Merci d’entrer un numéro WhatsApp valide.')}</p></form>
+${wheelTerms()}`;
 const wheelFloat = () => {
   const w = wheelPrize();
   return `<button type="button" class="float-wheel" data-wheel-open>${wheelIcon()}<span>${w ? T('My gift', 'Mon cadeau') : T('Spin & win', 'Tentez votre chance')}</span></button>`;
@@ -3118,7 +3152,7 @@ const wheelIcon = () => `<svg viewBox="0 0 24 24" width="22" height="22" aria-hi
 function openWheel() {
   const w = wheelPrize();
   if (w) {
-    const i = WHEEL_SLICES.indexOf(WHEEL_PRIZES.indexOf(w));
+    const i = WHEEL_SLICES.indexOf(WHEEL_PRIZES.findIndex((x) => w.code.startsWith(x.code + '-')));
     wheelTurn = 360 - (i + 0.5) * (360 / WHEEL_SLICES.length);
   }
   lastFocus = document.activeElement;
@@ -3138,28 +3172,47 @@ function openWheel() {
   document.body.classList.add('no-scroll');
   (w ? $('[data-wheel-shop]') : $('#wheelSpin'))?.focus();
 }
+// Owner check: mydubaiarts.online/?verifier shows the gift that belongs to a number.
+function openWheelCheck() {
+  lastFocus = document.activeElement;
+  $('#wheelRoot').innerHTML = `<div class="wheel" id="wheelBg">
+  <div class="wheel__dialog" role="dialog" aria-modal="true" aria-labelledby="wheel-title">
+    <button type="button" class="modal__close" data-wheel-close aria-label="${T('Close', 'Fermer')}">${icon('close', 22)}</button>
+    <p class="wheel__kicker">My Dubai Arts</p>
+    <h2 id="wheel-title" class="wheel__title">${T('Check a gift', 'Vérifier un cadeau')}</h2>
+    <form class="wheel__form" id="wheelCheck"><label class="wheel__label" for="wheelCheckNum">${T('Customer WhatsApp number', 'Numéro WhatsApp du client')}</label>
+    <input class="wheel__input" id="wheelCheckNum" type="tel" inputmode="tel" placeholder="+971 50 123 4567"></form>
+    <div class="wheel__result" id="wheelCheckResult" aria-live="polite"></div>
+  </div>
+</div>`;
+  document.body.classList.add('no-scroll');
+  $('#wheelCheckNum').focus();
+}
 function closeWheel() {
   $('#wheelRoot').innerHTML = '';
   document.body.classList.remove('no-scroll');
   lastFocus?.focus?.();
 }
 function spinWheel() {
-  if (wheelPrize()) return;
-  let roll = Math.random() * WHEEL_PRIZES.reduce((t, x) => t + x.chance, 0);
-  const w = WHEEL_PRIZES.findIndex((x) => (roll -= x.chance) < 0);
+  if (wheelPrize() || !$('#wheelNum')) return;
+  const num = wheelNumber($('#wheelNum').value);
+  if (!num) { $('#wheelError').hidden = false; $('#wheelNum').focus(); return; }
+  const won = wheelFor(num);
+  const w = WHEEL_PRIZES.findIndex((x) => x.code === won.code.split('-')[0]);
+  $('#wheelForm').remove();
   const options = WHEEL_SLICES.map((x, i) => (x === w ? i : -1)).filter((i) => i >= 0);
   const i = options[Math.floor(Math.random() * options.length)];
   const step = 360 / WHEEL_SLICES.length;
   const target = 360 - (i + 0.5) * step + (Math.random() - 0.5) * (step - 14);
   wheelTurn += 360 * 6 + ((target - wheelTurn) % 360 + 360) % 360;
-  try { localStorage.setItem('mda-wheel', WHEEL_PRIZES[w].code); } catch (e) {}
+  try { localStorage.setItem('mda-wheel-number', num); } catch (e) {}
   const hub = $('#wheelSpin');
   hub.disabled = true;
   $('#wheelDisc').style.transform = `rotate(${wheelTurn}deg)`;
   setTimeout(() => {
     if (!$('#wheelResult')) return;
     hub.textContent = '♥';
-    $('#wheelResult').innerHTML = wheelResult(WHEEL_PRIZES[w]);
+    $('#wheelResult').innerHTML = wheelResult(won);
     $('#wheelResult').classList.add('is-won');
     $('.float-wheel').outerHTML = wheelFloat();
   }, reduceMotion() ? 50 : 5200);
@@ -3174,7 +3227,7 @@ const orderLink = (p, f, s) => {
     s ? `Taille : ${sizeName(s)} (${sizeOf(s).cm}).` : `Taille : à confirmer (${sizesFor(p).map((x) => `${sizeName(x.name)} ${x.cm}`).join(' ou ')}).`,
     pr ? (s ? `Prix : AED ${pr}.` : `Prix : à partir de AED ${pr}.`) : '',
     `Lien : ${productUrl(p, f, s)}`,
-    wheelPrize() ? `Mon cadeau de la roue : ${wheelPrize().name[1]} (code ${wheelPrize().code}).` : '',
+    wheelPrize() ? `Mon cadeau de la roue : ${wheelPrize().name[1]} (code ${wheelPrize().code}, numéro +${wheelPrize().num}).` : '',
     'Merci de me confirmer la disponibilité et la livraison.',
   ] : [
     `Hello My Dubai Arts! I would like to order the '${p.name}' framed artwork.`,
@@ -3182,7 +3235,7 @@ const orderLink = (p, f, s) => {
     s ? `Size: ${s} (${sizeOf(s).cm}).` : `Size: please advise (${sizesFor(p).map((x) => `${x.name} ${x.cm}`).join(' or ')}).`,
     pr ? (s ? `Price: AED ${pr}.` : `Price: from AED ${pr}.`) : '',
     `Link: ${productUrl(p, f, s)}`,
-    wheelPrize() ? `My wheel gift: ${wheelPrize().name[0]} (code ${wheelPrize().code}).` : '',
+    wheelPrize() ? `My wheel gift: ${wheelPrize().name[0]} (code ${wheelPrize().code}, number +${wheelPrize().num}).` : '',
     'Please confirm availability and delivery.',
   ]).filter(Boolean).join(' ');
   return waLink(msg);
@@ -3695,6 +3748,17 @@ const fromQuery = () => {
 addEventListener('hashchange', fromHash);
 renderShop();
 fromQuery() || fromHash();
+if (new URLSearchParams(location.search).has('verifier')) openWheelCheck();
+document.addEventListener('input', (e) => {
+  if (e.target.id === 'wheelNum') $('#wheelError').hidden = true;
+  if (e.target.id !== 'wheelCheckNum') return;
+  const n = wheelNumber(e.target.value), w = n && wheelFor(n);
+  $('#wheelCheckResult').innerHTML = w ? `<p class="wheel__won">+${n}</p><p class="wheel__prize">${esc(T(w.name[0], w.name[1]))}</p><p class="wheel__note">Code <strong>${w.code}</strong></p>` : '';
+});
+document.addEventListener('submit', (e) => {
+  if (e.target.id === 'wheelForm') { e.preventDefault(); spinWheel(); }
+  if (e.target.id === 'wheelCheck') e.preventDefault();
+});
 
 </script>
 </body>
