@@ -2157,6 +2157,7 @@ const WEB3FORMS_KEY = '150b8801-3880-4c93-b18b-01bef6a94fb6';                   
 /* Our Frames Showcase: photos of our artworks styled in real spaces (not customer reviews).
    img: a photo in the images folder. artwork: product id it shows (tapping the photo opens it). title: optional caption (default: the artwork name). room: living, bedroom, hallway, entryway, office, dining or dressing. */
 const SHOWCASE = [
+  { img: "showcase/diamond-balance-console.jpg", artwork: "diamond-balance", room: "living" },
   { img: "showcase/yesterday-is-over-living.jpg", artwork: "yesterday-is-over", room: "living" },
   { img: "showcase/one-percent-better-entryway.jpg", artwork: "one-percent-better", room: "entryway" },
   { img: "showcase/watch-me-entryway.jpg", artwork: "watch-me", room: "entryway" },
@@ -2339,6 +2340,14 @@ const PRODUCTS = [
       ["crimson-wave-gold-2.jpg", "Gold", "Crimson Wave print in a gold frame above a marble console in an entryway"],
       ["crimson-wave-gold-3.jpg", "Gold", "Crimson Wave print in a gold frame shown in three different rooms"]
     ]
+  },
+  {
+    id: "diamond-balance",
+    name: "Diamond Balance",
+    category: "ultra-exotic",
+    frames: ["Gold"],
+    description: "A black glittering glove holding golden scales weighed with two brilliant diamonds, against deep black. Elegant, mysterious and luxurious, made for an office, living room or dressing room.",
+    photos: []
   },
   {
     id: "where-is-my-bag",
@@ -2693,6 +2702,7 @@ const FR = {
     'gloss-lips-duo': 'Deux lèvres pop art brillantes, gris fumé et vert olive, sur un mur de briques grises. Audacieux, ludique et mode, la pièce maîtresse d’un salon ou d’un dressing.',
     'sage-peach-drip': 'Une peinture vert sauge et pêche brillante qui coule sur un fond crème chaleureux. Fluide, sculptural et apaisant, pour un salon lumineux ou une chambre.',
     'crimson-wave': 'Une vague rouge sculptée entre un cramoisi profond et un rose poudré. Ludique, audacieuse et pleine d’énergie, la pièce maîtresse d’un salon, d’une entrée ou d’un couloir.',
+    'diamond-balance': 'Une main gantée de noir scintillant tient une balance dorée chargée de deux diamants éclatants, sur un noir profond. Élégant, mystérieux et luxueux, pour un bureau, un salon ou un dressing.',
     'where-is-my-bag': 'Une question pleine d’humour en lettres dorées sculptées sur un ivoire texturé, avec des touches de feuille d’or dans les coins. Drôle, glamour et luxueux, pour un dressing ou une entrée.',
     'one-percent-better': '« Do it every day, 1% better than yesterday. » en lettres dorées sculptées sur un ivoire texturé à la feuille d’or. Un élan quotidien vers vos objectifs, pour un bureau, un coin sport ou une entrée.',
     'have-your-cake': 'Un sac à main rouge de créateur qui se révèle être un gâteau au chocolat fondant, découpé avec des couverts dorés à la lueur des bougies et des roses. Plein d’humour, gourmand et glamour, pour une salle à manger, une cuisine ou un dressing.',
