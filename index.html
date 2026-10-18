@@ -39,6 +39,27 @@
   --header-h: 72px;
 }
 
+/* ===== Candy pink theme ===== */
+:root {
+  --ivory: #ffffff;
+  --cream: #fff0f6;
+  --sand: #ffd9ea;
+  --taupe: #b0708f;
+  --taupe-dark: #7d4462;
+  --ink: #4a1530;
+  --gold: #ff5fa2;
+  --gold-soft: #ffc2dd;
+  --bronze: #d6337f;
+  --line: rgba(214, 51, 127, 0.18);
+  --frame-gold: #b38b4d;
+}
+
+html .btn--dark { background: var(--bronze); }
+html .btn--dark:hover { background: #b8206a; }
+html .pricing { background: var(--bronze); }
+html .pricing .price-tile__note, html .pricing .pricing__note { color: #ffe3f0; }
+html .btn--outline:hover { background: var(--bronze); border-color: var(--bronze); }
+
 *,
 *::before,
 *::after {
@@ -916,10 +937,10 @@ h3 {
 }
 
 .price-tile__swatch--gold {
-  border-color: var(--gold);
+  border-color: var(--frame-gold, var(--gold));
 }
 .price-tile__swatch--exotic {
-  border-color: var(--gold);
+  border-color: var(--frame-gold, var(--gold));
   box-shadow: inset 0 0 0 3px #f7f4ee;
 }
 
@@ -1188,7 +1209,7 @@ h3 {
 }
 
 .frame-chip__swatch--gold {
-  border-color: var(--gold);
+  border-color: var(--frame-gold, var(--gold));
 }
 
 .frame-chip__swatch--blackgold {
@@ -2906,7 +2927,7 @@ document.getElementById('app').innerHTML = `
 <main>
 <section id="home" class="hero" aria-labelledby="hero-title">
   <div class="hero__brand container">
-    <img class="hero__logo" src="images/logo-mark.png" alt="${T('My Dubai Arts logo', 'Logo My Dubai Arts')}" width="179" height="220">
+    <img class="hero__logo" src="images/logo-mark-pink.png" alt="${T('My Dubai Arts logo', 'Logo My Dubai Arts')}" width="179" height="220">
     <p class="hero__slogan">${T('Digitally created, professionally printed &amp; framed.', 'Créé numériquement, imprimé et encadré par des professionnels.')}</p>
   </div>
   <div class="hero__inner container">
