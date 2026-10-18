@@ -353,6 +353,27 @@ h3 {
   align-items: center;
 }
 
+.hero__brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: clamp(2rem, 4vw, 3.2rem);
+}
+
+.hero__logo {
+  width: clamp(104px, 12vw, 140px);
+  height: auto;
+}
+
+.hero__slogan {
+  margin-top: 0.9rem;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  color: var(--bronze);
+}
+
 .hero__kicker {
   color: var(--taupe-dark);
   font-size: 0.98rem;
@@ -2263,6 +2284,10 @@ document.getElementById('app').innerHTML = `
 
 <main>
 <section id="home" class="hero" aria-labelledby="hero-title">
+  <div class="hero__brand container">
+    <img class="hero__logo" src="images/logo-mark.png" alt="My Dubai Arts logo" width="179" height="220">
+    <p class="hero__slogan">Digitally created, professionally printed &amp; framed.</p>
+  </div>
   <div class="hero__inner container">
     <div class="hero__copy">
       <p class="hero__kicker">Framed wall art, delivered across the UAE</p>
@@ -2368,7 +2393,7 @@ document.getElementById('app').innerHTML = `
 
 <footer class="footer">
   <div class="container footer__grid">
-    <div><p class="footer__brand"><span class="wordmark__my">My</span> Dubai Arts</p><p class="footer__about">Framed wall art and inspirational prints that make your home feel cozy, feminine and full of positive energy.</p></div>
+    <div><p class="footer__brand"><span class="wordmark__my">My</span> Dubai Arts</p><p class="footer__about">Digitally created art, professionally printed and framed, to make your home feel cozy, feminine and full of positive energy.</p></div>
     <nav aria-label="Footer"><p class="footer__heading">Explore</p><ul class="footer__links">${NAV.map(([id, l]) => `<li><button type="button" data-go="${id}">${l}</button></li>`).join('')}</ul></nav>
     <div><p class="footer__heading">Delivery</p><p>Across all seven emirates of the UAE, expected within 3 days.</p><p class="footer__heading footer__heading--gap">WhatsApp</p><a href="${waLink()}" target="_blank" rel="noopener noreferrer">${WHATSAPP_DISPLAY}</a></div>
   </div>
