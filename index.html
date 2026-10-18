@@ -2343,7 +2343,7 @@ const PRODUCTS = [
   },
   {
     id: "diamond-balance",
-    name: "Diamond Balance",
+    name: "The Diamonds You Deserve",
     category: "ultra-exotic",
     frames: ["Gold"],
     description: "A black glittering glove holding golden scales weighed with two brilliant diamonds, against deep black. Elegant, mysterious and luxurious, made for an office, living room or dressing room.",
@@ -3009,17 +3009,6 @@ document.getElementById('app').innerHTML = `
   </div>
 </section>
 
-<section id="showcase" class="section showcase" aria-labelledby="showcase-title">
-  <div class="container">
-    <div class="section-head showcase__head"><h2 id="showcase-title" class="section-title">${T('Our Frames Showcase', 'Nos tableaux en situation')}</h2><p class="section-sub">${T('Our artworks styled in living rooms, bedrooms and hallways, so you can picture them at home. Tap a photo to see the artwork.', 'Nos tableaux mis en scène dans des salons, chambres et couloirs, pour vous aider à les imaginer chez vous. Touchez une photo pour voir le tableau.')}</p></div>
-    <div class="showcase__grid">${SHOWCASE.map((x) => {
-      const p = PRODUCTS.find((q) => q.id === x.artwork);
-      const room = ROOMS[x.room] ? T(ROOMS[x.room][0], ROOMS[x.room][1]) : '';
-      return `<figure class="showcase__item">${p ? `<button type="button" class="showcase__btn" data-open="${p.id}" aria-label="${T('View', 'Voir')} ${esc(p.name)}">` : ''}${img(x.img, `${p ? p.name : ''}${room ? ', ' + room : ''}`, true)}${p ? '</button>' : ''}<figcaption>${p || x.title ? `<strong>${esc(x.title || p.name)}</strong>` : ''}${room ? `<span>${esc(room)}</span>` : ''}</figcaption></figure>`;
-    }).join('')}</div>
-  </div>
-</section>
-
 <section id="shop" class="section shop" aria-labelledby="shop-title">
   <div class="container">
     <div class="section-head"><h2 id="shop-title" class="section-title"></h2><p class="section-sub" id="shop-sub"></p></div>
@@ -3040,6 +3029,17 @@ document.getElementById('app').innerHTML = `
     <div class="price-tile"><span class="price-tile__swatch price-tile__swatch--gold" aria-hidden="true"></span><div><p class="price-tile__name">${T('Black &amp; gold frames', 'Cadres noirs &amp; dorés')}</p><p class="price-tile__note">${T('Bold black or luxurious gold', 'Noir audacieux ou or luxueux')}</p></div><p class="price-tile__price">AED 200</p></div>
     <div class="price-tile"><span class="price-tile__swatch price-tile__swatch--exotic" aria-hidden="true"></span><div><p class="price-tile__name">Ultra Exotic Art</p><p class="price-tile__note">${T('Bold statement pieces', 'Pièces audacieuses et spectaculaires')}</p></div><p class="price-tile__price">AED 350</p></div>
     <p class="pricing__note">${icon('frame', 18)} ${T('Prices are per framed artwork in Medium, 50 × 70 cm. Large, 70 × 100 cm, is AED 100 more and Extra Large, 100 × 100 cm, is AED 200 more.', 'Prix par tableau encadré en taille Moyen, 50 × 70 cm. Le Grand, 70 × 100 cm, coûte AED 100 de plus et le Très grand, 100 × 100 cm, AED 200 de plus.')}</p>
+  </div>
+</section>
+
+<section id="showcase" class="section showcase" aria-labelledby="showcase-title">
+  <div class="container">
+    <div class="section-head showcase__head"><h2 id="showcase-title" class="section-title">${T('Our Frames Showcase', 'Nos tableaux en situation')}</h2><p class="section-sub">${T('Our artworks styled in living rooms, bedrooms and hallways, so you can picture them at home. Tap a photo to see the artwork.', 'Nos tableaux mis en scène dans des salons, chambres et couloirs, pour vous aider à les imaginer chez vous. Touchez une photo pour voir le tableau.')}</p></div>
+    <div class="showcase__grid">${SHOWCASE.map((x) => {
+      const p = PRODUCTS.find((q) => q.id === x.artwork);
+      const room = ROOMS[x.room] ? T(ROOMS[x.room][0], ROOMS[x.room][1]) : '';
+      return `<figure class="showcase__item">${p ? `<button type="button" class="showcase__btn" data-open="${p.id}" aria-label="${T('View', 'Voir')} ${esc(p.name)}">` : ''}${img(x.img, `${p ? p.name : ''}${room ? ', ' + room : ''}`, true)}${p ? '</button>' : ''}<figcaption>${p || x.title ? `<strong>${esc(x.title || p.name)}</strong>` : ''}${room ? `<span>${esc(room)}</span>` : ''}</figcaption></figure>`;
+    }).join('')}</div>
   </div>
 </section>
 
