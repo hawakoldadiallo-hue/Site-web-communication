@@ -79,7 +79,17 @@ html .hero__frame { border: 7px solid #ffb3d4; box-shadow: 0 30px 60px -28px rgb
 .hero__mini--b { right: -2%; top: 0; transform: rotate(5deg); }
 @media (max-width: 900px) { .hero__mini { width: 30%; } .hero__mini--a { left: 0; } .hero__mini--b { right: 0; } }
 /* Lighter, less crowded layout */
-:root { --section: clamp(3rem, 6vw, 5rem); }
+:root { --section: clamp(1.75rem, 4vw, 3.25rem); }
+html .section-head { margin-bottom: clamp(1rem, 2.5vw, 1.75rem); }
+html .section-head--row { align-items: center; gap: 0.6rem 1rem; }
+html .section-head--row .btn { min-height: 38px; padding: 0.45rem 1rem; font-size: 0.85rem; }
+html .hero { padding-bottom: clamp(1.5rem, 4vw, 3rem); }
+html .hero__brand { margin-bottom: clamp(1rem, 3vw, 2rem); }
+html .hero__inner { gap: clamp(1rem, 4vw, 3.5rem); }
+html .hero__art { padding: 1rem 1.2rem 1.4rem; }
+html .hero__actions { gap: 0.6rem; }
+html .hero__actions .btn { min-height: 46px; }
+html .featured__rail { gap: 1.5rem 1rem; }
 html .section-title { font-size: clamp(1.7rem, 3.4vw, 2.5rem); }
 html .section-sub { font-size: 0.95rem; }
 html .hero__title { font-size: clamp(2.2rem, 5vw, 4rem); }
