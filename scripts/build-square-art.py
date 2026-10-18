@@ -6,7 +6,7 @@ import numpy as np
 os.chdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'images', 'art'))
 PAD = set()  # every square fills the frame completely (centred crop)
 BLUR = set()  # kept whole, sides filled with a soft blurred copy of the artwork
-ALIGN = {'pink-champagne-moment': 0.62, 'good-things-take-time': 0.0, 'more-amour-please': 0.0, 'parisian-rouge': 0.0, 'burj-al-arab-shore': 0.0, 'paris-by-night': 0.05, 'boss-lady-mood': 0.0, 'manifest-your-dreams': 0.0, 'never-stop-pushing': 0.0, 'its-you-vs-you': 0.85}
+ALIGN = {'discipline-creates-freedom': 0.0, 'better-version-of-me': 0.0, 'pink-champagne-moment': 0.62, 'good-things-take-time': 0.0, 'more-amour-please': 0.0, 'parisian-rouge': 0.0, 'burj-al-arab-shore': 0.0, 'paris-by-night': 0.05, 'boss-lady-mood': 0.0, 'manifest-your-dreams': 0.0, 'never-stop-pushing': 0.0, 'its-you-vs-you': 0.85}
 # Text that is taller (or wider) than a square crop: take a slightly larger square and fill the short sides with a mirrored copy of the artwork's own edge, so the frame is still completely filled
 # Square artworks: the Extra Large square uses this original file instead of a crop of the 5:7 version
 SQUARE_SOURCE = {'throw-stones-build-castles': 'images/art/source/throw-stones-build-castles-square.jpg'}
