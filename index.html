@@ -61,6 +61,18 @@ html .pricing .price-tile__note, html .pricing .pricing__note { color: #1a1714; 
 html .pricing .price-tile__swatch--white { box-shadow: 0 0 0 1px rgba(26, 23, 20, 0.25); }
 html .btn--outline:hover { background: var(--bronze); border-color: var(--bronze); }
 html .hero__frame { border: 7px solid #ffb3d4; }
+/* Lighter, less crowded layout */
+:root { --section: clamp(3rem, 6vw, 5rem); }
+html .section-title { font-size: clamp(1.7rem, 3.4vw, 2.5rem); }
+html .section-sub { font-size: 0.95rem; }
+html .hero__title { font-size: clamp(2.2rem, 5vw, 4rem); }
+html .hero__text { font-size: 1rem; margin-top: 1rem; }
+html .hero__actions { margin-top: 1.5rem; }
+html .card__title { font-size: 1.1rem; }
+html .card__price { font-size: 0.92rem; }
+html .card__actions .btn { width: 100%; }
+html .delivery__text, html .contact__copy > p { font-size: 1rem; }
+html .faq__item summary { font-size: 1.05rem; padding: 0.95rem 0; }
 html .hero__frame::after { border: 3px solid var(--gold); }
 
 *,
@@ -2989,13 +3001,10 @@ const card = (p, frame) => {
       ${p.photos.length > 1 ? `<span class="card__badge">${p.photos.length} ${T('photos', 'photos')}</span>` : ''}
     </button>
     <div class="card__body">
-      <p class="card__collection">${esc(colName(p.category))}</p>
       <h3 class="card__title">${esc(p.name)}</h3>
       <p class="card__price">${pr ? T('From AED ', 'Dès AED ') + pr : T('Price on request', 'Prix sur demande')}</p>
-      ${chips(p, f)}
       <div class="card__actions">
-        <button type="button" class="btn btn--outline btn--sm" data-open="${p.id}">${T('View Details', 'Voir les détails')}</button>
-        <a class="btn btn--wa btn--sm" href="${orderLink(p, f)}" target="_blank" rel="noopener noreferrer">${icon('chat', 16)} ${T('Order on WhatsApp', 'Commander sur WhatsApp')}</a>
+        <button type="button" class="btn btn--outline btn--sm" data-open="${p.id}">${T('Choose &amp; order', 'Choisir &amp; commander')}</button>
       </div>
     </div>
   </article>`;
@@ -3046,37 +3055,16 @@ document.getElementById('app').innerHTML = `
   </div>
   <div class="hero__inner container">
     <div class="hero__copy">
-      <p class="hero__kicker">${T('Framed wall art, delivered across the UAE', 'Tableaux encadrés, livrés partout aux Émirats')}</p>
       <h1 id="hero-title" class="hero__title">${T('Art That Makes Your Space Feel Like Home', 'L’art qui sublime votre intérieur')}</h1>
-      <p class="hero__text">${T('Discover elegant wall art designed to inspire your everyday life and elevate your interiors.', 'Découvrez des tableaux élégants pensés pour inspirer votre quotidien et sublimer votre intérieur.')}</p>
+      <p class="hero__text">${T('Framed wall art, delivered across the UAE in 3 days.', 'Tableaux encadrés, livrés partout aux Émirats en 3 jours.')}</p>
       <div class="hero__actions">
         <button type="button" class="btn btn--dark" data-go="collections">${T('Explore the Collection', 'Découvrir la collection')}</button>
         <a class="btn btn--outline" href="${waLink()}" target="_blank" rel="noopener noreferrer">${icon('chat', 18)} ${T('Order on WhatsApp', 'Commander sur WhatsApp')}</a>
       </div>
-      <p class="hero__prices"><span>${T('White frame', 'Cadre blanc')} <strong>AED 150</strong></span><span class="hero__prices-sep" aria-hidden="true"></span><span>${T('Black or gold frame', 'Cadre noir ou doré')} <strong>AED 200</strong></span></p>
     </div>
     <figure class="hero__art">
       <div class="hero__frame">${img('peace-gratitude-gold.jpg', T('Peace and Gratitude prints in gold frames above a brown velvet sofa', 'Tableaux Peace et Gratitude en cadres dorés au-dessus d’un canapé en velours marron'), false, 'width="1312" height="1199" fetchpriority="high"')}</div>
-      <figcaption class="hero__caption">${T('Peace &amp; Gratitude, gold frames', 'Peace &amp; Gratitude, cadres dorés')}</figcaption>
     </figure>
-  </div>
-</section>
-
-<section class="intro section" aria-labelledby="intro-title">
-  <div class="container intro__grid">
-    <div class="intro__images" aria-hidden="true">
-      ${img('heart-of-the-sea-gold.jpg', '', true, 'class="intro__img intro__img--a"')}
-      ${img('new-era-of-me-gold.jpg', '', true, 'class="intro__img intro__img--b"')}
-    </div>
-    <div class="intro__copy">
-      <h2 id="intro-title" class="section-title">${T('A home should hold you softly and push you forward', 'Un intérieur doit vous envelopper de douceur et vous pousser à avancer')}</h2>
-      <p class="intro__lead">${T('My Dubai Arts creates wall art for women who want their home to feel cozy, elegant and quietly powerful. A print above your sofa sets the mood of the whole room. A few words by your desk can change how you start your day. We design pieces that do both: they make your space feel warm and feminine, and they fill it with confidence, love and ambition.', 'My Dubai Arts crée des tableaux pour les femmes qui veulent un intérieur cosy, élégant et discrètement puissant. Un tableau au-dessus du canapé donne le ton de toute la pièce. Quelques mots près de votre bureau peuvent changer votre façon de commencer la journée. Nos pièces font les deux : elles rendent votre espace chaleureux et féminin, et le remplissent de confiance, d’amour et d’ambition.')}</p>
-      <div class="intro__qualities">
-        <div><h3 class="quality__title">${T('A soft, feminine warmth', 'Une douceur féminine')}</h3><p class="quality__text">${T('Ivory, blush, burgundy and gold. Our colours are chosen to make a room feel gentle and lived-in, like a space that was made for you.', 'Ivoire, rose poudré, bordeaux et or. Nos couleurs rendent une pièce douce et accueillante, comme un espace pensé pour vous.')}</p></div>
-        <div><h3 class="quality__title">${T('Energy you can feel', 'Une énergie qui se ressent')}</h3><p class="quality__text">${T('Affirmations, bold women, red lips and the Dubai skyline. Every piece is there to lift your mood each time you walk past it.', 'Affirmations, femmes audacieuses, lèvres rouges et skyline de Dubaï. Chaque pièce est là pour vous redonner le sourire à chaque passage.')}</p></div>
-        <div><h3 class="quality__title">${T('Framed and ready to hang', 'Encadré et prêt à accrocher')}</h3><p class="quality__text">${T('Each artwork arrives in a black, gold or white frame, so the moment it is delivered, your wall is done.', 'Chaque tableau arrive dans un cadre noir, doré ou blanc : dès la livraison, votre mur est prêt.')}</p></div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -3086,7 +3074,7 @@ document.getElementById('app').innerHTML = `
       <div><h2 id="featured-title" class="section-title">${T('Most loved pieces', 'Nos coups de cœur')}</h2><p class="section-sub">${T('A few favourites to start with.', 'Quelques favoris pour commencer.')}</p></div>
       <button type="button" class="btn btn--outline" data-go="shop">${T('View all artworks', 'Voir tous les tableaux')}</button>
     </div>
-    <div class="featured__rail">${PRODUCTS.filter((p) => p.featured).map((p) => card(p)).join('')}</div>
+    <div class="featured__rail">${PRODUCTS.filter((p) => p.featured).slice(0, 4).map((p) => card(p)).join('')}</div>
   </div>
 </section>
 
@@ -3251,12 +3239,10 @@ function renderShop() {
   $('#shop-title').textContent = S.col === 'all' ? T('All artworks', 'Tous les tableaux') : colName(S.col);
   const cp = (COLLECTIONS.find((c) => c.id === S.col) || {}).price;
   $('#shop-sub').textContent = S.col === 'standard'
-    ? T('Every artwork comes framed. In Medium, white frames are AED 150 and black or gold frames are AED 200. Large is AED 100 more and Extra Large AED 200 more.', 'Chaque tableau est livré encadré. En taille Moyen, le cadre blanc est à AED 150 et les cadres noir ou doré à AED 200. Le Grand coûte AED 100 de plus et le Très grand AED 200 de plus.')
+    ? T('From AED 150. Tap an artwork to choose your frame and size.', 'Dès AED 150. Touchez un tableau pour choisir le cadre et la taille.')
     : cp
-    ? T(`Every artwork comes framed. Every piece in this collection is AED ${cp} in Medium, AED ${cp + SIZES[1].extra} in Large and AED ${cp + SIZES[2].extra} in Extra Large.`,
-        `Chaque tableau est livré encadré. Chaque pièce de cette collection coûte AED ${cp} en Moyen, AED ${cp + SIZES[1].extra} en Grand et AED ${cp + SIZES[2].extra} en Très grand.`)
-    : T('Every artwork comes framed, in Medium, Large or Extra Large. In Medium, white frames are AED 150, black, gold or premium frames are AED 200 and Ultra Exotic Art pieces are AED 350.',
-        'Chaque tableau est livré encadré, en Moyen, Grand ou Très grand. En taille Moyen, le cadre blanc est à AED 150, les cadres noir, doré ou premium à AED 200 et les pièces Ultra Exotic Art à AED 350.');
+    ? T(`From AED ${cp}. Tap an artwork to choose your frame and size.`, `Dès AED ${cp}. Touchez un tableau pour choisir le cadre et la taille.`)
+    : T('Every artwork comes framed. Tap one to choose your frame and size.', 'Chaque tableau est livré encadré. Touchez-en un pour choisir le cadre et la taille.');
   $('#count').textContent = `${list.length} ${list.length === 1 ? T('artwork', 'tableau') : T('artworks', 'tableaux')}`;
   $('#clear').hidden = !(S.q || S.col !== 'all' || S.fg !== 'all' || S.sort !== 'featured');
   $('#grid').innerHTML = list.length
