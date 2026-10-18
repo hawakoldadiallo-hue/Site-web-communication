@@ -776,6 +776,7 @@ h3 {
   gap: 1.5rem 1.25rem;
 }
 
+html .collection-tile__media--world img { object-fit: cover !important; }
 .collections__duo .collection-tile__media {
   aspect-ratio: 4 / 3;
 }
@@ -3043,10 +3044,10 @@ const count = (id) => PRODUCTS.filter((p) => p.category === id).length;
 const ROOMS = { living: ['Living room', 'Salon'], bedroom: ['Bedroom', 'Chambre'], hallway: ['Hallway', 'Couloir'], entryway: ['Entryway', 'Entrée'], office: ['Home office', 'Bureau'], dining: ['Dining room', 'Salle à manger'], dressing: ['Dressing room', 'Dressing'] };
 const EXOTIC = 'ultra-exotic';
 const LINES = [
-  { id: 'standard', cover: 'leopard-burj-khalifa-gold.jpg', from: 150,
+  { id: 'standard', cover: 'hero/world-standard.jpg', from: 150,
     blurb: 'Motivation, fashion, flowers, Dubai and lifestyle prints, framed in black, gold or white.',
     blurbFr: 'Motivation, mode, fleurs, Dubaï et art de vivre, encadrés en noir, doré ou blanc.' },
-  { id: EXOTIC, cover: 'gloss-lips-duo-white-1.jpg', from: 350,
+  { id: EXOTIC, cover: 'hero/world-ultra-exotic.jpg', from: 350,
     blurb: 'Our boldest statement pieces, bigger in attitude and made to stop every guest.',
     blurbFr: 'Nos pièces les plus audacieuses, faites pour captiver chaque invité.' }
 ];
@@ -3119,7 +3120,7 @@ document.getElementById('app').innerHTML = `
     <div class="section-head"><h2 id="collections-title" class="section-title">${T('Shop by collection', 'Nos collections')}</h2><p class="section-sub">${T('Two collections. Choose one to see its pieces.', 'Deux collections. Choisissez-en une pour voir ses tableaux.')}</p></div>
     <ul class="collections__duo">${LINES.map(
       (l) => `<li><button type="button" class="collection-tile" data-collection="${l.id}">
-        <span class="collection-tile__media">${img(l.cover, '', true)}</span>
+        <span class="collection-tile__media collection-tile__media--world"><img src="images/${l.cover}" alt="" loading="lazy" decoding="async"></span>
         <span class="collection-tile__body"><span class="collection-tile__name">${esc(colName(l.id))}</span><span class="collection-tile__blurb">${esc(T(l.blurb, l.blurbFr))}</span><span class="collection-tile__count">${lineCount(l.id)} ${T('artworks', 'tableaux')} · ${T('from', 'dès')} AED ${l.from}</span></span>
       </button></li>`
     ).join('')}</ul>
