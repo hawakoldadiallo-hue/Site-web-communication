@@ -2511,7 +2511,8 @@ const PRODUCTS = [
     name: "Glam O'Clock",
     category: "ultra-exotic",
     frames: ["Gold"],
-    description: "A golden clock face filled with every glamorous essential: perfumes, lipsticks, designer bags, pink heels, a latte and a rose, around a crystal-studded centre. Playful, luxurious and feminine, made for a dressing room, vanity or bedroom.",
+    sizes: ["Extra Large"],
+    description: "A digital artwork of a golden clock face drawn with every glamorous essential: perfumes, lipsticks, designer bags, pink heels, a latte and a rose, around a sparkling centre. Playful, luxurious and feminine, printed and framed for a dressing room, vanity or bedroom.",
     photos: []
   },
   {
@@ -2908,7 +2909,7 @@ const FR = {
     'discipline-creates-freedom': '« Discipline Creates Freedom » sur une skyline de Dubaï dorée et le Burj Khalifa, au-dessus d’un bureau en marbre avec un cappuccino, un journal de CEO et une liste de tâches. Ambitieux, élégant et motivant, pour un bureau. Superbe en duo avec A Better Version of Me.',
     'better-version-of-me': '« A Better Version of Me, every day » sur un mur baigné de soleil, au-dessus de livres sur l’état d’esprit, l’amour de soi et les grands objectifs, d’une bougie allumée et d’hortensias blancs. Doux, positif et inspirant, pour une chambre, un dressing ou un bureau. Superbe en duo avec Discipline Creates Freedom.',
     'diamond-butterfly': 'Un papillon doré serti de cristaux et de diamants étincelants, aux ailes scintillantes sur des volutes de satin champagne. Éblouissant, précieux et glamour, pour un dressing, une chambre ou un salon.',
-    'glam-o-clock': 'Un cadran doré rempli de tous les essentiels glamour : parfums, rouges à lèvres, sacs de créateur, escarpins roses, un latte et une rose, autour d’un centre serti de cristaux. Ludique, luxueux et féminin, pour un dressing, une coiffeuse ou une chambre.',
+    'glam-o-clock': 'Une œuvre numérique représentant un cadran doré dessiné avec tous les essentiels glamour : parfums, rouges à lèvres, sacs de créateur, escarpins roses, un latte et une rose, autour d’un centre scintillant. Ludique, luxueuse et féminine, imprimée et encadrée pour un dressing, une coiffeuse ou une chambre.',
     'where-is-my-bag': 'Une question pleine d’humour en lettres dorées sculptées sur un ivoire texturé, avec des touches de feuille d’or dans les coins. Drôle, glamour et luxueux, pour un dressing ou une entrée.',
     'one-percent-better': '« Do it every day, 1% better than yesterday. » en lettres dorées sculptées sur un ivoire texturé à la feuille d’or. Un élan quotidien vers vos objectifs, pour un bureau, un coin sport ou une entrée.',
     'have-your-cake': 'Un sac à main rouge de créateur qui se révèle être un gâteau au chocolat fondant, découpé avec des couverts dorés à la lueur des bougies et des roses. Plein d’humour, gourmand et glamour, pour une salle à manger, une cuisine ou un dressing.',
@@ -2985,9 +2986,12 @@ const colBlurb = (c) => T(c.blurb, (FR.collections[c.id] || [])[1] || c.blurb);
 const aed = (n) => `AED ${n}`;
 const colPrice = (p) => p && (COLLECTIONS.find((c) => c.id === p.category) || {}).price;
 const sizeOf = (s) => SIZES.find((x) => x.name === s) || SIZES[0];
+// Sizes offered for one artwork: its own `sizes` list when it has one, otherwise every size.
+const sizesFor = (p) => (p && p.sizes ? SIZES.filter((x) => p.sizes.includes(x.name)) : SIZES);
+const sizeFor = (p, s) => (sizesFor(p).find((x) => x.name === s) || sizesFor(p)[0]).name;
 const priceOf = (f, p, s) => {
   const base = colPrice(p) ?? FRAME_PRICES[f] ?? null;
-  return base === null ? null : base + sizeOf(s).extra;
+  return base === null ? null : base + sizeOf(sizeFor(p, s)).extra;
 };
 const colName = (id) => {
   if (id === 'standard') return T('Standard Collection', 'Collection Standard');
@@ -3049,18 +3053,19 @@ const productUrl = (p, f, s) => {
   return `${SITE_URL}/p/${p.id}/${q.size ? '?' + q : ''}`;
 };
 const orderLink = (p, f, s) => {
+  if (!s && sizesFor(p).length === 1) s = sizesFor(p)[0].name;
   const pr = priceOf(f, p, s);
   const msg = (LANG === 'fr' ? [
     `Bonjour My Dubai Arts ! Je souhaite commander le tableau encadré « ${p.name} ».`,
     f ? `Cadre : ${frameName(f)}.` : 'Cadre : à confirmer.',
-    s ? `Taille : ${sizeName(s)} (${sizeOf(s).cm}).` : `Taille : à confirmer (${SIZES.map((x) => `${sizeName(x.name)} ${x.cm}`).join(' ou ')}).`,
+    s ? `Taille : ${sizeName(s)} (${sizeOf(s).cm}).` : `Taille : à confirmer (${sizesFor(p).map((x) => `${sizeName(x.name)} ${x.cm}`).join(' ou ')}).`,
     pr ? (s ? `Prix : AED ${pr}.` : `Prix : à partir de AED ${pr}.`) : '',
     `Lien : ${productUrl(p, f, s)}`,
     'Merci de me confirmer la disponibilité et la livraison.',
   ] : [
     `Hello My Dubai Arts! I would like to order the '${p.name}' framed artwork.`,
     f ? `Frame: ${f}.` : 'Frame: please advise.',
-    s ? `Size: ${s} (${sizeOf(s).cm}).` : `Size: please advise (${SIZES.map((x) => `${x.name} ${x.cm}`).join(' or ')}).`,
+    s ? `Size: ${s} (${sizeOf(s).cm}).` : `Size: please advise (${sizesFor(p).map((x) => `${x.name} ${x.cm}`).join(' or ')}).`,
     pr ? (s ? `Price: AED ${pr}.` : `Price: from AED ${pr}.`) : '',
     `Link: ${productUrl(p, f, s)}`,
     'Please confirm availability and delivery.',
@@ -3071,7 +3076,7 @@ const orderLink = (p, f, s) => {
 /* ----- Pieces ----- */
 
 const frameSlug = (f) => f.replace(/\W+/g, '').toLowerCase();
-const artSrc = (p, small, size) => `images/art/${size && sizeOf(size).square ? 'square/' : ''}${small ? 'thumbs/' : ''}${p.id}.jpg`;
+const artSrc = (p, small, size) => `images/art/${sizeOf(sizeFor(p, size)).square ? 'square/' : ''}${small ? 'thumbs/' : ''}${p.id}.jpg`;
 const framed = (p, f, small = true, size) => `<span class="framed framed--${frameSlug(f)}"><img class="framed__art" src="${artSrc(p, small, size)}" alt="${esc(T(`${p.name} in a ${f.toLowerCase()} frame`, `${p.name}, cadre ${frameName(f).toLowerCase()}`))}" ${small ? 'loading="lazy" ' : ''}decoding="async" onerror="this.closest('.frame-stage, .frame-swatch')?.classList.add('is-missing')"></span>`;
 const stage = (p, f, small = true, size) => `<span class="frame-stage">${framed(p, f, small, size)}</span>`;
 
@@ -3090,10 +3095,10 @@ const chips = (p, sel, big = false, size) =>
         .join('')}</div>`
     : `<p class="frame-picker__review">${T('Frame to be confirmed', 'Cadre à confirmer')}</p>`;
 
-const sizePicker = (p, frame, sel) => `<div class="size-picker" role="radiogroup" aria-label="${T('Size for', 'Taille pour')} ${esc(p.name)}">${SIZES.map(
+const sizePicker = (p, frame, sel) => `<div class="size-picker" role="radiogroup" aria-label="${T('Size for', 'Taille pour')} ${esc(p.name)}">${sizesFor(p).map(
   (s) => `<button type="button" role="radio" aria-checked="${s.name === sel}" class="size-chip ${s.name === sel ? 'is-selected' : ''}" data-size="${esc(s.name)}"><span class="size-chip__name">${esc(sizeName(s.name))}</span><span class="size-chip__cm">${esc(s.cm)}</span>${priceOf(frame, p, s.name) ? `<span class="size-chip__price">AED ${priceOf(frame, p, s.name)}</span>` : ''}</button>`
 ).join('')}</div>
-<details class="size-guide"><summary>${T('Size guide', 'Guide des tailles')}</summary><ul>${SIZES.map((s) => `<li><strong>${esc(sizeName(s.name))}, ${esc(s.cm)}${T(':', ' :')}</strong> ${esc(sizeFits(s))}.</li>`).join('')}</ul><p>${T('Sizes include the frame. Extra Large is square, so portrait artworks get extra space around them; we confirm the layout with you on WhatsApp. Need another size? Ask us on WhatsApp.', 'Les dimensions incluent le cadre. Le format Très grand est carré : les œuvres en hauteur ont donc un peu d’espace autour, et nous validons la mise en page avec vous sur WhatsApp. Besoin d’une autre taille ? Demandez-nous sur WhatsApp.')}</p></details>`;
+<details class="size-guide"><summary>${T('Size guide', 'Guide des tailles')}</summary><ul>${sizesFor(p).map((s) => `<li><strong>${esc(sizeName(s.name))}, ${esc(s.cm)}${T(':', ' :')}</strong> ${esc(sizeFits(s))}.</li>`).join('')}</ul><p>${sizesFor(p).length === 1 ? T('This artwork comes in this size only. Sizes include the frame.', 'Cette œuvre existe uniquement dans cette taille. Les dimensions incluent le cadre.') : T('Sizes include the frame. Extra Large is square, so portrait artworks get extra space around them; we confirm the layout with you on WhatsApp. Need another size? Ask us on WhatsApp.', 'Les dimensions incluent le cadre. Le format Très grand est carré : les œuvres en hauteur ont donc un peu d’espace autour, et nous validons la mise en page avec vous sur WhatsApp. Besoin d’une autre taille ? Demandez-nous sur WhatsApp.')}</p></details>`;
 
 const card = (p, frame) => {
   const f = frame && p.frames.includes(frame) ? frame : p.firstFrame;
@@ -3446,7 +3451,8 @@ function openProduct(id, frame, size) {
   const f = frame && p.frames.includes(frame) ? frame : p.firstFrame;
   const i = p.photos.findIndex((x) => x[1] === f);
   if (!M) lastFocus = document.activeElement;
-  M = { p, frame: f, size: sizeOf(size).name, active: Math.max(0, i), preview: i < 0 || !!sizeOf(size).square };
+  size = sizeFor(p, size);
+  M = { p, frame: f, size, active: Math.max(0, i), preview: i < 0 || !!sizeOf(size).square };
   history.replaceState(null, '', '#product/' + id);
   document.body.classList.add('no-scroll');
   renderModal();
