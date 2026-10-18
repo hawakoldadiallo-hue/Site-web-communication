@@ -6,6 +6,7 @@ import numpy as np
 os.chdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'images', 'art'))
 PAD = {'boss-lady-mood','manifest-your-dreams','never-stop-pushing','new-era-of-me','golden-stiletto','gloss-lips-duo',
        'crimson-wave','pink-night-drive','rose-on-heels','sage-peach-drip'}
+BLUR = {'watch-me'}  # kept whole, sides filled with a soft blurred copy of the artwork
 ALIGN = {'burj-al-arab-shore': 0.0, 'paris-by-night': 0.05}  # crop position for centred crops: 0 = keep the top, 0.5 = centre, 1 = keep the bottom
 ONE_COLOUR = {'golden-stiletto': 'l'}  # fill both sides with this edge's colour
 def edge(a, side, n):
@@ -14,7 +15,14 @@ def edge(a, side, n):
 fs = sorted(f for f in os.listdir('.') if f.endswith('.jpg'))
 for f in fs:
     im = Image.open(f).convert('RGB'); w, h = im.size; pid = f[:-4]
-    if pid in PAD:
+    if pid in BLUR:
+        from PIL import ImageFilter, ImageEnhance
+        s = max(w, h); k = s / min(w, h)
+        bg = im.resize((round(w * k), round(h * k)), Image.LANCZOS)
+        bg = bg.crop(((bg.width - s) // 2, (bg.height - s) // 2, (bg.width - s) // 2 + s, (bg.height - s) // 2 + s))
+        bg = ImageEnhance.Brightness(bg.filter(ImageFilter.GaussianBlur(s * 0.04))).enhance(0.92)
+        bg.paste(im, ((s - w) // 2, (s - h) // 2)); sq = bg
+    elif pid in PAD:
         s = max(w, h); a = np.asarray(im); n = max(2, int(min(w, h) * 0.02))
         sq = Image.new('RGB', (s, s))
         if h >= w:
