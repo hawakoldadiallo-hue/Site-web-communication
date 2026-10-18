@@ -6,7 +6,7 @@ import numpy as np
 os.chdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'images', 'art'))
 PAD = {'boss-lady-mood','manifest-your-dreams','never-stop-pushing','new-era-of-me','golden-stiletto','gloss-lips-duo',
        'crimson-wave','pink-night-drive','rose-on-heels','sage-peach-drip'}
-ALIGN = {'burj-al-arab-shore': 0.0}  # crop position for centred crops: 0 = keep the top, 0.5 = centre, 1 = keep the bottom
+ALIGN = {'burj-al-arab-shore': 0.0, 'paris-by-night': 0.05}  # crop position for centred crops: 0 = keep the top, 0.5 = centre, 1 = keep the bottom
 ONE_COLOUR = {'golden-stiletto': 'l'}  # fill both sides with this edge's colour
 def edge(a, side, n):
     strip = {'l': a[:, :n], 'r': a[:, -n:], 't': a[:n], 'b': a[-n:]}[side]
