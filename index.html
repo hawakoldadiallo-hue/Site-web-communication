@@ -3087,8 +3087,8 @@ document.getElementById('app').innerHTML = `
       </div>
     </div>
     <figure class="hero__art">
-      <span class="hero__mini hero__mini--a" aria-hidden="true">${(() => { const p = PRODUCTS.find((x) => x.id === 'candy-ribbon'); return p ? framed(p, 'White') : ''; })()}</span>
-      <span class="hero__mini hero__mini--b" aria-hidden="true">${(() => { const p = PRODUCTS.find((x) => x.id === 'do-it-pink'); return p ? framed(p, 'Gold') : ''; })()}</span>
+      <span class="hero__mini hero__mini--a" aria-hidden="true"><span class="framed framed--white"><img class="framed__art" src="images/hero/hero-lollipops.jpg" alt="" decoding="async"></span></span>
+      <span class="hero__mini hero__mini--b" aria-hidden="true"><span class="framed framed--gold"><img class="framed__art" src="images/hero/hero-lips.jpg" alt="" decoding="async"></span></span>
       <div class="hero__frame">${img('peace-gratitude-gold.jpg', T('Peace and Gratitude prints in gold frames above a brown velvet sofa', 'Tableaux Peace et Gratitude en cadres dorés au-dessus d’un canapé en velours marron'), false, 'width="1312" height="1199" fetchpriority="high"')}</div>
     </figure>
   </div>
