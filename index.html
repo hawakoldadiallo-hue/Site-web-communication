@@ -2303,7 +2303,8 @@ const SIZES = [
    photos: [ ["file-name.jpg", "Frame shown in that photo", "Short description of the photo"], ... ]
    Several photos of the SAME artwork go in the same product.
    An artwork with no room photos uses photos: [] and is shown in its frame using images/art/<id>.jpg.
-   frames: the frames a customer can choose. "featured: true" also shows it in "Most loved pieces". */
+   frames: the frames a customer can choose. "featured: true" also shows it in "Most loved pieces".
+   price: optional, the artwork's own price in a White frame, Medium size; the other frames and sizes keep their usual difference. */
 
 const COLLECTIONS = [
   { id: "boss-lady-motivation", name: "Boss Lady & Motivation", blurb: "Words to work beside. Prints for the desk, the office and every new chapter.", cover: "boss-lady-mood-white-1.jpg" },
@@ -2681,8 +2682,9 @@ const PRODUCTS = [
     id: "find-your-spark",
     name: "Find Your Spark",
     category: "positive-energy",
-    frames: ["Gold"],
-    description: "An original My Dubai Arts text in fine black serif on a soft warm-grey background: a gentle reminder to find your spark again and let your light shine. Calm, minimal and uplifting, made for a bedroom, office or reading corner.",
+    frames: ["White"],
+    price: 100,
+    description: "An original My Dubai Arts text in fine black serif on a soft warm-grey background: a gentle reminder to find your spark again and let your light shine. Calm, minimal and uplifting, a thoughtful gift for someone going through a hard time, and made for a bedroom, office or reading corner.",
     photos: []
   },
   {
@@ -2932,7 +2934,7 @@ const FR = {
     'love-in-bloom': 'Le mot LOVE découpé dans un lit de roses et de coquelicots rouges et roses. Romantique et frais pour une chambre ou un salon.',
     'tulips-golden-hour': 'Un champ de tulipes roses et crème sous un ciel lumineux au coucher du soleil. Apporte lumière et printemps dans n’importe quelle pièce.',
     'its-you-vs-you': 'De douces orchidées roses à côté d’un rappel discret : votre seule concurrente, c’est vous. Doux et apaisant pour une chambre ou un bureau.',
-    'find-your-spark': 'Un texte original My Dubai Arts en fine typographie noire sur un fond gris chaud : un doux rappel pour retrouver son étincelle et laisser briller sa lumière. Calme, minimaliste et inspirant, pour une chambre, un bureau ou un coin lecture.',
+    'find-your-spark': 'Un texte original My Dubai Arts en fine typographie noire sur un fond gris chaud : un doux rappel pour retrouver son étincelle et laisser briller sa lumière. Calme, minimaliste et inspirant, un cadeau plein de tendresse pour quelqu’un qui traverse un moment difficile, à placer dans une chambre, un bureau ou un coin lecture.',
     'peace': 'Une calligraphie dorée sur une bande de papier déchiré bordeaux. Superbe en duo avec Gratitude.',
     'gratitude': 'Une calligraphie dorée sur une bande de papier déchiré bordeaux. Superbe en duo avec Peace.',
     'yesterday-is-over': '« Yesterday is over, today is yours. » écrit en lettres dorées sur un coucher de soleil sur la mer. Un départ chaleureux et plein d’espoir pour chaque matin, pour un salon, une chambre ou une entrée.',
@@ -2990,12 +2992,13 @@ const descOf = (p) => T(p.description, FR.descriptions[p.id] || p.description);
 const colBlurb = (c) => T(c.blurb, (FR.collections[c.id] || [])[1] || c.blurb);
 const aed = (n) => `AED ${n}`;
 const colPrice = (p) => p && (COLLECTIONS.find((c) => c.id === p.category) || {}).price;
+const ownPrice = (f, p) => p && p.price != null && FRAME_PRICES[f] != null ? p.price + FRAME_PRICES[f] - FRAME_PRICES.White : null;
 const sizeOf = (s) => SIZES.find((x) => x.name === s) || SIZES[0];
 // Sizes offered for one artwork: its own `sizes` list when it has one, otherwise every size.
 const sizesFor = (p) => (p && p.sizes ? SIZES.filter((x) => p.sizes.includes(x.name)) : SIZES);
 const sizeFor = (p, s) => (sizesFor(p).find((x) => x.name === s) || sizesFor(p)[0]).name;
 const priceOf = (f, p, s) => {
-  const base = colPrice(p) ?? FRAME_PRICES[f] ?? null;
+  const base = ownPrice(f, p) ?? colPrice(p) ?? FRAME_PRICES[f] ?? null;
   return base === null ? null : base + sizeOf(sizeFor(p, s)).extra;
 };
 const colName = (id) => {
