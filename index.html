@@ -56,9 +56,6 @@
 
 html .btn--dark { background: var(--bronze); }
 html .btn--dark:hover { background: #b8206a; }
-html .pricing { background: #ffb3d4; color: #1a1714; }
-html .pricing .price-tile__note, html .pricing .pricing__note { color: #1a1714; }
-html .pricing .price-tile__swatch--white { box-shadow: 0 0 0 1px rgba(26, 23, 20, 0.25); }
 html .btn--outline:hover { background: var(--bronze); border-color: var(--bronze); }
 html .hero__frame { border: 7px solid #ffb3d4; box-shadow: 0 30px 60px -28px rgba(214, 51, 127, 0.45); }
 /* Homepage decoration */
@@ -995,77 +992,6 @@ html .collections__duo .collection-tile__body { padding-top: 0.55rem; }
 
   .collection-tile__blurb {
     display: none;
-  }
-}
-
-/* ===== Pricing band ===== */
-.pricing {
-  background: var(--ink);
-  color: var(--ivory);
-  padding: clamp(2.2rem, 5vw, 3rem) 0;
-}
-
-.pricing__inner {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem 2.5rem;
-  align-items: center;
-}
-
-.price-tile {
-  display: flex;
-  align-items: center;
-  gap: 1.1rem;
-}
-
-.price-tile__swatch {
-  width: 46px;
-  height: 58px;
-  flex: none;
-  border: 6px solid;
-}
-
-.price-tile__swatch--white {
-  border-color: #f7f4ee;
-}
-
-.price-tile__swatch--gold {
-  border-color: var(--frame-gold, var(--gold));
-}
-.price-tile__swatch--exotic {
-  border-color: var(--frame-gold, var(--gold));
-  box-shadow: inset 0 0 0 3px #f7f4ee;
-}
-
-.price-tile__name {
-  font-family: var(--serif);
-  font-size: 1.3rem;
-}
-
-.price-tile__note {
-  color: var(--gold-soft);
-  font-size: 0.92rem;
-}
-
-.price-tile__price {
-  margin-left: auto;
-  font-family: var(--serif);
-  font-size: 1.7rem;
-  white-space: nowrap;
-}
-
-.pricing__note {
-  grid-column: 1 / -1;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: var(--sand);
-  font-size: 0.92rem;
-}
-
-@media (max-width: 900px) {
-  .pricing__inner {
-    grid-template-columns: 1fr;
   }
 }
 
@@ -3421,15 +3347,6 @@ document.getElementById('app').innerHTML = `
     </div>
     <div class="shop__meta"><p id="count" aria-live="polite"></p><button type="button" class="link-btn" id="clear" hidden>${T('Clear filters', 'Effacer les filtres')}</button></div>
     <div id="grid" class="grid"></div>
-  </div>
-</section>
-
-<section class="pricing" aria-label="${T('Frame prices', 'Prix des cadres')}">
-  <div class="container pricing__inner">
-    <div class="price-tile"><span class="price-tile__swatch price-tile__swatch--white" aria-hidden="true"></span><div><p class="price-tile__name">${T('White frame', 'Cadre blanc')}</p><p class="price-tile__note">${T('Fresh, light and modern', 'Frais, lumineux et moderne')}</p></div><p class="price-tile__price">AED 150</p></div>
-    <div class="price-tile"><span class="price-tile__swatch price-tile__swatch--gold" aria-hidden="true"></span><div><p class="price-tile__name">${T('Black &amp; gold frames', 'Cadres noirs &amp; dorés')}</p><p class="price-tile__note">${T('Bold black or luxurious gold', 'Noir audacieux ou or luxueux')}</p></div><p class="price-tile__price">AED 200</p></div>
-    <div class="price-tile"><span class="price-tile__swatch price-tile__swatch--exotic" aria-hidden="true"></span><div><p class="price-tile__name">Ultra Exotic Art</p><p class="price-tile__note">${T('Bold statement pieces', 'Pièces audacieuses et spectaculaires')}</p></div><p class="price-tile__price">AED 350</p></div>
-    <p class="pricing__note">${icon('frame', 18)} ${T('Prices are per framed artwork in Medium, 50 × 70 cm. Large, 70 × 100 cm, is AED 100 more and Extra Large, 100 × 100 cm, is AED 200 more.', 'Prix par tableau encadré en taille Moyen, 50 × 70 cm. Le Grand, 70 × 100 cm, coûte AED 100 de plus et le Très grand, 100 × 100 cm, AED 200 de plus.')}</p>
   </div>
 </section>
 
