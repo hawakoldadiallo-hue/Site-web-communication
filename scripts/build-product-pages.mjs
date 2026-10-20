@@ -20,7 +20,8 @@ const { SITE_URL, PRODUCTS, COLLECTIONS, FRAME_PRICES, FRAME_COLOURS, SIZES } = 
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const fromPrice = (p) => (p.price ?? (COLLECTIONS.find((c) => c.id === p.category) || {}).price
   ?? Math.min(...[...FRAME_COLOURS, ...p.frames].map((f) => FRAME_PRICES[f] ?? Infinity)))
-  + Math.min(...SIZES.filter((s) => !p.sizes || p.sizes.includes(s.name)).map((s) => s.extra));
+  + Math.min(...SIZES.filter((s) => !p.sizes || p.sizes.includes(s.name))
+    .map((s) => ((COLLECTIONS.find((c) => c.id === p.category) || {}).sizeExtras || {})[s.name] ?? s.extra));
 
 const outDir = join(root, 'p');
 const ids = new Set(PRODUCTS.map((p) => p.id));

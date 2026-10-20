@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>My Dubai Arts | Luxury Wall Art in the UAE</title>
-<meta name="description" content="Elegant framed wall art and inspirational prints for homes in Dubai and the UAE. White frames AED 150, gold frames AED 200. Delivery to all seven emirates within 3 days. Order on WhatsApp.">
+<meta name="description" content="Elegant framed wall art and inspirational prints for homes in Dubai and the UAE. Framed art from AED 100. Delivery to all seven emirates within 3 days. Order on WhatsApp.">
 <meta name="theme-color" content="#FAF6EF">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%231A1714'/%3E%3Crect x='7' y='7' width='50' height='50' rx='4' fill='none' stroke='%23B8955C' stroke-width='2'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-family='Georgia,serif' font-size='30' fill='%23F3E7D3'%3EMD%3C/text%3E%3C/svg%3E">
 <meta property="og:type" content="website">
@@ -2280,7 +2280,7 @@ const WHEEL_PRIZES = [
 const IMAGE_FOLDER = 'images/';              // your photos live in a folder called "images"
 
 // Price comes from the frame. A collection with its own "price" (like Ultra Exotic Art) sets the price of all its pieces.
-const FRAME_PRICES = { 'Black': 200, 'Gold': 200, 'White': 150, 'Black & Gold': 200 };
+const FRAME_PRICES = { 'Black': 150, 'Gold': 150, 'White': 100, 'Black & Gold': 150 };
 
 // Every artwork can be ordered in these frame colours. A product's own "frames" list adds special finishes (like Black & Gold)
 // and its first frame is the one shown first. Flat artwork images for the frame previews live in images/art/<product id>.jpg.
@@ -2295,8 +2295,8 @@ const FRAME_GUIDE = {
 // Sizes a customer can choose. Prices above are for the first size; "extra" is added for bigger sizes.
 const SIZES = [
   { name: 'Medium', cm: '50 × 70 cm', extra: 0, fits: 'Above a console, desk or bedside table' },
-  { name: 'Large', cm: '70 × 100 cm', extra: 100, fits: 'Above a sofa or bed, or as a statement wall' },
-  { name: 'Extra Large', cm: '100 × 100 cm', extra: 200, square: true, fits: 'A square statement piece for a large wall, high ceiling or open living space' }
+  { name: 'Large', cm: '70 × 100 cm', extra: 50, fits: 'Above a sofa or bed, or as a statement wall' },
+  { name: 'Extra Large', cm: '100 × 100 cm', extra: 150, square: true, fits: 'A square statement piece for a large wall, high ceiling or open living space' }
 ];
 
 /* Each product:
@@ -2314,7 +2314,7 @@ const COLLECTIONS = [
   { id: "minimalist-abstract", name: "Minimalist & Abstract Art", blurb: "Quiet line drawings and sculptural petals for calm, modern rooms.", cover: "velvet-petals-white.jpg" },
   { id: "dubai-statement", name: "Dubai & Statement Art", blurb: "The skyline we love, reimagined, and pieces made to be the first thing guests notice.", cover: "leopard-burj-khalifa-gold.jpg" },
   { id: "home-lifestyle", name: "Home & Lifestyle", blurb: "Easy, joyful prints for living rooms, kitchens, hallways and guest rooms.", cover: "amalfi-sunset-terrace-gold.jpg" },
-  { id: "ultra-exotic", name: "Ultra Exotic Art", blurb: "Our boldest statement pieces, bigger in attitude and made to stop every guest. Every piece AED 350.", cover: "gloss-lips-duo-white-1.jpg", price: 350 }
+  { id: "ultra-exotic", name: "Ultra Exotic Art", blurb: "Our boldest statement pieces, bigger in attitude and made to stop every guest. From AED 150.", cover: "gloss-lips-duo-white-1.jpg", price: 150, sizeExtras: { 'Large': 100, 'Extra Large': 250 } }
 ];
 
 const PRODUCTS = [
@@ -2707,7 +2707,6 @@ const PRODUCTS = [
     name: "Find Your Spark",
     category: "positive-energy",
     frames: ["White"],
-    price: 100,
     description: "An original My Dubai Arts text in fine black serif on a soft warm-grey background: a gentle reminder to find your spark again and let your light shine. Calm, minimal and uplifting, a thoughtful gift for someone going through a hard time, and made for a bedroom, office or reading corner.",
     photos: []
   },
@@ -2917,7 +2916,7 @@ const FR = {
     'minimalist-abstract': ['Minimaliste & Abstrait', 'Dessins au trait épurés et pétales sculpturaux pour des pièces calmes et modernes.'],
     'dubai-statement': ['Dubaï & Pièces maîtresses', 'La skyline que nous aimons, réinventée, et des pièces que vos invités remarqueront en premier.'],
     'home-lifestyle': ['Maison & Art de vivre', 'Des tableaux joyeux pour le salon, la cuisine, l’entrée et la chambre d’amis.'],
-    'ultra-exotic': ['Ultra Exotic Art', 'Nos pièces les plus audacieuses, faites pour captiver chaque invité. Chaque pièce à AED 350.']
+    'ultra-exotic': ['Ultra Exotic Art', 'Nos pièces les plus audacieuses, faites pour captiver chaque invité. À partir de AED 150.']
   },
   descriptions: {
     'never-stop-pushing': 'Une calligraphie dorée sur un intérieur noir intense. Un rappel quotidien pour toujours viser plus haut, idéal pour un bureau, une entrée ou un dressing.',
@@ -3021,12 +3020,14 @@ const aed = (n) => `AED ${n}`;
 const colPrice = (p) => p && (COLLECTIONS.find((c) => c.id === p.category) || {}).price;
 const ownPrice = (f, p) => p && p.price != null && FRAME_PRICES[f] != null ? p.price + FRAME_PRICES[f] - FRAME_PRICES.White : null;
 const sizeOf = (s) => SIZES.find((x) => x.name === s) || SIZES[0];
+// A collection with its own "sizeExtras" (like Ultra Exotic Art) sets how much more each size costs for its pieces.
+const sizeExtra = (p, s) => (((p && COLLECTIONS.find((c) => c.id === p.category)) || {}).sizeExtras || {})[s] ?? sizeOf(s).extra;
 // Sizes offered for one artwork: its own `sizes` list when it has one, otherwise every size.
 const sizesFor = (p) => (p && p.sizes ? SIZES.filter((x) => p.sizes.includes(x.name)) : SIZES);
 const sizeFor = (p, s) => (sizesFor(p).find((x) => x.name === s) || sizesFor(p)[0]).name;
 const priceOf = (f, p, s) => {
   const base = ownPrice(f, p) ?? colPrice(p) ?? FRAME_PRICES[f] ?? null;
-  return base === null ? null : base + sizeOf(sizeFor(p, s)).extra;
+  return base === null ? null : base + sizeExtra(p, sizeFor(p, s));
 };
 const colName = (id) => {
   if (id === 'standard') return T('Standard Collection', 'Collection Standard');
@@ -3292,10 +3293,10 @@ const count = (id) => PRODUCTS.filter((p) => p.category === id).length;
 const ROOMS = { living: ['Living room', 'Salon'], bedroom: ['Bedroom', 'Chambre'], hallway: ['Hallway', 'Couloir'], entryway: ['Entryway', 'Entrée'], office: ['Home office', 'Bureau'], dining: ['Dining room', 'Salle à manger'], dressing: ['Dressing room', 'Dressing'] };
 const EXOTIC = 'ultra-exotic';
 const LINES = [
-  { id: 'standard', cover: 'hero/world-standard.jpg', from: 150,
+  { id: 'standard', cover: 'hero/world-standard.jpg', from: 100,
     blurb: 'Motivation, fashion, flowers, Dubai and lifestyle prints, framed in black, gold or white.',
     blurbFr: 'Motivation, mode, fleurs, Dubaï et art de vivre, encadrés en noir, doré ou blanc.' },
-  { id: EXOTIC, cover: 'hero/world-ultra-exotic.jpg', from: 350,
+  { id: EXOTIC, cover: 'hero/world-ultra-exotic.jpg', from: 150,
     blurb: 'Our boldest statement pieces, bigger in attitude and made to stop every guest.',
     blurbFr: 'Nos pièces les plus audacieuses, faites pour captiver chaque invité.' }
 ];
@@ -3381,7 +3382,7 @@ document.getElementById('app').innerHTML = `
     <div class="toolbar" role="search">
       <label class="field field--search"><span class="sr-only">${T('Search artworks by name', 'Rechercher un tableau par nom')}</span>${icon('search', 18)}<input id="q" type="search" placeholder="${T('Search by name', 'Rechercher par nom')}"></label>
       <label class="field"><span class="field__label">${T('Collection', 'Collection')}</span><select id="col"><option value="all">${T('View all', 'Toutes')}</option><option value="standard">${colName('standard')}</option><option value="ultra-exotic">${colName('ultra-exotic')}</option><optgroup label="${T('Standard themes', 'Thèmes Standard')}">${COLLECTIONS.filter((c) => c.id !== 'ultra-exotic').map((c) => `<option value="${c.id}">${esc(colName(c.id))}</option>`).join('')}</optgroup>${PRODUCTS.some((p) => !COLLECTIONS.find((c) => c.id === p.category)) ? `<option value="uncategorized">${colName('')}</option>` : ''}</select></label>
-      <label class="field"><span class="field__label">${T('Frame and price', 'Cadre et prix')}</span><select id="fg"><option value="all">${T('All frames', 'Tous les cadres')}</option><option value="white">${T('White frame, AED 150', 'Cadre blanc, AED 150')}</option><option value="premium">${T('Black, gold &amp; premium, AED 200', 'Noir, doré &amp; premium, AED 200')}</option></select></label>
+      <label class="field"><span class="field__label">${T('Frame and price', 'Cadre et prix')}</span><select id="fg"><option value="all">${T('All frames', 'Tous les cadres')}</option><option value="white">${T('White frame, from AED 100', 'Cadre blanc, dès AED 100')}</option><option value="premium">${T('Black, gold &amp; premium, from AED 150', 'Noir, doré &amp; premium, dès AED 150')}</option></select></label>
       <label class="field"><span class="field__label">${T('Sort', 'Trier')}</span><select id="sort"><option value="featured">${T('Featured first', 'Coups de cœur d’abord')}</option><option value="price-asc">${T('Price: low to high', 'Prix croissant')}</option><option value="price-desc">${T('Price: high to low', 'Prix décroissant')}</option><option value="name">${T('Name: A to Z', 'Nom : A à Z')}</option></select></label>
     </div>
     <div class="shop__meta"><p id="count" aria-live="polite"></p><button type="button" class="link-btn" id="clear" hidden>${T('Clear filters', 'Effacer les filtres')}</button></div>
@@ -3518,7 +3519,7 @@ function renderShop() {
   $('#shop-title').textContent = S.col === 'all' ? T('All artworks', 'Tous les tableaux') : colName(S.col);
   const cp = (COLLECTIONS.find((c) => c.id === S.col) || {}).price;
   $('#shop-sub').textContent = S.col === 'standard'
-    ? T('From AED 150. Tap an artwork to choose your frame and size.', 'Dès AED 150. Touchez un tableau pour choisir le cadre et la taille.')
+    ? T('From AED 100. Tap an artwork to choose your frame and size.', 'Dès AED 100. Touchez un tableau pour choisir le cadre et la taille.')
     : cp
     ? T(`From AED ${cp}. Tap an artwork to choose your frame and size.`, `Dès AED ${cp}. Touchez un tableau pour choisir le cadre et la taille.`)
     : T('Every artwork comes framed. Tap one to choose your frame and size.', 'Chaque tableau est livré encadré. Touchez-en un pour choisir le cadre et la taille.');
